@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{enumitem}
 \usepackage{graphicx}
+\usepackage{float}
 
 \newlist{legal}{enumerate}{10}
 \setlist[legal]{label*=\arabic*.}
@@ -47,11 +48,20 @@
 	\end{legal}
 \newpage
 	\begin{legal}\bfseries
+	
  	\item {Introduction}
   		\begin{legal}\bfseries
     		\item Purpose
 		\end{legal}
-	\end{legal}
-	The purpose of this document is to fully describe the TrackMe application in terms of goals, functions, requirements and constraints of the system.
+	{\normalfont The purpose of this document is to fully describe the TrackMe application in terms of goals, functions, requirements and constraints of the system.}
+\newpage
+ 	\item {Overall description}
+  		\begin{legal}\bfseries
+    		\item Product perspective
+		\end{legal}
+	\begin{figure}[H]
+  	\includegraphics[width=\linewidth]{UML1-0.png}
+	\end{figure}
 	
+	\end{legal}
 \end{document}
