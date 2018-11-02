@@ -12,6 +12,11 @@ one sig ReactionTime{
 }
 {time = 3}
 
+one sig GroupSize{
+	size: one Int
+}
+{size = 2}
+
 sig Time{
 	time: one Int
 }
@@ -19,8 +24,8 @@ sig Time{
 
 -- Current position of the individual
 sig Position{
-	lat: one Int,
-	lon: one Int
+	lat: one Int, -- y
+	lon: one Int -- x
 }
 { lat >= 0 and lat <= 5 and lon >= 0 and lon <= 5}
 
@@ -92,38 +97,58 @@ sig IndividualRequest{
 
 sig AnonymousRequest{
 	thirdParty: one ThirdParty,
-	ageRange: one AgeRange,
-	zone: one Zone,
+	ageRange: lone AgeRange,
+	zone: lone Zone,
 	approved: one Bool,
-	response: lone AnonymousResponse
+	--response: lone AnonymousResponse
 }
--- There is no response with data only in the case the request is not approved
-{response = none iff approved = False}
+-- There is no response only in the case the request is not approved and it's approved when the anonymous group is enough big.
+{/*(response = none iff approved = False) and */(approved = True iff some g: Group | g.ageRange = ageRange and g.zone = zone and #g.individuals >= GroupSize.size)}
 
-sig AnonymousResponse{
+-- For semplicity we decided to not check if this response contains the correct data
+/*sig AnonymousResponse{
 	data: set Data
-}
+}*/
 
 sig AgeRange{
 	startAge: one Age,
 	endAge: one Age
 }
 
+sig Group{
+	ageRange: lone AgeRange,
+	zone: lone Zone,
+	individuals: set Individual
+}
+-- All individual inside individuals have got the correct charateristics to be inside this group and there is no individual with these charateristics who is not inside the group
+{(all ind: Individual | ind in individuals implies checkPositionInsideZone[zone, ind.position] = True and checkAgeInsideRange[ageRange, ind.age] = True) and (all ind: Individual | checkAgeInsideRange[ageRange, ind.age] = True and  checkPositionInsideZone[zone, ind.position] = True implies ind in individuals)}
+
+-- 12
+-- 34
 sig Zone{
 	position1: one Position, 
 	position2: one Position,
 	position3: one Position,
 	position4: one Position,
 }
+{ position1.lat = position2.lat and position3.lat = position4.lat and position1.lon = position3.lon and position2.lon = position4.lon}
+
+-- To do
+fun checkPositionInsideZone[z: Zone, p: Position] : one Bool{
+    	True --(z = none or not(p.lat > z.position2.lat or p.lat < z.position3.lat or p.lon < z.position3.lon or p.lon > z.position2.lon))
+}
+
+-- To do
+fun checkAgeInsideRange[r: AgeRange, a: Age] : one Bool{
+	True--	r = none or not (a.age < r.startAge.age or a.age > r.endAge.age)
+}
+
 
 --The third party can access the data only if the request has been approved by the system
 fact accessDataIfAndOnlyIfConsensusIsGiven{
 	all r : IndividualRequest | r.approved = False iff all d : DataCollector | d in r.thirdParty.dataCollectors implies #d.data = 0
 }
 
-fact approveAnonymousRequest{
-	-- to do
-}
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -153,14 +178,21 @@ assert fastAmbulanceCall{
 
 -- Test
 pred show{
-	#Individual = 1
+	#Individual = 2
+	#Runner = 1
+	#Runner.runs = 2
 	#ThirdParty = 1
 	#IndividualRequest = 1
 	#Data = 3
+	#AnonymousRequest = 1
+	#Group = 1
+	#Run = 4
+	AnonymousRequest.approved = True
+	AnonymousRequest.zone != none
 	--#Data = 5
 }
 
-run show for 1 but 6 Data, 10 Time, 1 Individual, 4 Value, 1 ThirdParty
+run show for 1 but 6 Data, 10 Time, 2 Individual, 4 Value, 1 ThirdParty, 4 Run, 1 Runner
 check fastAmbulanceCall for 1 but 6 Data, 10 Time, 2 Individual, 4 Value
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
