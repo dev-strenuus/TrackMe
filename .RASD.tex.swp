@@ -77,30 +77,81 @@
   		\begin{legal}\bfseries
     		\item Functional Requirements
     		\begin{legal}\bfseries
-    			\item Use Case Diagrams
+    			\item Use Case Diagram
     			\begin{figure}[H]
 			  	\includegraphics[width=\linewidth]{usecase.jpg}
 				\end{figure}
+				\item Use Case Descriptions\\\\
+				\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				\hline
+					Name & Sign up\\
+				\hline
+					Actor & Individual\\
+				\hline
+					Entry Conditions & Application installed
+				on his device.\\
+				\hline
+					Event Flows & \begin{enumerate}
+									\item The user opens the application.
+									\item The user goes to the sign up session.
+									
+									\item The user gives all the necessary informations.
+									\item The user chooses an username and a password.
+									\item The user confirms his operations.
+									\item The system save informations.
+				\end{enumerate}\\
+				\hline
+					Exit Conditions & The user is successfully  registered and now he's able to log in.\\
+				\hline
+					Exceptions & \begin{enumerate}
+									  \item The user is already registered.
+									  \item The informations are incorrect or
+									   missing.
+				\end{enumerate}
+				The user is notified and invited to try again.\\
+				\hline
+				\end{tabular}
+				\\\\\\
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
 				\hline
 					Name & Login\\
 				\hline
 					Actor & Individual\\
 				\hline
-					Entry Conditions & The user is previously successfully signed up and has the application installed
-				on his/her device\\
+					Entry Conditions & The user is previously successfully registered and has the application installed
+				on his device.\\
 				\hline
 					Event Flows & \begin{enumerate}
-									  \item First points
-									  \item Second
-									  \item Etc.
+									  \item The user opens the application.
+									  \item The user goes to the login session.
+									  \item The user inserts username and password.
+									  \item The system checks if the credentials are correct.
 				\end{enumerate}\\
 				\hline
-					Exit Conditions & 52\\
+					Exit Conditions & The user is successfully logged in and he can access all the services. \\
 				\hline
-					Exceptions & 62\\
+					Exceptions & The credentials are incorrect. The user is notified and invited to try again.\\
+				\hline
+				\end{tabular}\\\\\\
+					\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				\hline
+					Name & Connect a device\\
+				\hline
+					Actor & Individual\\
+				\hline
+					Entry Conditions & User already logged in.\\
+				\hline
+					Event Flows & \begin{enumerate}
+									\item The user goes to the preference session.
+									\item The user chooses to connect a device and then selects the right one.
+				\end{enumerate}\\
+				\hline
+					Exit Conditions & The device is successfully connected to the application.\\
+				\hline
+					Exceptions & The system is not able to find or connect the device. The user is notified and invited to try again by reading carefully the connection instructions or to contact the help assistance of TrackMe.\\
 				\hline
 				\end{tabular}
+				\\\\\\
     		\end{legal}
 		\end{legal}
 	
