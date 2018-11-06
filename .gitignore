@@ -3,3 +3,6 @@
 .DS_Store
 *.jar
 *.pdf
+*.log
+*.aux
+*.gz
