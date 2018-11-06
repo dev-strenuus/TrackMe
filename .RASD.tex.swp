@@ -18,7 +18,7 @@
 
 \begin{document}
 	\begin{figure}
-  	\includegraphics[width=\linewidth]{Logo-PoliMi.jpg}
+  	\includegraphics[width=\linewidth]{./images/Logo-PoliMi.jpg}
 	\end{figure}
 \title{\textbf{RASD}}
 \author{Paolo Romeo, Andrea Scotti, Francesco Staccone}
@@ -58,30 +58,113 @@
 	\end{legal}
 \newpage
 	\begin{legal}\bfseries
-	
- 	\item {Introduction}
-  		\begin{legal}\bfseries
-    		\item Purpose
+ 	\item Introduction \\
+  		\begin{legal}
+    		\item Purpose\\
+		\\
+		{\normalfont The purpose of this document is to fully describe the TrackMe application in terms of goals, functions, requirements and constraints of the system.}
+		\\
+		\item Scope\\
+			\begin{legal}
+    			\item Description of the given problem \\
+			\item Goals \\
+			{\normalfont
+				\begin{itemize}
+				\item G1) Third parties can monitor the position and the health status of the individuals. \\
+				\item G2) Third parties can access the anonymized data of the groups of individuals.\\
+				\item G3) The user can accept or refuse the requests concerning the treatment of his/her personal data by the third parties.\\
+				\item G4) The third party can subscribe to new data and receive them as soon as they are produced.\\
+				\item G5) The user can be recognized by providing a form of identification.\\
+				\item G6) The third party can be recognized by providing a form of identification. \\
+				\item G7) The user can check the position of the runners at any time during a race.\\
+				\item G8) When the health status of the user is in danger, an SOS is launched and an ambulance is sent to the user’s current position.\\
+				\item G9) A user can participate to the available races. \\
+				\item G10) A third party can organize a race and define the path for the run.\\
+				\end{itemize}
+				}
+			\end{legal}
+		\item Definitions, acronyms, abbreviations\\
+		\item Reference documents\\
+		\item Overview\\
 		\end{legal}
-	{\normalfont The purpose of this document is to fully describe the TrackMe application in terms of goals, functions, requirements and constraints of the system.}
+	
+		
+    		
+		
+	
 \newpage
  	\item {Overall description}
-  		\begin{legal}\bfseries
-    		\item Product perspective
+  		\begin{legal}
+    		\item Product perspective\\
+			\begin{figure}[H]
+  			\includegraphics[width=\linewidth]{./images/UML1-0.png}
+			\end{figure}
+		\item Product functions \\
+		\item User characteristics \\
+		\item Constraints \\
+		\item Assumptions and dependencies \\
+			\begin{legal}
+    			\item Text assumptions ??? \\
+			\item Domain assumptions \\
+			{\normalfont
+				\begin{itemize}
+				\item D1) The measurements of the health status parameters of the individuals are supposed to be reliable.  \\
+				\item D2) The position of the individuals is supposed to be reliable.\\
+				\item D3) The data acquired from the user’s devices are sent to the mobile application as soon as they are produced.\\
+				\item D4) The identification data provided by the users are correct.\\
+				\item D5) The identification data provided by the third parties are correct.\\
+				\item D6) When an SOS is launched, an ambulance is sent to the position of the user linked to the account that raised the SOS itself. \\
+				\item D7) The race takes place in an area with internet coverage and in a compliant track.\\
+				\item D8) ?????
+				\end{itemize}
+			}
+			\end{legal}
 		\end{legal}
-	\begin{figure}[H]
-  	\includegraphics[width=\linewidth]{UML1-0.png}
-	\end{figure}
 	
-	\item {Specific requirements}
-  		\begin{legal}\bfseries
-    		\item Functional Requirements
+\newpage
+	\item Specific requirements\\
+  		\begin{legal}
+		\item External interface requirements\\
+			\begin{legal}
+    			\item User interfaces \\
+				\begin{legal}
+    				\item Login or Sign Up 
+				\begin{figure}[H]
+				\centering
+  				\includegraphics[scale=0.3]{./images/mockups/Login-Sign-up.png}
+				\end{figure}
+				\item Join a run 
+				\begin{figure}[H]
+				\centering
+  				\includegraphics[scale=0.3]{./images/mockups/Join-a-run.png}
+				\end{figure}
+				\item Define the track of the run 
+				\begin{figure}[H]
+				\centering
+  				\includegraphics[scale=0.3]{./images/mockups/Path-definition.png}
+				\end{figure}
+				\item Individual request 
+				\begin{figure}[H]
+				\centering
+  				\includegraphics[scale=0.3]{./images/mockups/Individual-request.png}
+				\end{figure}
+				\item Group request 
+				\begin{figure}[H]
+				\centering
+  				\includegraphics[scale=0.3]{./images/mockups/Group-request.png}
+				\end{figure}
+				
+			\end{legal}
+			\end{legal}
+
+    		\item Functional Requirements\\
     		\begin{legal}\bfseries
     			\item Use Case Diagram
     			\begin{figure}[H]
-			  	\includegraphics[width=\linewidth]{usecase.jpg}
+			  	\includegraphics[width=\linewidth]{./images/usecase.png}
 				\end{figure}
 				\item Use Case Descriptions\\\\
+				%SIGN UP
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
 				\hline
 					Name & Sign up\\
@@ -93,7 +176,7 @@
 				\hline
 					Event Flows & \begin{enumerate}
 									\item The user opens the application.
-									\item The user goes to the sign up session.
+									\item The user goes to the sign up section.
 									
 									\item The user gives all the necessary informations.
 									\item The user chooses an username and a password.
@@ -112,6 +195,7 @@
 				\hline
 				\end{tabular}
 				\\\\\\
+				%LOGIN
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
 				\hline
 					Name & Login\\
@@ -123,7 +207,7 @@
 				\hline
 					Event Flows & \begin{enumerate}
 									  \item The user opens the application.
-									  \item The user goes to the login session.
+									  \item The user goes to the login section.
 									  \item The user inserts username and password.
 									  \item The system checks if the credentials are correct.
 				\end{enumerate}\\
@@ -133,7 +217,8 @@
 					Exceptions & The credentials are incorrect. The user is notified and invited to try again.\\
 				\hline
 				\end{tabular}\\\\\\
-					\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				%CONNECT A DEVICE
+				\begin{tabular}{| m{3.5cm} | m{8cm}| }
 				\hline
 					Name & Connect a device\\
 				\hline
@@ -142,7 +227,7 @@
 					Entry Conditions & User already logged in.\\
 				\hline
 					Event Flows & \begin{enumerate}
-									\item The user goes to the preference session.
+									\item The user goes to the preference section.
 									\item The user chooses to connect a device and then selects the right one.
 				\end{enumerate}\\
 				\hline
@@ -152,8 +237,168 @@
 				\hline
 				\end{tabular}
 				\\\\\\
+				%WATCH A RUN
+				\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				\hline
+					Name & Watch a run\\
+				\hline
+					Actor & Individual\\
+				\hline
+					Entry Conditions & User already logged in.\\
+				\hline
+					Event Flows & \begin{enumerate}
+									\item The user goes to the run section.
+									\item The user chooses the run he wants to watch.
+									\item The system screens a map with the route and the partecipants.
+									\item The user can choose to watch statistics.
+									\item If the user chooses to watch statistics the system provides him details about the run.
+				\end{enumerate}\\
+				\hline
+					Exit Conditions & The user is able to follow a run.\\
+				\hline
+					Exceptions & There are no current runs. The user is notified with the list of incoming runs.\\
+				\hline
+				\end{tabular}
+				\\\\\\
+				%PARTECIPATE TO A RUN
+				\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				\hline
+					Name & Partecipate to a run\\
+				\hline
+					Actor & Individual\\
+				\hline
+					Entry Conditions & User already logged in and he has already given the consensus to the third party.\\
+				\hline
+					Event Flows & \begin{enumerate}
+									\item The user goes to the run section.
+									\item The system lists all available incoming runs which don't overlap with other user's runs.
+									\item The user selects an incoming run.
+									\item The system save the choice of the user in his calendar events.
+				\end{enumerate}\\
+				\hline
+					Exit Conditions & The user is a official partecipant of the run and he will be notified some days before the run.\\
+				\hline
+					Exceptions & There are no available runs. The user is asked if he wants to be notified as soon as a new run is available.\\
+				\hline
+				\end{tabular}
+				\\\\\\
+				%GIVE CONSENSUS
+				\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				\hline
+					Name & Give consensus\\
+				\hline
+					Actor & Individual\\
+				\hline
+					Entry Conditions & User already logged in and a third party has requested access to user data.\\
+				\hline
+					Event Flows & \begin{enumerate}
+									\item The user goes to the preference section.
+									\item The user chooses to give or not the consensus to the third party.
+									\item The system saves user's choice and sends it to the third party.
+				\end{enumerate}\\
+				\hline
+					Exit Conditions & The third party can access user data if and only if the user gave the consensus.\\
+				\hline
+				\end{tabular}
+				\\\\\\
+				%CREATE A RUN
+				\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				\hline
+					Name & Create a run\\
+				\hline
+					Actor & Third Party\\
+				\hline
+					Entry Conditions & Third party logged in.\\
+				\hline
+					Event Flows & \begin{enumerate}
+									\item The third party goes to the events section..
+									\item The system show to third party all the incoming events
+									\item The third party chooses to create a run.
+									\item The third party inserts all the relevant information except the route, it can be define later on.
+									\item The system saves the event and update the calendar of incoming events of all the users.
+				\end{enumerate}\\
+				\hline
+					Exit Conditions & The third party is ready to define a route and all the users are informed about the run.\\
+				\hline %TODO
+					Exceptions & TODO %TODO
+					\\
+				\hline
+				\end{tabular}
+				\\\\\\
+				%ACCESS INDIVIDUAL DATA
+				\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				\hline
+					Name & Access individual data\\
+				\hline
+					Actor & Third Party\\
+				\hline
+					Entry Conditions & Third party logged in.\\
+				\hline
+					Event Flows & \begin{enumerate}
+									\item The third party goes to the people section.
+									\item The third party inserts the social security number of a person in order to request access of his/her data.
+									\item The system forwards the request to the individual.
+				\end{enumerate}\\
+				\hline
+					Exit Conditions & The user is notified about the request of the third party.\\
+				\hline
+					Exceptions & The third party has already requested to access the data of the individual. In this case the third party is informed about the status of the individual's response.\\
+				\hline
+				\end{tabular}
+				\\\\\\
+				%ACCESS ANONYMOUS DATA
+				\begin{tabular}{| m{3.5cm} | m{8cm}| }
+				\hline
+					Name & Access anonymous data\\
+				\hline
+					Actor & Third Party\\
+				\hline
+					Entry Conditions & Third party logged in.\\
+				\hline
+					Event Flows & \begin{enumerate}
+									\item The third party goes to the group section.
+									\item The third party inserts the values of attributes of the the group of which is interested in.
+									\item The system checks if the group is big enough to guarantee anonymity.
+									\item The system will send the data to third party as soon as they are ready.
+				\end{enumerate}\\
+				\hline
+					Exit Conditions & The third party has got access to the data of the interested group.\\
+				\hline
+					Exceptions & If the group is not big enough, the third party is notified and asked to try with other values of attributes.\\
+				\hline
+				\end{tabular}
+				\\\\\\
     		\end{legal}
+    		\item Software System Attributes \\
+		\begin{legal}\bfseries
+			\item Reliability
+			\\\\
+			{\normalfont The system is not fault tolerant, so it will be reliable according to its ability to avoid process crashes and to scale in case of numerous accesses.}
+			\\
+			\item Availability
+			\\\\
+			{\normalfont The system is not fault tolerant, so in case of failure it will not be available until the administrator will be able to reboot the system. So for this system availability is strictly correlated to maintainability.}
+			\\
+			\item Maintainability
+			\\\\
+			{\normalfont The code should be written in a way that favors the testability and the implementation of new functionalities.}
+			\\
+			\item Scalability
+			\\\\
+			{\normalfont The right choice of a PaaS allows the system to increase or decrease the level of allocated virtual resources at application or database on demand.}
+			\\
+			\item Portability
+			\\\\
+			{\normalfont The system front-end will be a web app, runnable on the majority of browsers but also natively on Android and IOS.}
+			\\
+			\item Safety
+			\\\\
+			{\normalfont The communication between the client and server is protected through HTTPS. The principal motivation for HTTPS is authentication of the accessed website and protection of the privacy and integrity of the exchanged data while in transit. It protects against man-in-the-middle attacks. The bidirectional encryption of communications between a client and server protects against eavesdropping and tampering of the communication. In practice, this provides a reasonable assurance that one is communicating without interference by attackers with the website that one intended to communicate with, as opposed to an impostor. }
+			\\
+			
+			
 		\end{legal}
-	
+		\end{legal}
+
 	\end{legal}
 \end{document}
