@@ -104,7 +104,15 @@
 		\item Constraints \\
 		\item Assumptions and dependencies \\
 			\begin{legal}
-    			\item Text assumptions ??? \\
+    			\item Text assumptions\\
+    			{\normalfont
+				\begin{itemize}
+					\item User can choose to disable AUTOMATEDSOS service in preferences
+					\item A SOS is sent through an SMS which contains the coordinates of the user's position.
+					\item If the user is not able to connect the device, he can contact the TrackMe assistance by calling a specific number.
+					\item When a user signs up to TrackMe he accpets also to treatment of his data for AUTOMATEDSOS
+					\item The user can give up to the consensus to a third party.
+				\end{itemize}}
 			\item Domain assumptions \\
 			{\normalfont
 				\begin{itemize}
@@ -311,7 +319,7 @@
 					Entry Conditions & Third party logged in.\\
 				\hline
 					Event Flows & \begin{enumerate}
-									\item The third party goes to the events section..
+									\item The third party goes to the organize a run section.
 									\item The system show to third party all the incoming events
 									\item The third party chooses to create a run.
 									\item The third party inserts all the relevant information except the route, it can be define later on.
@@ -319,8 +327,8 @@
 				\end{enumerate}\\
 				\hline
 					Exit Conditions & The third party is ready to define a route and all the users are informed about the run.\\
-				\hline %TODO
-					Exceptions & TODO %TODO
+				\hline 
+					Exceptions & If the user hasn't given all the informations, he's asked to provide the missing ones.
 					\\
 				\hline
 				\end{tabular}
@@ -335,14 +343,17 @@
 					Entry Conditions & Third party logged in.\\
 				\hline
 					Event Flows & \begin{enumerate}
-									\item The third party goes to the people section.
+									\item The third party goes to the individual request section.
 									\item The third party inserts the social security number of a person in order to request access of his/her data.
 									\item The system forwards the request to the individual.
 				\end{enumerate}\\
 				\hline
 					Exit Conditions & The user is notified about the request of the third party.\\
 				\hline
-					Exceptions & The third party has already requested to access the data of the individual. In this case the third party is informed about the status of the individual's response.\\
+					Exceptions & \begin{enumerate}
+					\item The third party has already requested to access the data of the individual. In this case the third party is informed about the status of the individual's response.
+					\item The social security number is not correct. The third party is notified and asked to try again.
+					\end{enumerate}\\
 				\hline
 				\end{tabular}
 				\\\\\\
@@ -356,7 +367,7 @@
 					Entry Conditions & Third party logged in.\\
 				\hline
 					Event Flows & \begin{enumerate}
-									\item The third party goes to the group section.
+									\item The third party goes to the group request section.
 									\item The third party inserts the values of attributes of the the group of which is interested in.
 									\item The system checks if the group is big enough to guarantee anonymity.
 									\item The system will send the data to third party as soon as they are ready.

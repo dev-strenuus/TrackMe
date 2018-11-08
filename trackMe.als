@@ -121,7 +121,7 @@ sig Group{
 	individuals: set Individual
 }
 -- All individual inside individuals have got the correct charateristics to be inside this group and there is no individual with these charateristics who is not inside the group
-{(all ind: Individual | ind in individuals implies checkPositionInsideZone[zone, ind.position] = True and checkAgeInsideRange[ageRange, ind.age] = True) and (all ind: Individual | checkAgeInsideRange[ageRange, ind.age] = True and  checkPositionInsideZone[zone, ind.position] = True implies ind in individuals)}
+{(all ind: Individual | ind in individuals implies checkPositionInsideZone[zone, ind.position] and checkAgeInsideRange[ageRange, ind.age]) and (all ind: Individual | checkAgeInsideRange[ageRange, ind.age] and  checkPositionInsideZone[zone, ind.position] implies ind in individuals)}
 
 -- 12
 -- 34
@@ -133,14 +133,12 @@ sig Zone{
 }
 { position1.lat = position2.lat and position3.lat = position4.lat and position1.lon = position3.lon and position2.lon = position4.lon}
 
--- To do
-fun checkPositionInsideZone[z: Zone, p: Position] : one Bool{
-    	True --(z = none or not(p.lat > z.position2.lat or p.lat < z.position3.lat or p.lon < z.position3.lon or p.lon > z.position2.lon))
+pred checkPositionInsideZone[z: Zone, p: Position]{
+    	not(p.lat > z.position2.lat or p.lat < z.position3.lat or p.lon < z.position3.lon or p.lon > z.position2.lon)
 }
 
--- To do
-fun checkAgeInsideRange[r: AgeRange, a: Age] : one Bool{
-	True--	r = none or not (a.age < r.startAge.age or a.age > r.endAge.age)
+pred checkAgeInsideRange[r: AgeRange, a: Age]{
+	not (a.age < r.startAge.age or a.age > r.endAge.age)
 }
 
 
@@ -192,15 +190,22 @@ pred show{
 	--#Data = 5
 }
 
+pred show1{
+	#Individual = 1
+	#Data = 3
+}
+--run show1 for 1 but 3 Data
 run show for 1 but 6 Data, 10 Time, 2 Individual, 4 Value, 1 ThirdParty, 4 Run, 1 Runner
-check fastAmbulanceCall for 1 but 6 Data, 10 Time, 2 Individual, 4 Value
+--check fastAmbulanceCall for 1 but 6 Data, 10 Time, 2 Individual, 4 Value
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 --TRACK4RUN
 
 sig Run{
 	startTime: one Time,
-	endTime: one Time
+	endTime: one Time,
+	--runners: set Runner,
+	maxSize: one Int
 }
 {startTime.time < endTime.time}
 
@@ -209,7 +214,7 @@ sig Runner extends Individual{
 }
 
 -- The runner cannot partecipate to different runs which are hold in the same time
-fact noOverlappingRunForRuner{
+fact noOverlappingRunForRunner{
 	all runner : Runner | no disj r1, r2 : Run | r1 in runner.runs and r2 in runner.runs and r1.startTime.time <= r2.startTime.time and r1.endTime.time >= r2.startTime.time
 }
 
