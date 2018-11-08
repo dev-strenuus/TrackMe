@@ -175,10 +175,11 @@ assert fastAmbulanceCall{
 }
 
 -- Test
-pred show{
+pred show[r: Runner, race: Run]{
 	#Individual = 2
 	#Runner = 1
-	#Runner.runs = 2
+	--#Runner.runs = 2
+	#Run.maxSize = 1
 	#ThirdParty = 1
 	#IndividualRequest = 1
 	#Data = 3
@@ -188,14 +189,11 @@ pred show{
 	AnonymousRequest.approved = True
 	AnonymousRequest.zone != none
 	--#Data = 5
+	--addRunnerToRun[r, race]
+	--addRunnerToRun[r, race]
 }
 
-pred show1{
-	#Individual = 1
-	#Data = 3
-}
---run show1 for 1 but 3 Data
-run show for 1 but 6 Data, 10 Time, 2 Individual, 4 Value, 1 ThirdParty, 4 Run, 1 Runner
+--run show for 1 but 6 Data, 10 Time, 2 Individual, 4 Value, 1 ThirdParty, 4 Run, 1 Runner
 --check fastAmbulanceCall for 1 but 6 Data, 10 Time, 2 Individual, 4 Value
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -204,17 +202,31 @@ run show for 1 but 6 Data, 10 Time, 2 Individual, 4 Value, 1 ThirdParty, 4 Run, 
 sig Run{
 	startTime: one Time,
 	endTime: one Time,
-	--runners: set Runner,
+	runners: set Runner,
 	maxSize: one Int
 }
-{startTime.time < endTime.time}
+{startTime.time < endTime.time and #runners <=  maxSize and no disj r1, r2 : Runner | r1 in runners and r2 in runners and r1 = r2}
 
 sig Runner extends Individual{
 	runs: set Run
+}
+{no disj r1, r2 : Run | r1 in runs and r2 in runs and r1 = r2}
+
+fact runnerInRunIfRunnerInRun{
+	all race : Run | all r : Runner | r in race.runners implies race in r.runs
+}
+
+fact runInRunnerIfRunInRunner{
+	all r : Runner | all race : Run | race in r.runs implies r in race.runners
 }
 
 -- The runner cannot partecipate to different runs which are hold in the same time
 fact noOverlappingRunForRunner{
 	all runner : Runner | no disj r1, r2 : Run | r1 in runner.runs and r2 in runner.runs and r1.startTime.time <= r2.startTime.time and r1.endTime.time >= r2.startTime.time
 }
+
+--run addRunnerToRun for 0 but 2 Run, 2 Runner, 2 Individual
+/*pred addRunnerToRun[r: Runner, race: Run]{
+	--r in race.runners
+}*/
 
