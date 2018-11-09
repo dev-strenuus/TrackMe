@@ -5,6 +5,7 @@
 \usepackage{array}
 
 
+
 \usepackage{geometry}
  \geometry{
  a4paper,
@@ -15,7 +16,6 @@
 
 \newlist{legal}{enumerate}{10}
 \setlist[legal]{label*=\arabic*.}
-
 \begin{document}
 	\begin{figure}
   	\includegraphics[width=\linewidth]{./images/Logo-PoliMi.jpg}
@@ -30,7 +30,7 @@
 	\begin{legal}
  	\item Introduction
   		\begin{legal}
-    	\item Purpose
+    		\item Purpose
 		\item Scope
 		\item Definitions, acronyms, abbreviations
 		\item Revision history
@@ -39,15 +39,14 @@
   		\end{legal}
 	\item Overall Description
   		\begin{legal}
-    	\item Product perspective
+    		\item Product perspective
 		\item Product functions
 		\item User characteristics
-		\item Constraints
 		\item Assumptions, dependencies and constraints
   		\end{legal}
 	\item Specific requirements
   		\begin{legal}
-    	\item External interface requirements
+    		\item External interface requirements
 			\begin{legal}
 			\item User interfaces
 			\item Hardware interfaces
@@ -58,7 +57,7 @@
 		\item Performance requirements
 		\item Design constraints
 			\begin{legal}
-			\item Standard compliance
+			\item Standards compliance
 			\item Hardware limitations
 			\item Any other constraint
   			\end{legal}
@@ -80,13 +79,14 @@
 	\begin{legal}\bfseries
  	\item Introduction \\
   		\begin{legal}
-    	\item Purpose\\
+    		\item Purpose\\
 		\\
-		{\normalfont Identify the purpose of this SRS and its intended audience. In this subsection, describe the purpose of the particular SRS and specify the intended audience for the SRS.}
-		\\
+		{\normalfont
+		Identify the purpose of this SRS and its intended audience. In this subsection, describe the purpose of the particular SRS and specify the intended audience for the SRS.
+		}
 		\item Scope\\
 			\begin{legal}
-    		\item Description of the software \\
+    			\item Description of the software \\
 			\item Goals \\
 			{\normalfont
 				\begin{itemize}
@@ -151,14 +151,27 @@
 \newpage
   	\item {Overall description}
   		\begin{legal}
-    	\item Product perspective\\
+    		\item Product perspective\\\\
+			{\normalfont
+			The TrackMe system is thought to be a software application developed from scratch. In particular, it is intended to be used as a mobile application by both third parties 				and individuals.
+			In order to work in an efficient and complete way, it exploits services and functions provided by devices that are actually external to the system itself, like the GPS 					localization and the health status information coming from the user’s smartwatch.
+			The following class diagram describes the structure of the TrackMe system, underlining its general conceptual modelling:
+			}
 			\begin{figure}[H]
   			\includegraphics[width=\linewidth]{./images/UML1-0.png}
 			\end{figure}
 		\item Product functions \\
-		\item User characteristics \\
+		\item User characteristics \\\\
+			{\normalfont
+			Actors:\\
+			\begin{itemize}
+			 \item{User: a registered individual who can use the TrackMe services. He/she can login to the system and then use all the functionalities provided by the platform.}
 
-		\item Constraints \\
+			 \item{Third party: a registered entity that can use the TrackMe services. It can login to the system and then use all the functionalities provided by the platform.}
+
+ 			\item{System Manager:  an employee of TrackMe, in charge of the maintenance of the system. He/she does not need to be registered, since has been inserted in the 					system directly during the installation process. }
+			\end{itemize}
+			}
 		\item Assumptions, dependencies and constraints\\
 			\begin{legal}
     			\item Text assumptions\\
@@ -225,7 +238,7 @@
 
     		\item Functional Requirements\\
     		\begin{legal}\bfseries
-    			\item Use Case Diagram
+    		\item Use Case Diagram
     			\begin{figure}[H]
 			  	\includegraphics[width=\linewidth]{./images/usecase.png}
 				\end{figure}
