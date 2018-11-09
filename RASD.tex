@@ -43,7 +43,7 @@
   		\end{legal}
 	\item Overall Description
   		\begin{legal}
-    		\item Product perspective
+    	\item Product perspective
 		\item Product functions
 		\item User characteristics
 		\item Assumptions, dependencies and constraints
@@ -63,6 +63,8 @@
 			\item Use case descriptions
 			\item Sequence diagrams
 			\item Activity diagrams
+			\item Global requirements
+			\item Mapping on requirements
 			\end{legal}
 		\item Performance requirements
 		\item Design constraints
@@ -512,38 +514,157 @@ The following class diagram describes the structure of the TrackMe system, under
 				\begin{figure}[H]
   				\includegraphics[width=\linewidth]{./images/Join-a-run-activity-diag.png}
 				\end{figure}
-
     		\end{legal}
-    		\item Software System Attributes \\
+			
+			% Requirements --------------
+			\item Global requirements\\
+			\begin{itemize}
+				\item Third parties and individuals must have registered and logged in to use the services;\\
+				\item The app works also in background in users' smartphones;\\
+				\item There must be a fully working connection between the application and the smartwatches or similar devices.\\
+			\end{itemize}
+			\begin{legal}
+			\item Mapping on requirements\\
+				\begin{itemize}
+				\item G1) Third parties can monitor the position and the health status of the individuals;\\
+				{\normalfont
+					\begin{itemize}
+					\item D1) The measurements of the health status parameters of the individuals are supposed to be reliable;\\
+	 				\item D2) The position of the individuals is supposed to be reliable;\\
+					\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+					\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
+					\item R1) The users must have given the consensus to the treatment of their information to the third party;\\
+					\item R2) The system must be able to provide to the third party the location and the health status of individuals;
+					\item R3) The system must be able to retrieve data from the smartwatches and similar devices;\\
+					\item R27) The system must be able to store data retrieved from registered users;\\
+					\end{itemize}
+				}
+				\item G2) Third parties can access the anonymized data of the groups of individuals;\\
+				{\normalfont
+					\begin{itemize}
+					\item D1) The measurements of the health status parameters of the individuals are supposed to be reliable;\\
+	 				\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+					\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
+					\item R3) The system must be able to retrieve data from the smartwatches and similar devices;\\
+					\item R4) The groups must be composed at least by 1000 individuals;\\
+					\item R5) The system must be able to provide to the third party the health status of individuals in an anonymous way;\\
+					\item R6) The system must be able to aggregate the data of the individuals, as requested by the third party;\\
+					\item R27) The system must be able to store data retrieved from registered users.\\
+					\end{itemize}
+				}
+				\item G3) The user can accept or refuse the requests concerning the treatment of his/her personal data by the third parties;\\
+				{\normalfont
+					\begin{itemize}
+					\item R7) The system must be able to forward the requests from the third party to the user;\\
+	 				\item R8) The system must save the preference of the user;\\
+					\item R9) The third party is not allowed to access the user’s data until he/she accepts the request.\\
+					\end{itemize}
+				}
+				\item G4) The third party can ask to subscribe to new data and receive them as soon as they are produced;\\
+				{\normalfont
+					\begin{itemize}
+					\item D3) The data acquired from the user’s devices are sent to the mobile application as soon as they are produced;\\
+	 				\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
+					\item R10) The data acquired by the mobile application are sent to TrackMe servers as soon as an internet connection is available;\\
+					\item R11) The system is optimized to send the data received from the mobile application to the third parties as soon as possible.\\
+					\end{itemize}
+				}
+				\item G5) The user can stop the subscription of the third party to his/her data at any time;\\
+				{\normalfont
+					\begin{itemize}
+					\item R28) The user must have an active subscription to stop it;\\
+	 				\item R29) The system must be able to allow the user to unsubscribe to the third party and to stop the transmission of his/her data.\\
+					\end{itemize}
+				}
+				\item G6) The user can be recognized by providing a form of identification;\\
+				{\normalfont
+					\begin{itemize}
+					\item D4) The identification data provided by the users are correct;\\
+	 				\item R12) The users must provide their personal data to the application during the registration process, SSN (or fiscal code) included;\\
+					\item R13) The user can register to the application by selecting a username and a password;\\
+					\item R14) The user can log in to the application by providing the combination of a username and a password that matches an account;\\
+					\item R15) Two different users cannot have the same username.\\
+					\end{itemize}
+				}
+				\item G7) The third party can be recognized by providing a form of identification; \\
+				{\normalfont
+					\begin{itemize}
+					\item D5) The identification data provided by the third parties are correct;\\
+	 				\item R16) The third party can register to the application, by specifying its VAT registration number and a password;\\
+					\item R17) The third party can log in to the application by providing the combination of a VAT registration number and a password that match an account;\\
+					\item R18) When the health status values go below the threshold an SOS is sent within 5 seconds.\\
+					\end{itemize}
+				}
+				\item G8) The user can check the position of the runners at any time during a race;\\
+				{\normalfont
+					\begin{itemize}
+					\item D2) The position of the individuals is supposed to be reliable;\\
+					\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+	 				\item R19) The system must be able to retrieve the position of all the runners;\\
+					\item R20) The system must be able to provide the position of all the runners in the track in real time.\\
+					\end{itemize}
+				}
+				\item G9) When the health status of the user is in danger, an SOS is launched and an ambulance is sent to the user’s current position;\\
+				{\normalfont
+					\begin{itemize}
+					\item D6) When an SOS is launched, an ambulance is sent to the position of the user linked to the account that raised the SOS itself;\\
+					\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+	 				\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
+					\item R18) When the health status values go below the threshold an SOS is sent within 5 seconds;\\
+	 				\item R25) The AutomatedSOS service must be enabled.\\
+					\end{itemize}
+				}
+				\item G10) A user can participate to the available races. \\
+				{\normalfont
+					\begin{itemize}
+					\item R21) The user can check the list of available races at any time.\\
+					\item R22) The user can join an available race only before its starting time.\\
+	 				\item R23) The user cannot join two different overlapping races.\\
+					\item R30) The system must avoid the registration of users after having reached of the maximum number of participants.\\
+					\end{itemize}
+				}
+				\item G11) A third party can organize a race and define the path for the run;\\
+				{\normalfont
+					\begin{itemize}
+					\item D7) The race takes place in an area with internet coverage and in a compliant track;\\
+					\item R24) The system must allow the third party to organize a race by defining its track and its time.\\
+					\end{itemize}
+				}
+				\item G12) The user can enable/disable the AutomatedSOS service at any time.\\
+				{\normalfont
+					\begin{itemize}
+					\item R26) The system must allow the user to enable/disable the AutomatedSOS service at any time.\\
+					\end{itemize}
+				}
+				\end{itemize}
+			% End of requirements ------
+    		\end{legal}
+		\item Performance requirements\\
+		\item Design constraints\\
+    	\item Software System Attributes \\
 		\begin{legal}\bfseries
-			\item Reliability
-			\\\\
+			\item Reliability\\
 			{\normalfont The system is not fault tolerant, so it will be reliable according to its ability to avoid process crashes and to scale in case of numerous accesses.}
 			\\
-			\item Availability
-			\\\\
+			\item Availability\\
 			{\normalfont The system is not fault tolerant, so in case of failure it will not be available until the administrator will be able to reboot the system. So for this system availability is strictly correlated to maintainability.}
 			\\
-			\item Maintainability
-			\\\\
+			\item Maintainability\\
 			{\normalfont The code should be written in a way that favors the testability and the implementation of new functionalities.}
 			\\
-			\item Scalability
-			\\\\
+			\item Scalability\\
 			{\normalfont The right choice of a PaaS allows the system to increase or decrease the level of allocated virtual resources at application or database on demand.}
 			\\
-			\item Portability
-			\\\\
+			\item Portability\\
 			{\normalfont The system front-end will be a web app, runnable on the majority of browsers but also natively on Android and IOS.}
 			\\
-			\item Safety
-			\\\\
+			\item Safety\\
 			{\normalfont The communication between the client and server is protected through a protocol such as HTTPS. The principal motivation is authentication of the accessed website and protection of the privacy and integrity of the exchanged data while in transit. It protects against man-in-the-middle attacks. The bidirectional encryption of communications between a client and server protects against eavesdropping and tampering of the communication. In practice, this provides a reasonable assurance that one is communicating without interference by attackers with the website that one intended to communicate with, as opposed to an impostor. }
 			\\
-			
-			
 		\end{legal}
 		\end{legal}
+	\item Effort spent
 
+	\item References
 	\end{legal}
 \end{document}
