@@ -80,7 +80,7 @@ assert fastAmbulanceCall{
 }
 
 pred show{}
---run show for 3 but 2 Individual, 1 AmbulanceCall
+run show for 3 but 2 Individual, 1 AmbulanceCall
 check fastAmbulanceCall for 1 but 6 Data, 10 Time, 2 Individual, 4 Value
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
