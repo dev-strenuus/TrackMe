@@ -7,11 +7,6 @@ one sig Threshold{
 }
 {threshold = 4}
 
-one sig ReactionTime{
-	time: one Int
-}
-{time = 3}
-
 one sig GroupSize{
 	size: one Int
 }
@@ -57,14 +52,14 @@ sig Individual{
 	position: one Position,
 	data: set Data
 }
-{ #data > 0 and #data <= 3}
+{ #data >= 0 and #data <= 3}
 
 fact noDataWithoutInvididual{
 	no d : Data | (all ind : Individual | d not in ind.data)
 }
 
 fact dataHasOnlyOneIndividual{
-	no disj ind1, ind2 : Individual | all d1 : Data | d1 in ind1.data implies all d2 : Data | d2 in ind2.data implies d1 != d2
+	no d : Data | some disj ind1, ind2 : Individual | d in ind1.data and d in ind2.data
 }
 
 -- Batches of data refer to a specific and unique range of time
@@ -86,8 +81,8 @@ sig DataCollector{
 	individual: one Individual,
 	data: set Data
 }
+{data = individual.data and no disj t1, t2: ThirdParty | this in t1.dataCollectors and this in t2.dataCollectors}
 -- DataCollector can be or empty or filled with all the data owned by individual, we assume in this case that the passage of each Data is istantaneous
-{ #data = 0 or data = individual.data}
 
 sig IndividualRequest{
 	thirdParty: one ThirdParty,
@@ -141,92 +136,28 @@ pred checkAgeInsideRange[r: AgeRange, a: Age]{
 	not (a.age < r.startAge.age or a.age > r.endAge.age)
 }
 
+fact noDataCollectorWithoutThirdParty{
+	no d : DataCollector | all t : ThirdParty | d not in t.dataCollectors
+}
 
 --The third party can access the data only if the request has been approved by the system
 fact accessDataIfAndOnlyIfConsensusIsGiven{
-	all r : IndividualRequest | r.approved = False iff all d : DataCollector | d in r.thirdParty.dataCollectors implies #d.data = 0
+	all r : IndividualRequest | r.approved = False iff no d : DataCollector | d in r.thirdParty.dataCollectors and d.individual = r.individual
 }
 
-
----------------------------------------------------------------------------------------------------------------------------------------------------
-
---AUTOMATEDSOS
-
-sig AmbulanceCall{
-	individual: one Individual,
-	time: one Time
-}
-
--- We consider only the case in which just an ambulance is sent for individual
-fact atMostOnlyOneAmbulance{
-	no disj c1, c2 : AmbulanceCall | c1.individual = c2.individual 
-}
-
--- The ambulance is called if and only if there is a value which is higher than the threshold. We assume 1 unit of time is needed to process the data
-fact callAmbulanceIfAndOnlyIfNeeded{
-	(all c : AmbulanceCall | some d : Data | d in c.individual.data and d.danger = True and d.startTime.time < c.time.time) and (all ind : Individual | all d : Data | d in ind.data and d.danger = True implies some c : AmbulanceCall | c.individual = ind and c.time.time > d.endTime.time and sub[c.time.time, d.endTime.time] <= 1 )
-}
-
--- Check if the call of the Ambulance is done within the reaction time (this is assured by the boundaries on the duration of the batch slots and on the time to process the data)
-assert fastAmbulanceCall{
-	--all t : Time | t.time = 0
-	all ind : Individual | all d : Data | d in ind.data and d.danger = True implies some c : AmbulanceCall | c.individual = ind and sub[c.time.time, d.startTime.time] <= ReactionTime.time
-	
-}
-
--- Test
-pred show[r: Runner, race: Run]{
-	#Individual = 2
-	#Runner = 1
-	--#Runner.runs = 2
-	#Run.maxSize = 1
-	#ThirdParty = 1
-	#IndividualRequest = 1
-	#Data = 3
-	#AnonymousRequest = 1
-	#Group = 1
-	#Run = 4
+pred show1{
 	AnonymousRequest.approved = True
-	AnonymousRequest.zone != none
-	--#Data = 5
-	--addRunnerToRun[r, race]
-	--addRunnerToRun[r, race]
 }
-
---run show for 1 but 6 Data, 10 Time, 2 Individual, 4 Value, 1 ThirdParty, 4 Run, 1 Runner
---check fastAmbulanceCall for 1 but 6 Data, 10 Time, 2 Individual, 4 Value
----------------------------------------------------------------------------------------------------------------------------------------------------
-
---TRACK4RUN
-
-sig Run{
-	startTime: one Time,
-	endTime: one Time,
-	runners: set Runner,
-	maxSize: one Int
+pred show2{
+	AnonymousRequest.approved = False
 }
-{startTime.time < endTime.time and #runners <=  maxSize and no disj r1, r2 : Runner | r1 in runners and r2 in runners and r1 = r2}
-
-sig Runner extends Individual{
-	runs: set Run
+pred show3{
+	IndividualRequest.approved = True
 }
-{no disj r1, r2 : Run | r1 in runs and r2 in runs and r1 = r2}
-
-fact runnerInRunIfRunnerInRun{
-	all race : Run | all r : Runner | r in race.runners implies race in r.runs
+pred show4{
+	IndividualRequest.approved = False
 }
-
-fact runInRunnerIfRunInRunner{
-	all r : Runner | all race : Run | race in r.runs implies r in race.runners
-}
-
--- The runner cannot partecipate to different runs which are hold in the same time
-fact noOverlappingRunForRunner{
-	all runner : Runner | no disj r1, r2 : Run | r1 in runner.runs and r2 in runner.runs and r1.startTime.time <= r2.startTime.time and r1.endTime.time >= r2.startTime.time
-}
-
---run addRunnerToRun for 0 but 2 Run, 2 Runner, 2 Individual
-/*pred addRunnerToRun[r: Runner, race: Run]{
-	--r in race.runners
-}*/
-
+run show1 for 3 but 1 AnonymousRequest, 0 IndividualRequest, 2 Individual, 0 DataCollector, 1 ThirdParty, 1 Zone, 1 AgeRange, 1 Group, 0 Value, 0 Data, 0 Time
+run show2 for 3 but 1 AnonymousRequest, 0 IndividualRequest, 2 Individual, 0 DataCollector, 1 ThirdParty, 1 Zone, 1 AgeRange, 1 Group, 0 Value, 0 Data, 0 Time
+run show3 for 2 but 0 AnonymousRequest, 0 Zone, 0 AgeRange, 1 IndividualRequest, 1 Individual, 1 Age, 1 Position, 1 DataCollector
+run show4 for 2 but 0 AnonymousRequest, 0 Zone, 0 AgeRange, 1 IndividualRequest, 1 Individual, 1 Age, 1 Position, 1 DataCollector
