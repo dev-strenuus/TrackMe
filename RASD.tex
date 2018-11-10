@@ -4,6 +4,8 @@
 \usepackage{float}
 \usepackage{array}
 \usepackage{geometry}
+\usepackage{subcaption}
+
 
  \geometry{
  a4paper,
@@ -101,7 +103,7 @@
 			\begin{legal}
     		\item Description of the system \\\\
 			{\normalfont
-TheTrackMe system is thought to be a Health Data Management and Run-Friendly Mobile App, useful for a quite wide range of customers with different necessities. According to these, the TrackMe client base will be mainly represented by common people who want their health status to be monitored, third parties whose interest might be to store the users' data and take statistics on them, and finally runners.\\ The system will fulfill the needs of the users, providing ad hoc services for each customer segment. In particular, this software system will be  made up of three different modules:\\
+TheTrackMe system is thought to be a Health Data Management and Run-Friendly Mobile App, useful for a quite wide range of customers with different necessities. According to these, the TrackMe client base will be mainly represented by: common people who want their health status to be monitored, third parties whose interest might be to store the users' data and take statistics on them, and finally runners.\\ The system will fulfill the needs of the users, providing ad hoc services for each customer segment. In particular, this software system will be  made up of three different modules:\\
 		\begin{itemize}
 		\item Data4Help;\\
 		\item AutomatedSOS;\\
@@ -253,38 +255,48 @@ respect to the already mentioned main services:
 		\end{legal}
 	
 \newpage
-	\item \underline{Specific requirements}\\
+	\item \underline{Specific requirements}
   		\begin{legal}
-		\item \textit{External interface requirements}\\
+		\item \textit{External interface requirements}
 			\begin{legal}
     			\item User interfaces \\\\
 			\normalfont{
 			In this section follow the main mockups that represent a basic idea of what the mobile app will look like in the first release:\\
+			
+						
 					\begin{legal}
-    				\item Login or Sign Up 
+    					\item Login or Sign Up 
 						\begin{figure}[H]
 						\centering
-  						\includegraphics[scale=0.3]{./images/mockups/Login-Sign-up.png}
+  						\includegraphics[scale=0.275]{./images/mockups/Login-Sign-up.png}
 						\end{figure}
-					\item Join a run 
+					\item  (a)Join a run - (b)Select the track of the run
 						\begin{figure}[H]
 						\centering
-  						\includegraphics[scale=0.3]{./images/mockups/Join-a-run.png}
+						\begin{subfigure}{.5\textwidth}
+  						\centering
+  						\includegraphics[width=.4\linewidth]{./images/mockups/Login-Sign-up.png}
+ 						 \caption{Join a run}
+						\end{subfigure}%
+						\begin{subfigure}{.5\textwidth}
+ 						 \centering
+ 						 \includegraphics[width=.4\linewidth]{./images/mockups/Login-Sign-up.png}
+ 						 \caption{Select the track of the run}
+						\end{subfigure}
 						\end{figure}
-					\item Define the track of the run 
+					\item (a)Individual request  - (b)Group request
 						\begin{figure}[H]
 						\centering
-  						\includegraphics[scale=0.3]{./images/mockups/Path-definition.png}
-						\end{figure}
-					\item Individual request 
-						\begin{figure}[H]
-						\centering
-  						\includegraphics[scale=0.3]{./images/mockups/Individual-request.png}
-						\end{figure}
-					\item Group request 
-						\begin{figure}[H]
-						\centering
-  						\includegraphics[scale=0.3]{./images/mockups/Group-request.png}
+						\begin{subfigure}{.5\textwidth}
+  						\centering
+  						\includegraphics[width=.4\linewidth]{./images/mockups/Individual-request.png}
+ 						 \caption{Individual request}
+						\end{subfigure}%
+						\begin{subfigure}{.5\textwidth}
+ 						 \centering
+ 						 \includegraphics[width=.4\linewidth]{./images/mockups/Group-request.png}
+ 						 \caption{Group request}
+						\end{subfigure}
 						\end{figure}
 						
 				\end{legal}
@@ -320,7 +332,9 @@ The association WalkMore wants to promote walking among young people who have a 
 
 		\end{legal}
 		}
-    		\item Use Case Diagram
+    		\item Use Case Diagram\\\\
+		\normalfont{
+		Here follows the representation of the users interaction with the system.}\\
     			\begin{figure}[H]
 			  	\includegraphics[width=\linewidth]{./images/usecase.png}
 				\end{figure}
