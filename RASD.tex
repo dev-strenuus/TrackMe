@@ -95,16 +95,13 @@
 		\\
 		{\normalfont
 		The purpose of this Requirement Analysis and Specification Document (RASD) is to provide a detailed description of the TrackMe system.\\ 
-		It will explain the main features of the system, its interfaces, what it will do, the constraints under which it must operate and how the system will react to external stimuli. This document is intended for both the stakeholders and the developers of the system as a contractual basis.
+		It will explain the main features of the software system, its interfaces, what it will do, the constraints under which it must operate and how the system will react to external stimuli. This document is intended as a contractual basis for both the stakeholders and the developers of the system.
 		}\\
 		\item \textit{Scope}\\
 			\begin{legal}
     		\item Description of the system \\\\
 			{\normalfont
-This software system will mainly be a Health Data Management App, useful for both common users and third parties. This system will be designed to allow the third parties to monitor the users' health data and at the same time allow the users to automatically send an SOS in case of their own danger.\\
-Moreover, this system is thought to be a Run-friendly App, so that the registered third parties will be allowed to organise runs, which users will be free to join both as runners or spectators. To be more clear, being a spectator means having the possibility to follow the run directly on the app, thanks to the runners' position retrieved through GPS.\\
-More precisely, the software will facilitate the communication between third parties and users by the use of requests and affirmative or negative responses between the actors.
-The system also contains a relational database containing a list of ... ANALYSIS OF THE WORLD AND OF THE SHARED PHENOMENA?
+This software system is thought to be a Health Data Management, Run-friendly App, useful for a quite wide range of customers with different necessities. According to these, the TrackMe client base will be mainly represented by: \\-common users, such as people with high/low blood pressure or other heart diseases who desire to be monitored; \\-runners, who may want to check their health parameters while performing or participate to some running events; \\-third parties, whose interest might be to store the users' health data and take statistics on them, or organize runs which inviduals will be free to join.\\ The system will fulfill the needs of the users, providing ad hoc services for each customer segment. In particular, the system's main goal is to facilitate the user's life through an optimal experience. This will be made possible thanks to several features: a quick communication between the actors because of a request-response approach, an high information reliability granted by an efficient data retrieval from the users' wearable devices, and other properties that will be will be further described in later chapters.
 			}\\
 			\item Goals \\\\
 			{\normalfont
@@ -174,7 +171,7 @@ The system also contains a relational database containing a list of ... ANALYSIS
 		{\normalfont
 In this subsection:
 (1)	Describe what the rest of the SRS contains
-(2)	Explain how the SRS is organised
+(2)	Explain how the SRS is organized
 \\
 Don’t rehash the table of contents here.  Point people to the parts of the document they are most concerned with.  Customers/potential users care about section 2, developers care about section 3.
 		}
@@ -202,7 +199,7 @@ The following class diagram describes the structure of the TrackMe system, under
 \textit {Data4Help} is a service that allows third parties to monitor the location and health status of individuals. TrackMe acquires data of registered users trough external devices connected to the users' smartphones.\\
 The other two services are built on top of Data4Help to provide tangible functionalities for the users.\\
 \textit{AutomatedSOS }is an optional service that monitors the health status of users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the user if it establishes that the user is in danger.\\
-\textit{Track4Run} is a service thought for the organisation of running events. It permits to third parties to organise events and to users to enrol to them or simply to know the position of runners during a race.\\
+\textit{Track4Run} is a service thought for the organization of running events. It permits to third parties to organize events and to users to enrol to them or simply to know the position of runners during a race.\\
 In the following section, the functions of the system are listed and more precisely specified, with
 respect to the already mentioned main services provided by the system:
 		\begin{itemize}
@@ -212,7 +209,7 @@ respect to the already mentioned main services provided by the system:
 		Third party can access anonymized data of a group of users enrolled in TrackMe. After a third party sends this kind of request by specifying some restrictions about users’ attributes, like age and residence, the system will collect the data of the target users, anonymize and send them to the third party if the number of users is greater than 1000 in order to guarantee the anonymity. The third party can request to keep receveing new data of the group after the request and it will receive the data as soon as they are ready until the group size will not be lower than 1000.\\
 		\item SOS assistance\\\\
 		The system keeps under control the health status of a user by monitoring the values of the health parameters acquired by external devices (smart watches or similar devices). If at least one of the parameters goes under a fixed threshold, the system generates an SOS within 5 seconds starting from the moment of the evaluation of the dangerous parameter. The SOS communicates to the ambulance the position of the user.\\
-		\item Organization running events\\\\
+		\item Organize running events\\\\
 		The system offers to a third party to organize a running event. The third party must specify the timing, the track and the maximum number of participants for the run.\\
 		\item Partecipate to runs or follow running events\\\\
 		The user can select an available run and participate by sending a simple request. Furthermore the system permits a user to track the position of the runners involved in a run. The user can check the list of available runs and, after selecting of among them, he/she can watch the map of the track filled up by points representing the runners in their actual position. \\
