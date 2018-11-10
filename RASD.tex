@@ -3,19 +3,19 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{array}
-
-
 \usepackage{geometry}
+
  \geometry{
  a4paper,
  left=20mm,
- right=20mm
+ right=20mm,
+ top=25mm,
+ bottom=20mm
  }
 
 
 \newlist{legal}{enumerate}{10}
 \setlist[legal]{label*=\arabic*.}
-
 \begin{document}
 	\begin{figure}
   	\includegraphics[width=\linewidth]{./images/Logo-PoliMi.jpg}
@@ -24,150 +24,272 @@
 \author{Paolo Romeo, Andrea Scotti, Francesco Staccone}
 \date{AY 2018-2019}
 \maketitle{}
+
 \newpage
 \textbf{Table of contents}
 	\begin{legal}
  	\item Introduction
   		\begin{legal}
-    		\item Purpose
+    	\item Purpose
 		\item Scope
+			\begin{legal}
+			\item Description of the system
+			\item Goals
+			\end{legal}
 		\item Definitions, acronyms, abbreviations
+		\item Revision history
 		\item Reference documents
-		\item Overview	
+		\item Document structure	
   		\end{legal}
 	\item Overall Description
   		\begin{legal}
-    		\item Product perspective
+    	\item Product perspective
 		\item Product functions
 		\item User characteristics
-		\item Constraints
-		\item Assumptions and dependencies
+		\item Assumptions, dependencies and constraints
   		\end{legal}
 	\item Specific requirements
   		\begin{legal}
     		\item External interface requirements
+			\begin{legal}
+			\item User interfaces
+			\item Hardware interfaces
+			\item Software interfaces
+			\item Communication interfaces
+	  		\end{legal}
 		\item Functional requirements
+			\begin{legal}
+			\item Use case diagram
+			\item Use case descriptions
+			\item Sequence diagrams
+			\item Activity diagrams
+			\item Global requirements
+			\item Mapping on requirements
+			\end{legal}
 		\item Performance requirements
 		\item Design constraints
+			\begin{legal}
+			\item Standards compliance
+			\item Hardware limitations
+			\item Any other constraint
+  			\end{legal}
 		\item Software system attributes
-		\item Other requirements
+			\begin{legal}
+			\item Reliability
+			\item Availability
+			\item Security
+			\item Maintanability
+			\item Portability
+  			\end{legal}
   		\end{legal}
 	\item Formal analysis using Alloy
   	\item Effort spent
 	\item References
 	\end{legal}
+
 \newpage
 	\begin{legal}\bfseries
- 	\item Introduction \\
+ 	\item \underline{Introduction} 
   		\begin{legal}
-    		\item Purpose\\
+    		\item \textit{Purpose}\\
 		\\
-		{\normalfont The purpose of this document is to fully describe the TrackMe application in terms of goals, functions, requirements and constraints of the system.}
-		\\
-		\item Scope\\
+		{\normalfont
+		The purpose of this Requirement Analysis and Specification Document (RASD) is to provide a detailed description of the TrackMe system.\\ 
+		It will explain the main features of the software system, its interfaces, what it will do, the constraints under which it must operate and how the system will react to external stimuli. This document is intended as a contractual basis for both the stakeholders and the developers of the system.
+		}\\
+		\item \textit{Scope}\\
 			\begin{legal}
-    			\item Description of the given problem \\
-			\item Goals \\
+    		\item Description of the system \\\\
+			{\normalfont
+This software system is thought to be a Health Data Management, Run-friendly App, useful for a quite wide range of customers with different necessities. According to these, the TrackMe client base will be mainly represented by: \\-common users, such as people with high/low blood pressure or other heart diseases who desire to be monitored; \\-runners, who may want to check their health parameters while performing or participate to some running events; \\-third parties, whose interest might be to store the users' health data and take statistics on them, or organize runs which inviduals will be free to join.\\ The system will fulfill the needs of the users, providing ad hoc services for each customer segment. In particular, the system's main goal is to facilitate the user's life through an optimal experience. This will be made possible thanks to several features: a quick communication between the actors because of a request-response approach, an high information reliability granted by an efficient data retrieval from the users' wearable devices, and other properties that will be will be further described in later chapters.
+			}\\
+			\item Goals \\\\
+			{\normalfont
+			The goals of the whole application are formalized below:\\
+				\begin{itemize}
+				\item G1) Third parties can monitor the position and the health status of the individuals;\\
+				\item G2) Third parties can access the anonymized data of the groups of individuals;\\
+				\item G3) The user can accept or refuse the requests concerning the treatment of his/her personal data by the third parties;\\
+				\item G4) The third party can ask to subscribe to new data and receive them as soon as they are produced;\\
+				\item G5) The user can stop the subscription of the third party to his/her data at any time;\\
+				\item G6) The user can be recognized by providing a form of identification;\\
+				\item G7) The third party can be recognized by providing a form of identification;\\
+				\item G8) The user can check the position of the runners at any time during a race;\\
+				\item G9) When the health status of the user is in danger, an SOS is launched and an ambulance is sent to the user’s current position;\\
+				\item G10) A user can participate to the available races;\\
+				\item G11) A third party can organize a race and define the path for the run;\\
+				\item G12) The user can enable/disable the AutomatedSOS service at any time.\\
+				\end{itemize}
+			}
+			\end{legal}
+		\item \textit{Definitions, acronyms, abbreviations}\\
+			\begin{legal}
+			\item Definitions\\
 			{\normalfont
 				\begin{itemize}
-				\item G1) Third parties can monitor the position and the health status of the individuals. \\
-				\item G2) Third parties can access the anonymized data of the groups of individuals.\\
-				\item G3) The user can accept or refuse the requests concerning the treatment of his/her personal data by the third parties.\\
-				\item G4) The third party can subscribe to new data and receive them as soon as they are produced.\\
-				\item G5) The user can be recognized by providing a form of identification.\\
-				\item G6) The third party can be recognized by providing a form of identification. \\
-				\item G7) The user can check the position of the runners at any time during a race.\\
-				\item G8) When the health status of the user is in danger, an SOS is launched and an ambulance is sent to the user’s current position.\\
-				\item G9) A user can participate to the available races. \\
-				\item G10) A third party can organize a race and define the path for the run.\\
+				\item Third party: a company, association or, more in general, a public or private entity that uses TrackMe to acquire data of users or to organize running events;\\
+				\item User: a person who uses TrackMe;\\
+				\item Individual: equivalent to User;\\
+				\item Danger: the status that signals that at least one health parameter of the user is out of a safety range;\\
+				\item TrackMe: the name of the whole system;\\
+				\item Data4Help: a service offered by TrackMe that permits to acquire the data of the users and to share them with third parties;\\
+				\item AutomatedSOS: a service offered by TrackMe that raise an SOS if the health of a user is in danger;\\
+				\item Track4Run: a service offered by TrackMe that permits to define, to join and to watch a run.\\
 				\end{itemize}
-				}
+			}	
+			\item Acronyms\\
+			{\normalfont	
+				\begin{itemize}
+				\item RASD: Requirement Analysis and Specification Document;\\
+				\item API: Application Programming Interface.\\
+				\end{itemize}
+			}
+			\item Abbreviations\\
+			{\normalfont	
+				\begin{itemize}
+				\item Gn: n-goal;\\
+				\item Dn: n-domain assumption;\\
+				\item Rn: n-functional requirement.\\
+				\end{itemize}
+			}
 			\end{legal}
-		\item Definitions, acronyms, abbreviations\\
-		\item Reference documents\\
-		\item Overview\\
+		\item \textit{Revision history}\\
+		{\normalfont
+			\begin{legal}
+			\item 09/11/2018		Version 1.0\\
+			\end{legal}
+		}
+		\item \textit{Reference documents}\\
+		{\normalfont	
+			\begin{itemize}
+			\item Specification Document: “Assignments AA 2018-2019.pdf”;\\
+			\item Slides of the lessons;\\
+			\item IEEE Std 830-1993 - IEEE Guide to Software Requirements Specifications.\\
+			\end{itemize}
+		}
+		\item \textit{Document structure}\\\\
+		{\normalfont
+In this subsection:
+(1)	Describe what the rest of the SRS contains
+(2)	Explain how the SRS is organized
+\\
+Don’t rehash the table of contents here.  Point people to the parts of the document they are most concerned with.  Customers/potential users care about section 2, developers care about section 3.
+		}
 		\end{legal}
-	
-		
-    		
-		
-	
-\newpage
- 	\item {Overall description}
+
+  	\item \underline{Overall description}
   		\begin{legal}
-    		\item Product perspective\\
+    		\item \textit{Product perspective}\\\\
+			{\normalfont
+The TrackMe system is thought to be a software application developed from scratch. In particular, it is intended to be used as a mobile application by both third parties and individuals.
+In order to work in an efficient and complete way, it exploits services and functions provided by devices that are actually external to the system itself, like the GPS 				localization and the health status information coming from the user’s smartwatch.
+The following class diagram describes the structure of the TrackMe system, underlining its general conceptual modelling:
+			}
 			\begin{figure}[H]
   			\includegraphics[width=\linewidth]{./images/UML1-0.png}
 			\end{figure}
-		\item Product functions \\
-		\item User characteristics \\
-		\item Constraints \\
-		\item Assumptions and dependencies \\
+		\item \textit{Product functions} \\
+		{\normalfont
+		The TrackMe system is a mobile application that is actually made up of three different modules:\\
+		\begin{itemize}
+		\item Data4Help;\\
+		\item AutomatedSOS;\\
+		\item Track4Run.\\
+		\end{itemize}
+\textit {Data4Help} is a service that allows third parties to monitor the location and health status of individuals. TrackMe acquires data of registered users trough external devices connected to the users' smartphones.\\
+The other two services are built on top of Data4Help to provide tangible functionalities for the users.\\
+\textit{AutomatedSOS }is an optional service that monitors the health status of users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the user if it establishes that the user is in danger.\\
+\textit{Track4Run} is a service thought for the organization of running events. It permits to third parties to organize events and to users to enrol to them or simply to know the position of runners during a race.\\
+In the following section, the functions of the system are listed and more precisely specified, with
+respect to the already mentioned main services provided by the system:
+		\begin{itemize}
+		\item Monitor an individual\\\\
+		This function permits a third party (an association, an hospital, a company, etc) to ask for the data of a single user. More in detail, the third party can select a user by his/her SSN and send him/her a request to be allowed to access his/her data. If the user accepts it, then the third party will receive his/her data. The third party can request to keep monitoring the individual also after the request and it will receive the data as soon as they are ready. The user can decide to deny the permission at any moment. \\
+		\item Anonymous aggregation of individual data\\\\
+		Third party can access anonymized data of a group of users enrolled in TrackMe. After a third party sends this kind of request by specifying some restrictions about users’ attributes, like age and residence, the system will collect the data of the target users, anonymize and send them to the third party if the number of users is greater than 1000 in order to guarantee the anonymity. The third party can request to keep receveing new data of the group after the request and it will receive the data as soon as they are ready until the group size will not be lower than 1000.\\
+		\item SOS assistance\\\\
+		The system keeps under control the health status of a user by monitoring the values of the health parameters acquired by external devices (smart watches or similar devices). If at least one of the parameters goes under a fixed threshold, the system generates an SOS within 5 seconds starting from the moment of the evaluation of the dangerous parameter. The SOS communicates to the ambulance the position of the user.\\
+		\item Organize running events\\\\
+		The system offers to a third party to organize a running event. The third party must specify the timing, the track and the maximum number of participants for the run.\\
+		\item Partecipate to runs or follow running events\\\\
+		The user can select an available run and participate by sending a simple request. Furthermore the system permits a user to track the position of the runners involved in a run. The user can check the list of available runs and, after selecting of among them, he/she can watch the map of the track filled up by points representing the runners in their actual position. \\
+		\end{itemize}
+		}
+		\item \textit{User characteristics} \\\\
+			{\normalfont
+			Actors:\\
+			\begin{itemize}
+			 \item User: a registered individual who can use the TrackMe services. He/she can login to the system and then use all the functionalities provided by the platform.\\
+			\item Third party: a registered entity that can use the TrackMe services. It can login to the system and then use all the functionalities provided by the platform.\\
+ 			\item System Manager:  an employee of TrackMe, in charge of the maintenance of the system. He/she does not need to be registered, since has been inserted in the system directly during the installation process.\\
+			\end{itemize}
+			}
+		\item \textit{Assumptions, dependencies and constraints}\\
 			\begin{legal}
     			\item Text assumptions\\
     			{\normalfont
 				\begin{itemize}
-					\item User can choose to disable AUTOMATEDSOS service in preferences
-					\item A SOS is sent through an SMS which contains the coordinates of the user's position.
-					\item If the user is not able to connect the device, he can contact the TrackMe assistance by calling a specific number.
-					\item When a user signs up to TrackMe he accpets also to treatment of his data for AUTOMATEDSOS
-					\item The user can give up to the consensus to a third party.
+					\item User can choose to disable AutomatedSOS service in preferences;\\\
+					\item A SOS is sent through an SMS which contains the user's data and the coordinates of the position to be reached;\\\
+					\item If the user is not able to connect the device, he/she can contact the TrackMe assistance by calling a specific number;\\
+					\item When a user signs up to TrackMe he/she accpets also to treatment of his/her data for AutomatedSOS;\\
+					\item The user can remove the consensus previously given to a third party.\\
 				\end{itemize}}
 			\item Domain assumptions \\
 			{\normalfont
 				\begin{itemize}
-				\item D1) The measurements of the health status parameters of the individuals are supposed to be reliable.  \\
-				\item D2) The position of the individuals is supposed to be reliable.\\
-				\item D3) The data acquired from the user’s devices are sent to the mobile application as soon as they are produced.\\
-				\item D4) The identification data provided by the users are correct.\\
-				\item D5) The identification data provided by the third parties are correct.\\
-				\item D6) When an SOS is launched, an ambulance is sent to the position of the user linked to the account that raised the SOS itself. \\
-				\item D7) The race takes place in an area with internet coverage and in a compliant track.\\
-				\item D8) ?????
+				\item D1) The measurements of the health status parameters of the individuals are supposed to be reliable;\\
+				\item D2) The position of the individuals is supposed to be reliable;\\
+				\item D3) The data acquired from the user’s devices are sent to the mobile application as soon as they are produced;\\
+				\item D4) The identification data provided by the users are correct;\\
+				\item D5) The identification data provided by the third parties are correct;\\
+				\item D6) When an SOS is launched, an ambulance is sent to the position of the user linked to the account that raised the SOS itself;\\
+				\item D7) The race takes place in an area with internet coverage and in a compliant track;\\
+				\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+				\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself.\\
 				\end{itemize}
 			}
 			\end{legal}
 		\end{legal}
 	
 \newpage
-	\item Specific requirements\\
+	\item \underline{Specific requirements}\\
   		\begin{legal}
-		\item External interface requirements\\
+		\item \textit{External interface requirements}\\
 			\begin{legal}
     			\item User interfaces \\
-				\begin{legal}
+					\begin{legal}
     				\item Login or Sign Up 
-				\begin{figure}[H]
-				\centering
-  				\includegraphics[scale=0.3]{./images/mockups/Login-Sign-up.png}
-				\end{figure}
-				\item Join a run 
-				\begin{figure}[H]
-				\centering
-  				\includegraphics[scale=0.3]{./images/mockups/Join-a-run.png}
-				\end{figure}
-				\item Define the track of the run 
-				\begin{figure}[H]
-				\centering
-  				\includegraphics[scale=0.3]{./images/mockups/Path-definition.png}
-				\end{figure}
-				\item Individual request 
-				\begin{figure}[H]
-				\centering
-  				\includegraphics[scale=0.3]{./images/mockups/Individual-request.png}
-				\end{figure}
-				\item Group request 
-				\begin{figure}[H]
-				\centering
-  				\includegraphics[scale=0.3]{./images/mockups/Group-request.png}
-				\end{figure}
-				
-			\end{legal}
+						\begin{figure}[H]
+						\centering
+  						\includegraphics[scale=0.3]{./images/mockups/Login-Sign-up.png}
+						\end{figure}
+					\item Join a run 
+						\begin{figure}[H]
+						\centering
+  						\includegraphics[scale=0.3]{./images/mockups/Join-a-run.png}
+						\end{figure}
+					\item Define the track of the run 
+						\begin{figure}[H]
+						\centering
+  						\includegraphics[scale=0.3]{./images/mockups/Path-definition.png}
+						\end{figure}
+					\item Individual request 
+						\begin{figure}[H]
+						\centering
+  						\includegraphics[scale=0.3]{./images/mockups/Individual-request.png}
+						\end{figure}
+					\item Group request 
+						\begin{figure}[H]
+						\centering
+  						\includegraphics[scale=0.3]{./images/mockups/Group-request.png}
+						\end{figure}
+				\end{legal}
 			\end{legal}
 
-    		\item Functional Requirements\\
+    		\item \textit{Functional Requirements}\\
     		\begin{legal}\bfseries
-    			\item Use Case Diagram
+    		\item Use Case Diagram
     			\begin{figure}[H]
 			  	\includegraphics[width=\linewidth]{./images/usecase.png}
 				\end{figure}
@@ -379,37 +501,189 @@
 				\hline
 				\end{tabular}
 				\\\\\\
+			\item Sequence Diagrams
+			\begin{legal}
+			\item Login
+				\begin{figure}[H]
+  				\includegraphics[width=\linewidth]{./images/seq-diagrams/Login_diagram.png}
+				\end{figure}
+			\item Sign up
+				\begin{figure}[H]
+  				\includegraphics[width=\linewidth]{./images/seq-diagrams/Sign_up_diagram.png}
+				\end{figure}
+			\item Individual request
+				\begin{figure}[H]
+  				\includegraphics[width=\linewidth]{./images/seq-diagrams/Individual_request_diagram.png}
+				\end{figure}
+			\item Group request
+				\begin{figure}[H]
+  				%\includegraphics[width=\linewidth]{./images/seq-diagrams/.png}
+				\end{figure}
+			\item Join a run 
+				\begin{figure}[H]
+  				%\includegraphics[width=\linewidth]{./images/seq-diagrams/.png}
+				\end{figure}
+			\item Organize a run
+				\begin{figure}[H]
+  				%\includegraphics[width=\linewidth]{./images/seq-diagrams/.png}
+				\end{figure}
+	  		\end{legal}
+			\item Activity Diagram
+				\begin{figure}[H]
+				\center
+  				\includegraphics[width=145mm]{./images/Join-a-run-activity-diag.png}
+				\end{figure}
     		\end{legal}
-    		\item Software System Attributes \\
+			
+			% Requirements --------------
+			\item \textit{Global requirements}\\
+			\begin{itemize}
+				\item Third parties and individuals must have registered and logged in to use the services;\\
+				\item The app works also in background in users' smartphones;\\
+				\item There must be a fully working connection between the application and the smartwatches or similar devices.\\
+			\end{itemize}
+			\begin{legal}
+			\item Mapping on requirements\\
+				\begin{itemize}
+				\item G1) Third parties can monitor the position and the health status of the individuals;\\
+				{\normalfont
+					\begin{itemize}
+					\item D1) The measurements of the health status parameters of the individuals are supposed to be reliable;\\
+	 				\item D2) The position of the individuals is supposed to be reliable;\\
+					\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+					\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
+					\item R1) The users must have given the consensus to the treatment of their information to the third party;\\
+					\item R2) The system must be able to provide to the third party the location and the health status of individuals;
+					\item R3) The system must be able to retrieve data from the smartwatches and similar devices;\\
+					\item R27) The system must be able to store data retrieved from registered users;\\
+					\end{itemize}
+				}
+				\item G2) Third parties can access the anonymized data of the groups of individuals;\\
+				{\normalfont
+					\begin{itemize}
+					\item D1) The measurements of the health status parameters of the individuals are supposed to be reliable;\\
+	 				\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+					\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
+					\item R3) The system must be able to retrieve data from the smartwatches and similar devices;\\
+					\item R4) The groups must be composed at least by 1000 individuals;\\
+					\item R5) The system must be able to provide to the third party the health status of individuals in an anonymous way;\\
+					\item R6) The system must be able to aggregate the data of the individuals, as requested by the third party;\\
+					\item R27) The system must be able to store data retrieved from registered users.\\
+					\end{itemize}
+				}
+				\item G3) The user can accept or refuse the requests concerning the treatment of his/her personal data by the third parties;\\
+				{\normalfont
+					\begin{itemize}
+					\item R7) The system must be able to forward the requests from the third party to the user;\\
+	 				\item R8) The system must save the preference of the user;\\
+					\item R9) The third party is not allowed to access the user’s data until he/she accepts the request.\\
+					\end{itemize}
+				}
+				\item G4) The third party can ask to subscribe to new data and receive them as soon as they are produced;\\
+				{\normalfont
+					\begin{itemize}
+					\item D3) The data acquired from the user’s devices are sent to the mobile application as soon as they are produced;\\
+	 				\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
+					\item R10) The data acquired by the mobile application are sent to TrackMe servers as soon as an internet connection is available;\\
+					\item R11) The system is optimized to send the data received from the mobile application to the third parties as soon as possible.\\
+					\end{itemize}
+				}
+				\item G5) The user can stop the subscription of the third party to his/her data at any time;\\
+				{\normalfont
+					\begin{itemize}
+					\item R28) The user must have an active subscription to stop it;\\
+	 				\item R29) The system must be able to allow the user to unsubscribe to the third party and to stop the transmission of his/her data.\\
+					\end{itemize}
+				}
+				\item G6) The user can be recognized by providing a form of identification;\\
+				{\normalfont
+					\begin{itemize}
+					\item D4) The identification data provided by the users are correct;\\
+	 				\item R12) The users must provide their personal data to the application during the registration process, SSN (or fiscal code) included;\\
+					\item R13) The user can register to the application by selecting a username and a password;\\
+					\item R14) The user can log in to the application by providing the combination of a username and a password that matches an account;\\
+					\item R15) Two different users cannot have the same username.\\
+					\end{itemize}
+				}
+				\item G7) The third party can be recognized by providing a form of identification; \\
+				{\normalfont
+					\begin{itemize}
+					\item D5) The identification data provided by the third parties are correct;\\
+	 				\item R16) The third party can register to the application, by specifying its VAT registration number and a password;\\
+					\item R17) The third party can log in to the application by providing the combination of a VAT registration number and a password that match an account;\\
+					\item R18) When the health status values go below the threshold an SOS is sent within 5 seconds.\\
+					\end{itemize}
+				}
+				\item G8) The user can check the position of the runners at any time during a race;\\
+				{\normalfont
+					\begin{itemize}
+					\item D2) The position of the individuals is supposed to be reliable;\\
+					\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+	 				\item R19) The system must be able to retrieve the position of all the runners;\\
+					\item R20) The system must be able to provide the position of all the runners in the track in real time.\\
+					\end{itemize}
+				}
+				\item G9) When the health status of the user is in danger, an SOS is launched and an ambulance is sent to the user’s current position;\\
+				{\normalfont
+					\begin{itemize}
+					\item D6) When an SOS is launched, an ambulance is sent to the position of the user linked to the account that raised the SOS itself;\\
+					\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
+	 				\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
+					\item R18) When the health status values go below the threshold an SOS is sent within 5 seconds;\\
+	 				\item R25) The AutomatedSOS service must be enabled.\\
+					\end{itemize}
+				}
+				\item G10) A user can participate to the available races. \\
+				{\normalfont
+					\begin{itemize}
+					\item R21) The user can check the list of available races at any time.\\
+					\item R22) The user can join an available race only before its starting time.\\
+	 				\item R23) The user cannot join two different overlapping races.\\
+					\item R30) The system must avoid the registration of users after having reached of the maximum number of participants.\\
+					\end{itemize}
+				}
+				\item G11) A third party can organize a race and define the path for the run;\\
+				{\normalfont
+					\begin{itemize}
+					\item D7) The race takes place in an area with internet coverage and in a compliant track;\\
+					\item R24) The system must allow the third party to organize a race by defining its track and its time.\\
+					\end{itemize}
+				}
+				\item G12) The user can enable/disable the AutomatedSOS service at any time.\\
+				{\normalfont
+					\begin{itemize}
+					\item R26) The system must allow the user to enable/disable the AutomatedSOS service at any time.\\
+					\end{itemize}
+				}
+				\end{itemize}
+			% End of requirements ------
+    		\end{legal}
+		\item \textit{Performance requirements}\\
+		\item \textit{Design constraints}\\
+    		\item \textit{Software System Attributes }\\
 		\begin{legal}\bfseries
-			\item Reliability
-			\\\\
+			\item Reliability\\
 			{\normalfont The system is not fault tolerant, so it will be reliable according to its ability to avoid process crashes and to scale in case of numerous accesses.}
 			\\
-			\item Availability
-			\\\\
+			\item Availability\\
 			{\normalfont The system is not fault tolerant, so in case of failure it will not be available until the administrator will be able to reboot the system. So for this system availability is strictly correlated to maintainability.}
 			\\
-			\item Maintainability
-			\\\\
+			\item Maintainability\\
 			{\normalfont The code should be written in a way that favors the testability and the implementation of new functionalities.}
 			\\
-			\item Scalability
-			\\\\
+			\item Scalability\\
 			{\normalfont The right choice of a PaaS allows the system to increase or decrease the level of allocated virtual resources at application or database on demand.}
 			\\
-			\item Portability
-			\\\\
+			\item Portability\\
 			{\normalfont The system front-end will be a web app, runnable on the majority of browsers but also natively on Android and IOS.}
 			\\
-			\item Safety
-			\\\\
+			\item Safety\\
 			{\normalfont The communication between the client and server is protected through a protocol such as HTTPS. The principal motivation is authentication of the accessed website and protection of the privacy and integrity of the exchanged data while in transit. It protects against man-in-the-middle attacks. The bidirectional encryption of communications between a client and server protects against eavesdropping and tampering of the communication. In practice, this provides a reasonable assurance that one is communicating without interference by attackers with the website that one intended to communicate with, as opposed to an impostor. }
 			\\
-			
-			
 		\end{legal}
 		\end{legal}
-
+	\item \underline{Formal analysis using Alloy}\\
+	\item \underline{Effort spent}\\
+	\item \underline{References}\\
 	\end{legal}
 \end{document}
