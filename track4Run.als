@@ -1,5 +1,5 @@
 -- Let's assume that data of individuals, time, latitude and longitude are integers.
-open util/integer as integer
+open util/integer
 --open util/boolean as boolean
 
 sig Time{
