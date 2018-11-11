@@ -111,7 +111,7 @@ The TrackMe system is thought to be a Health Data Management and Run-Friendly Mo
 		\end{itemize}
 \textit {Data4Help}, a service that allows the third parties to monitor the location and the health status of the individuals. TrackMe acquires the registered users' data trough external devices connected to their smartphones.\\
 The other two services are built on top of Data4Help and their main purpose will be to provide tangible functionalities to the users.\\
-\textit{AutomatedSOS }, an optional service that monitors the health status of the users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the individual if it establishes that the he/she is in danger.\\
+\textit{AutomatedSOS }, an optional service that monitors the health status of the users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the individual if it establishes that he/she is in danger.\\
 \textit{Track4Run}, a service thought for the organization of running events. It allows the third parties to organize races and the users to enrol to them or simply know the position of runners during a run.\\
 These three services cover all those shared phenomena that the TrackMe system should be able to directly detect from the world, such as the receiving of new incoming data streams produced by the external devices or the choices made by the users on the platform. Moreover, the three modules include the actions in the real world that the machine can directly cause, like the notifies appearing on the screen after users' interactions, or the external devices being disconnected from the smartphone. SHALL WE INCLUDE ALSO THE RUNS ORGANIZATION AS A SHARED PHENOMENON?\\
 The features offered by the abovementioned services comply with strict requirements in the machine world and are intended to satisfy several goals in the application domain. These aspects will be further detailed in the following sections, starting from the next one.
@@ -155,7 +155,8 @@ The features offered by the abovementioned services comply with strict requireme
 			{\normalfont	
 				\begin{itemize}
 				\item RASD: Requirement Analysis and Specification Document;\\
-				\item API: Application Programming Interface.\\
+				\item SSN: Social Security Number;\\
+				\item VAT: Value Added Tax.\\
 				\end{itemize}
 			}
 			\item Abbreviations\\
@@ -213,14 +214,14 @@ respect to the already mentioned main services:
 		\begin{itemize}
 		\item Monitor an individual\\\\
 		This function permits a third party (an association, an hospital, a company, etc) to ask for the data of a single user. More in detail, the third party can select a user by his/her SSN and send him/her a request to be allowed to access his/her data. If the user accepts it, then the third party will receive his/her data. The third party can request to keep monitoring the individual also after the request and it will receive the data as soon as they are ready. The user can decide to deny the permission at any moment. \\
-		\item Anonymous aggregation of individual data\\\\
+		\item Request for anomymous aggregated data\\\\
 		Third party can access anonymized data of a group of users enrolled in TrackMe. After a third party sends this kind of request by specifying some restrictions about users’ attributes, like age and residence, the system will collect the data of the target users, anonymize and send them to the third party if the number of users is greater than 1000 in order to guarantee the anonymity. The third party can request to keep receveing new data of the group after the request and it will receive the data as soon as they are ready until the group size will not be lower than 1000.\\
 		\item SOS assistance\\\\
 		The system keeps under control the health status of a user by monitoring the values of the health parameters acquired by external devices (smart watches or similar devices). If at least one of the parameters goes under a fixed threshold, the system generates an SOS within 5 seconds starting from the moment of the evaluation of the dangerous parameter. The SOS communicates to the ambulance the position of the user.\\
 		\item Organize running events\\\\
 		The system offers to a third party to organize a running event. The third party must specify the timing, the track and the maximum number of participants for the run.\\
-		\item Partecipate to runs or follow running events\\\\
-		The user can select an available run and participate by sending a simple request. Furthermore the system permits a user to track the position of the runners involved in a run. The user can check the list of available runs and, after selecting of among them, he/she can watch the map of the track filled up by points representing the runners in their actual position. \\
+		\item Enrol to runs or follow running events\\\\
+		The user can select an available run and enrol to it by sending a simple request. Furthermore the system permits a user to track the position of the runners involved in a run. The user can check the list of available runs and, after selecting one among them, he/she can watch the map of the track filled up by points representing the runners in their actual position. \\
 		\end{itemize}
 		}
 		\item \textit{User characteristics} \\\\
@@ -626,7 +627,7 @@ The association WalkMore wants to promote walking among young people who have a 
 			\begin{itemize}
 				\normalfont{
 				\item Third parties and individuals must have registered and logged in to use the services;\\
-				\item The app works also in background in users' smartphones;\\
+				\item The app is able to acquire data and to share data with the servers also in background in users' smartphones;\\
 				\item There must be a fully working connection between the application and the smartwatches or similar devices.\\
 				}
 			\end{itemize}
@@ -764,7 +765,7 @@ Third parties will use the data provided by us as part of their business process
 			}
 			\end{itemize}
 	
-			\item Hardware limitations
+			\item Hardware limitations\\
 			\normalfont{
 			The main HW limitations regard the smartphone used by the customer. It has to provide:\\
 			- iOS or Android compatibity\\
@@ -874,15 +875,15 @@ Third parties will use the data provided by us as part of their business process
 				\hline
 					\textbf{Description of the task} & \textbf{Hours spent}\\
 				\hline
-					Definition of goals, requirements and assumptions & 0 \\
+					Definition of goals, requirements and assumptions & 7 \\
 				\hline
-					Definition of world, shared and machine fenomena & 0 \\
+					Product perspective and functions & 4 \\
 				\hline
-					Formal analysis using Alloy & 0 \\
+					Specific requirements & 4 \\
 				\hline
-					Specific requirements & 0 \\
+					Formal analysis using Alloy & 3 \\
 				\hline
-					Other related activities & 0 \\
+					Other related activities & 7 \\
 				\hline
 				\end{tabular}
 				\\\\\\
@@ -892,15 +893,15 @@ Third parties will use the data provided by us as part of their business process
 				\hline
 					\textbf{Description of the task} & \textbf{Hours spent}\\
 				\hline
-					Definition of goals, requirements and assumptions & 0 \\
+					Definition of goals, requirements and assumptions & 6 \\
 				\hline
-					Definition of world, shared and machine fenomena & 0 \\
+					Product perspective and functions & 4 \\
 				\hline
-					Formal analysis using Alloy & 0 \\
+					Specific requirements & 3 \\
 				\hline
-					Specific requirements & 0 \\
+					Formal analysis using Alloy & 8 \\
 				\hline
-					Other related activities & 0 \\
+					Other related activities & 7 \\
 				\hline
 				\end{tabular}
 				\\\\\\
@@ -910,20 +911,27 @@ Third parties will use the data provided by us as part of their business process
 				\hline
 					\textbf{Description of the task} & \textbf{Hours spent}\\
 				\hline
-					Definition of goals, requirements and assumptions & 0 \\
+					Definition of goals, requirements and assumptions & 5 \\
 				\hline
-					Definition of world, shared and machine fenomena & 0 \\
+					Product perspective and functions & 3 \\
 				\hline
-					Formal analysis using Alloy & 0 \\
+					Specific requirements & 7 \\
 				\hline
-					Specific requirements & 0 \\
+					Formal analysis using Alloy & 4 \\
 				\hline
-					Other related activities & 0 \\
+					Other related activities & 8 \\
 				\hline
 				\end{tabular}
 				\\\\\\
 		\end{itemize}
 		}
 	\item \underline{References}\\
+		{\normalfont	
+			\begin{itemize}
+			\item Specification Document: “Assignments AA 2018-2019.pdf”;\\
+			\item Slides of the lessons;\\
+			\item IEEE Std 830-1993 - IEEE Guide to Software Requirements Specifications.\\
+			\end{itemize}
+		}
 	\end{legal}
 \end{document}
