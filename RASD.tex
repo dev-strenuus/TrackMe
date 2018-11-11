@@ -113,7 +113,7 @@ The TrackMe system is thought to be a Health Data Management and Run-Friendly Mo
 The other two services are built on top of Data4Help and their main purpose will be to provide tangible functionalities to the users.\\
 \textit{AutomatedSOS }, an optional service that monitors the health status of the users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the individual if it establishes that he/she is in danger.\\
 \textit{Track4Run}, a service thought for the organization of running events. It allows the third parties to organize races and the users to enrol to them or simply know the position of runners during a run.\\
-These three services cover all those shared phenomena that the TrackMe system should be able to directly detect from the world, such as the receiving of new incoming data streams produced by the external devices or the choices made by the users on the platform. Moreover, the three modules include the actions in the real world that the machine can directly cause, like the notifies appearing on the screen after users' interactions, or the external devices being disconnected from the smartphone. SHALL WE INCLUDE ALSO THE RUNS ORGANIZATION AS A SHARED PHENOMENON?\\
+The overall system should be able to provide the previously descrived services by taking into account world phenoma, such as the health and the position of people, ambulances, places for runs and needs of third parties. Moreover it should observe what is controlled by the world and accordingly react by taking control over the shared phenomena which are described in the product perspective session.
 The features offered by the abovementioned services comply with strict requirements in the machine world and are intended to satisfy several goals in the application domain. These aspects will be further detailed in the following sections, starting from the next one.
 			}\\
 			\newpage
@@ -199,10 +199,11 @@ This RASD is composed by six parts:
   	\item \underline{Overall description}
   		\begin{legal}
     		\item \textit{Product perspective}\\\\
-			{\normalfont
+			{\normalfont \\
 The TrackMe system is thought to be a software application developed from scratch. In particular, it is intended to be used as a mobile application by both third parties and individuals.
 In order to work in an efficient and complete way, it exploits services and functions provided by devices that are actually external to the system itself, like the GPS 				localization and the health status information coming from the user’s smartwatch.
-The following class diagram describes the structure of the TrackMe system, underlining its general conceptual modelling:
+The functions described in the next section cover the shared phenomena that the TrackMe system should be able to directly detect from the world, such as the receiving of new incoming data streams produced by the external devices or the choices made by the users on the platform. Moreover, they include the actions in the real world that the machine can directly cause, like the notifies appearing on the screen after users' interactions, or the possibility to organize a run and define a track for it. \\
+The following class diagram describes the structure of the TrackMe system, underlining its general conceptual modelling (more details in Alloy section): \\
 			}
 			\begin{figure}[H]
   			\includegraphics[width=\linewidth]{./images/UML1-0.png}
@@ -269,10 +270,10 @@ respect to the already mentioned main services:
 			\begin{legal}
     		\item User interfaces \\\\
 			\normalfont{
-			In this section follow the main mockups that represent a basic idea of what the mobile app will look like in the first release:\\
-			
-						
-					\begin{legal}
+			In this section follow the main mockups that represent a basic idea of what the mobile app will look like in the first release:%}\\
+
+					\begin{itemize}
+						%\normalfont{
     					\item Login or Sign Up 
 						\begin{figure}[H]
 						\centering
@@ -307,13 +308,13 @@ respect to the already mentioned main services:
  						 \caption{Group request}
 						\end{subfigure}
 						\end{figure}
-				\end{legal}	
-			}
-			
-			\item \textbf{Hardware interfaces}\\\\
+						%}
+				\end{itemize}	
+				}
+			\textbf{\item Hardware interfaces\\\\}
 This system is intended to stay with the user during his every day life. In order to guarantee the promised services, it’s necessary that users install the-front end application on a smartphone (Android or iOS) that can use GPS services to allow localization and supports Bluetooth in order to connect the device worn by the user to retrieve health data. This device can be a smartwatch or any other hardware able to get the interested health parameters.
 Since the application must run over the internet, the smartphone is required to connect through WIFI or a wireless mobile telecommunications technology.\\
-			\item \textbf{Software interfaces}\\\\
+			\textbf{\item Software interfaces}\\\\
 The application software doesn’t need to lean on other software in order to provide basic services, except for front-end application that must run on a operating system able to connect external devices like smartwatches. 
 Meanwhile the service Track4Run requires to interact with a software that provides a map service which includes these functionalities:
 				\begin{itemize}
@@ -321,7 +322,7 @@ Meanwhile the service Track4Run requires to interact with a software that provid
 				\item draw in detail this path on the map;
 				\item provide metrics and statistics about a point moving on the map.\\
 				\end{itemize}
-			\item \textbf{Communication interfaces}\\\\
+			\textbf{\item Communication interfaces}\\\\
 The system is essentially split into a front-end and a back-end. They communicate over the internet network.
 Furthermore a Bluetooth connection between smartphones and external devices is required.\\
 			\end{legal}
@@ -331,24 +332,24 @@ Furthermore a Bluetooth connection between smartphones and external devices is r
 		\item Scenarios\\
 		{\normalfont
 		\begin{legal}
-		\item \textbf{Join a run as a runner}\\
+		\item Join a run as a runner\\
 
 Mario is a sporty student who hears about a run organized by PoliMi Sport and would like to join it. PoliMi Sport is an association registered to TrackMe as a third party with the aim of guaranteeing the good health status of the enrolled students and proposing them new races every week. The unique way to join the run is to send the request to PoliMi Sport through the TrackMe app, so that Mario decides to download it and sign up. After that, he logs in with his credentials and looks for the run he is interested in. Once found, he asks to join that as a runner. Meanwhile system checks if the number of participants is not exceeded and if Mario has not already joined an overlapping run, then notifies Mario with the result.\\
 
-		\item \textbf{Join a run as a spectator}\\
+		\item Join a run as a spectator\\
 
 Luca is a professor who is fond of running and after a lecture hears his students talking about a run organized by the student union Poli4Run. It is an association registered to TrackMe as a third party with the aim of guaranteeing the good health status of the enrolled students and proposing them new races every week. He is very interested in the race joined by their students and he would like to go and see them competing, so Luca asks them for information and decides to follow their instructions. At first he downloads the TrackMe app and then he signs up. After that, he logs in with his credentials and looks for the run he is interested in. Once found, he asks to join that as a spectator. Meanwhile he system checks if the number of spectators is not exceeded and if Luca has not already joined an overlapping run, then notifies Luca with the result.\\
 
-		\item \textbf{SOS launched}\\
+		\item SOS launched\\
 
 Antonella is an old woman who had heart disease in the past so she would like to be daily monitored to avoid problems. Her young nephew tells her about the TrackMe app, through which she could fulfil her needs. Delighted by this kind of solution, she decides to buy a smartwatch and download the app. Then she signs up to the TrackMe app and checks to have the AutomatedSOS service correctly activated. One day, after having climbed the stairs, the app retrieves the data from her smartwatch and evaluates them as exceeding the danger thresholds, so that within 5 seconds the SOS is received by the medical facility that sends an ambulance to the position detected by the woman’s wearable device.\\
 
 
-		\item \textbf{Individual request with a positive result}\\
+		\item Individual request with a positive result\\
  
 The Green Hospital wants to monitor the health status of one of its patient, Paolo, who recently recovered from an important disease. The hospital knows the mobile application TrackMe and it already has a valid account on the app. The doctor who is taking care of Paolo asks him to download the application, to link a smart device able to measure the health parameter needed by the doctor to monitor his health status and to register to the service. The doctor, using the account of the hospital, sends a request to Paolo (known by his SSN) for the treatment of his data. Paolo accepts the request and the hospital is allowed to receive the data produced by Paolo’s device.\\
 
-		\item \textbf{Anonymous request with a negative result}\\
+		\item Anonymous request with a negative result\\
 
 The association WalkMore wants to promote walking among young people who have a too sedentary life. As a first step to reach its goal WalkMore decides to use the new amazing app Data4Help to monitor the distance that a group of target young people runs every day. WalkMore registers to Data4Help and forwards a request to access the anonymized data of people between 18 and 23 living in the municipality of Milan. Unfortunately, due to the recent release of the application, there is not enough data in order to guarantee the privacy of the selected target and the request is frozen until enough data are collected.  \\
 
@@ -361,7 +362,7 @@ The association WalkMore wants to promote walking among young people who have a 
     			\begin{figure}[H]
 			  	\includegraphics[width=\linewidth]{./images/usecase.png}
 				\end{figure}
-				\item \textbf{Use Cases Descriptions}\\\\
+				\textbf{\item Use Cases Descriptions\\}\\
 				%SIGN UP
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
 				\hline
@@ -570,7 +571,7 @@ The association WalkMore wants to promote walking among young people who have a 
 				\end{tabular}
 				\\\\\\
 			\newpage
-			\item \textbf {Diagrams}\\\\
+			\textbf {\item Diagrams\\}\\
 			{\normalfont
 			In this section follow the interaction diagrams that detail how the main TrackMe operations are carried out by the software system:\\
 			
@@ -623,7 +624,8 @@ The association WalkMore wants to promote walking among young people who have a 
     		
 			
 			% Requirements --------------
-			\item \textit{Global requirements}\\
+			\textbf{\item Global requirements\\}\\
+			Here are listed the requirements which are needed to satisfy the majority of the goals.\\
 			\begin{itemize}
 				\normalfont{
 				\item Third parties and individuals must have registered and logged in to use the services;\\
@@ -631,7 +633,7 @@ The association WalkMore wants to promote walking among young people who have a 
 				\item There must be a fully working connection between the application and the smartwatches or similar devices.\\
 				}
 			\end{itemize}
-			\item \textit{Mapping on requirements}\\
+			\textbf{\item Mapping on requirements}\\
 				\begin{itemize}
 				\item G1) Third parties can monitor the position and the health status of the individuals;\\
 				{\normalfont
@@ -761,7 +763,7 @@ Third parties will use the data provided by us as part of their business process
 			\item The app requests the users' permission to manage their health status data and their location to support core functionalities.
 			\item The app supports portrait orientation. 
 			\item The app preserves app state when leaving the foreground and prevents accidental data loss due to back-navigation. 
-			\item Users' private data are stored in the app's internal storage.\\
+			\item Users' private data are stored in the app's internal storage (this is very useful for connection lost).\\
 			}
 			\end{itemize}
 	
@@ -796,7 +798,15 @@ Third parties will use the data provided by us as part of their business process
 		\end{legal}
 		\end{legal}
 	\newpage
-	\item \underline{Formal analysis using Alloy}\\
+	\item \underline{Formal analysis using Alloy}\\\\
+	{\normalfont
+	The alloy model has been thought to be coherent with the class diagram. In order to generate worlds not much complex, we decided to split the code in three parts, one for each service, by replicating the common signatures and facts. We used small integers to represent numbers in order to allow Alloy software to generate instances. 
+		\begin{itemize}
+		\item AutomatedSOS:\\Individual are characterized by batches of data. If one of them contains a value which overcomes a prederminated threshold, an ambulance call associated to that individual should exists. Here we check if the ambulance call is made fast by considering that the sum among the maximum length in time of a batch of data and the time needed to process this batch is lower than the required value.
+		\item Data4Help:\\Third parties can make individual requests and anonymous requests. If a request is accepted, in the first case, individual data should appear in a data collector owned by the third party, meanwhile in the second case data should compare in a response associated to the request (we don't formalized this last aspect).
+		\item Track4Run:\\For this service it's only formalized that two runners cannot choose two runs which are overlapping and that a run has got a maximum number of partecipants.
+		\end{itemize}
+		} 
 		\begin{figure}[H]
 			\newpage
 			\includegraphics[width=\linewidth]{./images/alloy/code/automated_1.PNG}
