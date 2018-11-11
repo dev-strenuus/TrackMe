@@ -32,7 +32,7 @@
 	\begin{legal}
  	\item Introduction
   		\begin{legal}
-    	\item Purpose
+    		\item Purpose
 		\item Scope
 			\begin{legal}
 			\item Description of the system
@@ -45,10 +45,14 @@
   		\end{legal}
 	\item Overall Description
   		\begin{legal}
-    	\item Product perspective
+    		\item Product perspective
 		\item Product functions
 		\item User characteristics
 		\item Assumptions, dependencies and constraints
+		\begin{legal}
+		\item Text assumptions
+		\item Domain assumptions
+		\end{legal}
   		\end{legal}
 	\item Specific requirements
   		\begin{legal}
@@ -73,15 +77,15 @@
 			\begin{legal}
 			\item Standards compliance
 			\item Hardware limitations
-			\item Any other constraint
   			\end{legal}
 		\item Software system attributes
 			\begin{legal}
 			\item Reliability
 			\item Availability
-			\item Security
 			\item Maintainability
+			\item Scalability
 			\item Portability
+			\item Safety
   			\end{legal}
   		\end{legal}
 	\item Formal analysis using Alloy
@@ -113,7 +117,7 @@ The TrackMe system is thought to be a Health Data Management and Run-Friendly Mo
 The other two services are built on top of Data4Help and their main purpose will be to provide tangible functionalities to the users.\\
 \textit{AutomatedSOS }, an optional service that monitors the health status of the users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the individual if it establishes that he/she is in danger.\\
 \textit{Track4Run}, a service thought for the organization of running events. It allows the third parties to organize races and the users to enrol to them or simply know the position of runners during a run.\\
-The overall system should be able to provide the previously descrived services by taking into account world phenoma, such as the health and the position of people, ambulances, places for runs and needs of third parties. Moreover it should observe what is controlled by the world and accordingly react by taking control over the shared phenomena which are described in the product perspective session.
+The overall system should be able to provide the previously described services by taking into account the world phenomena, such as the health and the position of people, ambulances, places for runs and needs of third parties. Moreover it should observe what is controlled by the world and accordingly react by taking control over the shared phenomena which are described in the product perspective session.
 The features offered by the abovementioned services comply with strict requirements in the machine world and are intended to satisfy several goals in the application domain. These aspects will be further detailed in the following sections, starting from the next one.
 			}\\
 			\newpage
@@ -215,7 +219,7 @@ respect to the already mentioned main services:
 		\begin{itemize}
 		\item Monitor an individual\\\\
 		This function permits a third party (an association, an hospital, a company, etc) to ask for the data of a single user. More in detail, the third party can select a user by his/her SSN and send him/her a request to be allowed to access his/her data. If the user accepts it, then the third party will receive his/her data. The third party can request to keep monitoring the individual also after the request and it will receive the data as soon as they are ready. The user can decide to deny the permission at any moment. \\
-		\item Request for anomymous aggregated data\\\\
+		\item Request for anonymous aggregated data\\\\
 		Third party can access anonymized data of a group of users enrolled in TrackMe. After a third party sends this kind of request by specifying some restrictions about users’ attributes, like age and residence, the system will collect the data of the target users, anonymize and send them to the third party if the number of users is greater than 1000 in order to guarantee the anonymity. The third party can request to keep receveing new data of the group after the request and it will receive the data as soon as they are ready until the group size will not be lower than 1000.\\
 		\item SOS assistance\\\\
 		The system keeps under control the health status of a user by monitoring the values of the health parameters acquired by external devices (smart watches or similar devices). If at least one of the parameters goes under a fixed threshold, the system generates an SOS within 5 seconds starting from the moment of the evaluation of the dangerous parameter. The SOS communicates to the ambulance the position of the user.\\
@@ -225,7 +229,7 @@ respect to the already mentioned main services:
 		The user can select an available run and enrol to it by sending a simple request. Furthermore the system permits a user to track the position of the runners involved in a run. The user can check the list of available runs and, after selecting one among them, he/she can watch the map of the track filled up by points representing the runners in their actual position. \\
 		\end{itemize}
 		}
-		\item \textit{User characteristics} \\\\
+		\item \textit{User characteristics} \\
 			{\normalfont
 			Actors:\\
 			\begin{itemize}
@@ -234,7 +238,7 @@ respect to the already mentioned main services:
  			\item System Manager:  an employee of TrackMe, in charge of the maintenance of the system. He/she does not need to be registered, since has been inserted in the system directly during the installation process.\\
 			\end{itemize}
 			}
-		\item \textit{Assumptions, dependencies and constraints}\\
+		\item \textit{Assumptions, dependencies and constraints}
 			\begin{legal}
     			\item Text assumptions\\
     			{\normalfont
@@ -242,7 +246,7 @@ respect to the already mentioned main services:
 					\item User can choose to disable AutomatedSOS service in preferences;\\\
 					\item A SOS is sent through an SMS which contains the user's data and the coordinates of the position to be reached;\\\
 					\item If the user is not able to connect the device, he/she can contact the TrackMe assistance by calling a specific number;\\
-					\item When a user signs up to TrackMe he/she accpets also to treatment of his/her data for AutomatedSOS;\\
+					\item When a user signs up to TrackMe he/she accepts also to treatment of his/her data for AutomatedSOS;\\
 					\item The user can remove the consensus previously given to a third party.\\
 				\end{itemize}}
 			\newpage
@@ -448,7 +452,7 @@ The association WalkMore wants to promote walking among young people who have a 
 					Event Flows & \begin{enumerate}
 									\item The user goes to the run section.
 									\item The user chooses the run he wants to watch.
-									\item The system screens a map with the route and the partecipants.
+									\item The system screens a map with the route and the participants.
 									\item The user can choose to watch statistics.
 									\item If the user chooses to watch statistics the system provides him details about the run.
 				\end{enumerate}\\
@@ -475,7 +479,7 @@ The association WalkMore wants to promote walking among young people who have a 
 									\item The system save the choice of the user in his calendar events.
 				\end{enumerate}\\
 				\hline
-					Exit Conditions & The user is a official partecipant of the run and he will be notified some days before the run.\\
+					Exit Conditions & The user is a official participant of the run and he will be notified some days before the run.\\
 				\hline
 					Exceptions & There are no available runs. The user is asked if he wants to be notified as soon as a new run is available.\\
 				\hline
@@ -625,14 +629,12 @@ The association WalkMore wants to promote walking among young people who have a 
 			
 			% Requirements --------------
 			\textbf{\item Global requirements\\}\\
-			Here are listed the requirements which are needed to satisfy the majority of the goals.\\
-			\begin{itemize}
+			Here are listed the requirements which are needed to satisfy the majority of the goals:\\\\
 				\normalfont{
-				\item Third parties and individuals must have registered and logged in to use the services;\\
-				\item The app is able to acquire data and to share data with the servers also in background in users' smartphones;\\
-				\item There must be a fully working connection between the application and the smartwatches or similar devices.\\
+				- Third parties and individuals must have registered and logged in to use the services;\\\\
+				- The app is able to acquire data and to share data with the servers also in background in users' smartphones;\\\\
+				- There must be a fully working connection between the application and the smartwatches or similar devices.\\
 				}
-			\end{itemize}
 			\textbf{\item Mapping on requirements}\\
 				\begin{itemize}
 				\item G1) Third parties can monitor the position and the health status of the individuals;\\
@@ -770,7 +772,7 @@ Third parties will use the data provided by us as part of their business process
 			\item Hardware limitations\\
 			\normalfont{
 			The main HW limitations regard the smartphone used by the customer. It has to provide:\\
-			- iOS or Android compatibity\\
+			- iOS or Android compatibility\\
 			- 2G/3G/4G connection\\
 			- GPS\\
 			}
@@ -784,7 +786,7 @@ Third parties will use the data provided by us as part of their business process
 			{\normalfont The system is not fault tolerant, so in case of failure it will not be available until the administrator will be able to reboot the system. So for this system availability is strictly correlated to maintainability.}
 			\\
 			\item Maintainability\\
-			{\normalfont The code should be written in a way that favors the testability and the implementation of new functionalities.}
+			{\normalfont The code should be written in a way that facilitates the testability and the implementation of new functionalities.}
 			\\
 			\item Scalability\\
 			{\normalfont The right choice of a PaaS allows the system to increase or decrease the level of allocated virtual resources at application or database on demand.}
@@ -802,7 +804,7 @@ Third parties will use the data provided by us as part of their business process
 	{\normalfont
 	The alloy model has been thought to be coherent with the class diagram. In order to generate worlds not much complex, we decided to split the code in three parts, one for each service, by replicating the common signatures and facts. We used small integers to represent numbers in order to allow Alloy software to generate instances. 
 		\begin{itemize}
-		\item AutomatedSOS:\\Individual are characterized by batches of data. If one of them contains a value which overcomes a prederminated threshold, an ambulance call associated to that individual should exists. Here we check if the ambulance call is made fast by considering that the sum among the maximum length in time of a batch of data and the time needed to process this batch is lower than the required value.
+		\item AutomatedSOS:\\Individual are characterized by batches of data. If one of them contains a value which overcomes a predetermined threshold, an ambulance call associated to that individual should exists. Here we check if the ambulance call is made fast by considering that the sum among the maximum length in time of a batch of data and the time needed to process this batch is lower than the required value.
 		\item Data4Help:\\Third parties can make individual requests and anonymous requests. If a request is accepted, in the first case, individual data should appear in a data collector owned by the third party, meanwhile in the second case data should compare in a response associated to the request (we don't formalized this last aspect).
 		\item Track4Run:\\For this service it's only formalized that two runners cannot choose two runs which are overlapping and that a run has got a maximum number of partecipants.
 		\end{itemize}
