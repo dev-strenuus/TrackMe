@@ -103,18 +103,20 @@
 			\begin{legal}
     		\item Description of the system \\\\
 			{\normalfont
-TheTrackMe system is thought to be a Health Data Management and Run-Friendly Mobile App, useful for a quite wide range of customers with different necessities. According to these, the TrackMe client base will be mainly represented by: common people who want their health status to be monitored, third parties whose interest might be to store the users' data and take statistics on them, and finally runners.\\ The system will fulfill the needs of the users, providing ad hoc services for each customer segment. In particular, this software system will be  made up of three different modules:\\
+The TrackMe system is thought to be a Health Data Management and Run-Friendly Mobile App, useful for a quite wide range of users with different features and necessities.\\ The client base will be mainly composed by common users or runners interested in their health status and third parties, such as companies or associations interested in the users' data.\\ The system will fulfill their needs providing ad hoc services for each customer segment. For this purpose, the software will be made up of three different modules:\\
 		\begin{itemize}
 		\item Data4Help;\\
 		\item AutomatedSOS;\\
 		\item Track4Run.\\
 		\end{itemize}
-\textit {Data4Help} is a service that allows the third parties to monitor the location and the health status of the individuals. TrackMe acquires the registered users' data trough external devices connected to their smartphones.\\
+\textit {Data4Help}, a service that allows the third parties to monitor the location and the health status of the individuals. TrackMe acquires the registered users' data trough external devices connected to their smartphones.\\
 The other two services are built on top of Data4Help and their main purpose will be to provide tangible functionalities to the users.\\
-\textit{AutomatedSOS }is an optional service that monitors the health status of the users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the individual if it establishes that the he/she is in danger.\\
-\textit{Track4Run} is a service thought for the organization of running events. It allows the third parties to organize events and the users to enrol to them or simply know the position of runners during a race.\\
-In conclusion, the system's main goal is to facilitate the user's life through an overall optimal experience. This will be made possible thanks to several features, such as a quick communication between the actors because of a request-response approach, an high information reliability granted by an efficient data retrieval from the users' wearable devices, and other properties that will be will be further described in the following sections.
+\textit{AutomatedSOS }, an optional service that monitors the health status of the users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the individual if it establishes that the he/she is in danger.\\
+\textit{Track4Run}, a service thought for the organization of running events. It allows the third parties to organize races and the users to enrol to them or simply know the position of runners during a run.\\
+These three services cover all those shared phenomena that the TrackMe system should be able to directly detect from the world, such as the receiving of new incoming data streams produced by the external devices or the choices made by the users on the platform. Moreover, the three modules include the actions in the real world that the machine can directly cause, like the notifies appearing on the screen after users' interactions, or the external devices being disconnected from the smartphone. SHALL WE INCLUDE ALSO THE RUNS ORGANIZATION AS A SHARED PHENOMENON?\\
+The features offered by the abovementioned services comply with strict requirements in the machine world and are intended to satisfy several goals in the application domain. These aspects will be further detailed in the following sections, starting from the next one.
 			}\\
+			\newpage
 			\item Goals \\\\
 			{\normalfont
 			The goals of the whole application are formalized below:\\
@@ -179,7 +181,6 @@ In conclusion, the system's main goal is to facilitate the user's life through a
 			\item IEEE Std 830-1993 - IEEE Guide to Software Requirements Specifications.\\
 			\end{itemize}
 		}
-		\end{legal}
 		\item \textit{Document structure}\\
 		{\normalfont
 This RASD is composed by six parts:
@@ -192,6 +193,8 @@ This RASD is composed by six parts:
 		\item The sixth part lists all the references.\\
 		\end{itemize}
 		}		
+		\end{legal}
+		\newpage
   	\item \underline{Overall description}
   		\begin{legal}
     		\item \textit{Product perspective}\\\\
@@ -203,7 +206,7 @@ The following class diagram describes the structure of the TrackMe system, under
 			\begin{figure}[H]
   			\includegraphics[width=\linewidth]{./images/UML1-0.png}
 			\end{figure}
-		\item \textit{Product functions} \\
+		\item \textit{Product functions} \\\\
 		{\normalfont
 In the following section, the functions of the system are listed and more precisely specified, with
 respect to the already mentioned main services:
@@ -240,6 +243,7 @@ respect to the already mentioned main services:
 					\item When a user signs up to TrackMe he/she accpets also to treatment of his/her data for AutomatedSOS;\\
 					\item The user can remove the consensus previously given to a third party.\\
 				\end{itemize}}
+			\newpage
 			\item Domain assumptions \\
 			{\normalfont
 				\begin{itemize}
@@ -287,6 +291,7 @@ respect to the already mentioned main services:
  						 \caption{Select the track of the run}
 						\end{subfigure}
 						\end{figure}
+					\newpage
 					\item (a)Individual request  - (b)Group request
 						\begin{figure}[H]
 						\centering
@@ -304,10 +309,10 @@ respect to the already mentioned main services:
 				\end{legal}	
 			}
 			
-			\item \textbf{Hardware interfaces}\\
+			\item \textbf{Hardware interfaces}\\\\
 This system is intended to stay with the user during his every day life. In order to guarantee the promised services, it’s necessary that users install the-front end application on a smartphone (Android or iOS) that can use GPS services to allow localization and supports Bluetooth in order to connect the device worn by the user to retrieve health data. This device can be a smartwatch or any other hardware able to get the interested health parameters.
 Since the application must run over the internet, the smartphone is required to connect through WIFI or a wireless mobile telecommunications technology.\\
-			\item \textbf{Software interfaces}\\
+			\item \textbf{Software interfaces}\\\\
 The application software doesn’t need to lean on other software in order to provide basic services, except for front-end application that must run on a operating system able to connect external devices like smartwatches. 
 Meanwhile the service Track4Run requires to interact with a software that provides a map service which includes these functionalities:
 				\begin{itemize}
@@ -315,22 +320,23 @@ Meanwhile the service Track4Run requires to interact with a software that provid
 				\item draw in detail this path on the map;
 				\item provide metrics and statistics about a point moving on the map.\\
 				\end{itemize}
-			\item \textbf{Communication interfaces}\\
+			\item \textbf{Communication interfaces}\\\\
 The system is essentially split into a front-end and a back-end. They communicate over the internet network.
 Furthermore a Bluetooth connection between smartphones and external devices is required.\\
 			\end{legal}
-    		\item \textit{Functional Requirements}\\
+		\newpage
+    		\item \textit{Functional Requirements}
     		\begin{legal}
 		\item Scenarios\\
 		{\normalfont
 		\begin{legal}
 		\item \textbf{Join a run as a runner}\\
 
-Mario is a sporty student who hears about a run organized by PoliMi Sport and would like to join it. PoliMi Sport is an association registered to TrackMe as a third party with the aim of guaranteeing the good health status of the enrolled students and proposing them new races every week. The unique way to join the run is to send the request to PoliMi Sport through the TrackMe app, so that Mario decides to download it and sign up. After that, he logs in with his credentials and looks for the run he is interested in. Once found, he asks to join that as a runner and at the same time accepts the treatment of his health status and location data by PoliMi Sport, the third party who organized the race. The system checks if the number of participants is not exceeded and if Mario has not already joined an overlapping run, then notifies Mario with a positive or negative result.\\
+Mario is a sporty student who hears about a run organized by PoliMi Sport and would like to join it. PoliMi Sport is an association registered to TrackMe as a third party with the aim of guaranteeing the good health status of the enrolled students and proposing them new races every week. The unique way to join the run is to send the request to PoliMi Sport through the TrackMe app, so that Mario decides to download it and sign up. After that, he logs in with his credentials and looks for the run he is interested in. Once found, he asks to join that as a runner. Meanwhile system checks if the number of participants is not exceeded and if Mario has not already joined an overlapping run, then notifies Mario with the result.\\
 
 		\item \textbf{Join a run as a spectator}\\
 
-Luca is a professor who is fond of running and after a lecture hears his students talking about a run organized by the student union Poli4Run. It is an association registered to TrackMe as a third party with the aim of guaranteeing the good health status of the enrolled students and proposing them new races every week. He is very interested in the race joined by their students and he would like to go and see them competing, so Luca asks them for information and decides to follow their instructions. At first he downloads the TrackMe app and then he signs up. After that, he logs in with his credentials and looks for the run he is interested in. Once found, he asks to join that as a spectator. The system checks if the number of spectators is not exceeded and if Luca has not already joined an overlapping run, then notifies Luca with a positive or negative result.\\
+Luca is a professor who is fond of running and after a lecture hears his students talking about a run organized by the student union Poli4Run. It is an association registered to TrackMe as a third party with the aim of guaranteeing the good health status of the enrolled students and proposing them new races every week. He is very interested in the race joined by their students and he would like to go and see them competing, so Luca asks them for information and decides to follow their instructions. At first he downloads the TrackMe app and then he signs up. After that, he logs in with his credentials and looks for the run he is interested in. Once found, he asks to join that as a spectator. Meanwhile he system checks if the number of spectators is not exceeded and if Luca has not already joined an overlapping run, then notifies Luca with the result.\\
 
 		\item \textbf{SOS launched}\\
 
@@ -349,11 +355,12 @@ The association WalkMore wants to promote walking among young people who have a 
 		}
     		\item Use Case Diagram\\\\
 		\normalfont{
-		Here follows the representation of the users interaction with the system.}\\
+		Here follows the representation of the users interaction with the system.\\
+		}
     			\begin{figure}[H]
 			  	\includegraphics[width=\linewidth]{./images/usecase.png}
 				\end{figure}
-				\item Use Cases Descriptions\\\\
+				\item \textbf{Use Cases Descriptions}\\\\
 				%SIGN UP
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
 				\hline
@@ -383,7 +390,7 @@ The association WalkMore wants to promote walking among young people who have a 
 				\end{enumerate}
 				The user is notified and invited to try again.\\
 				\hline
-				\end{tabular}
+				\end{tabular}\\
 				\\\\\\
 				%LOGIN
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
@@ -425,7 +432,7 @@ The association WalkMore wants to promote walking among young people who have a 
 				\hline
 					Exceptions & The system is not able to find or connect the device. The user is notified and invited to try again by reading carefully the connection instructions or to contact the help assistance of TrackMe.\\
 				\hline
-				\end{tabular}
+				\end{tabular}\\
 				\\\\\\
 				%WATCH A RUN
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
@@ -448,7 +455,7 @@ The association WalkMore wants to promote walking among young people who have a 
 				\hline
 					Exceptions & There are no current runs. The user is notified with the list of incoming runs.\\
 				\hline
-				\end{tabular}
+				\end{tabular}\\
 				\\\\\\
 				%PARTECIPATE TO A RUN
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
@@ -470,7 +477,7 @@ The association WalkMore wants to promote walking among young people who have a 
 				\hline
 					Exceptions & There are no available runs. The user is asked if he wants to be notified as soon as a new run is available.\\
 				\hline
-				\end{tabular}
+				\end{tabular}\\
 				\\\\\\
 				%GIVE CONSENSUS
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
@@ -489,7 +496,7 @@ The association WalkMore wants to promote walking among young people who have a 
 				\hline
 					Exit Conditions & The third party can access user data if and only if the user gave the consensus.\\
 				\hline
-				\end{tabular}
+				\end{tabular}\\
 				\\\\\\
 				%CREATE A RUN
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
@@ -513,7 +520,7 @@ The association WalkMore wants to promote walking among young people who have a 
 					Exceptions & If the user hasn't given all the informations, he's asked to provide the missing ones.
 					\\
 				\hline
-				\end{tabular}
+				\end{tabular}\\
 				\\\\\\
 				%ACCESS INDIVIDUAL DATA
 				\begin{tabular}{| m{3.5cm} | m{8cm}| }
@@ -561,7 +568,8 @@ The association WalkMore wants to promote walking among young people who have a 
 				\hline
 				\end{tabular}
 				\\\\\\
-			\item Diagrams\\\\
+			\newpage
+			\item \textbf {Diagrams}\\\\
 			{\normalfont
 			In this section follow the interaction diagrams that detail how the main TrackMe operations are carried out by the software system:\\
 			
@@ -569,33 +577,46 @@ The association WalkMore wants to promote walking among young people who have a 
 			
 			\item Login - \textit{ Sequence diagram}
 				\begin{figure}[H]
-  				\includegraphics[width=\linewidth]{./images/seq-diagrams/Login_diagram.png}
+				\center
+  				\includegraphics[width=160mm]{./images/seq-diagrams/Login_diagram.png}
 				\end{figure}
+			\newpage
 			\item Sign up - \textit{ Sequence diagram}
 				\begin{figure}[H]
-  				\includegraphics[width=\linewidth]{./images/seq-diagrams/Sign_up_diagram.png}
+				\center
+  				\includegraphics[width=160mm]{./images/seq-diagrams/Sign_up_diagram.png}
 				\end{figure}
+			\newpage
 			\item Individual request - \textit{ Sequence diagram}
 				\begin{figure}[H]
-  				\includegraphics[width=\linewidth]{./images/seq-diagrams/Individual_request_diagram.png}
+				\center
+  				\includegraphics[width=160mm]{./images/seq-diagrams/Individual_request_diagram.png}
 				\end{figure}
+			\newpage	
 			\item Group request - \textit{ Sequence diagram}
 				\begin{figure}[H]
-  				\includegraphics[width=\linewidth]{./images/seq-diagrams/groupRequest.png}
+				\center
+  				\includegraphics[width=160mm]{./images/seq-diagrams/groupRequest.png}
 				\end{figure}
+			\newpage	
 			\item Join a run  - \textit{ Sequence diagram}
 				\begin{figure}[H]
-  				\includegraphics[width=\linewidth]{./images/seq-diagrams/joinARun.png}
+				\center
+  				\includegraphics[width=160mm]{./images/seq-diagrams/joinARun.png}
 				\end{figure}
+			\newpage	
 			\item Organize a run - \textit{ Sequence diagram}
 				\begin{figure}[H]
-  				\includegraphics[width=\linewidth]{./images/seq-diagrams/organizeARun.png}
+				\center
+  				\includegraphics[width=160mm]{./images/seq-diagrams/organizeARun.png}
 				\end{figure}
+			\newpage	
 			\item Join a run  - \textit{ Activity diagram}
 				\begin{figure}[H]
 				\center
-  				\includegraphics[width=130mm]{./images/Join-a-run-activity-diag.png}
+  				\includegraphics[width=120mm]{./images/Join-a-run-activity-diag.png}
 				\end{figure}
+			\newpage
 			\end{legal}
 			}
     		
@@ -637,6 +658,7 @@ The association WalkMore wants to promote walking among young people who have a 
 					\item R27) The system must be able to store data retrieved from registered users.\\
 					\end{itemize}
 				}
+				\newpage
 				\item G3) The user can accept or refuse the requests concerning the treatment of his/her personal data by the third parties;\\
 				{\normalfont
 					\begin{itemize}
@@ -735,14 +757,19 @@ Third parties will use the data provided by us as part of their business process
 			\item Standards compliance\\
 			\begin{itemize}
 			\normalfont{
-			\item The app requests the users' permission to manage their health status data and their location to support core functionalities.			\item The app supports portrait orientation. 
-			\item The app preserves app state when leaving the foreground and prevents accidental data loss due to back-navigation. 			\item Users' private data are stored in the app's internal storage.\\
+			\item The app requests the users' permission to manage their health status data and their location to support core functionalities.
+			\item The app supports portrait orientation. 
+			\item The app preserves app state when leaving the foreground and prevents accidental data loss due to back-navigation. 
+			\item Users' private data are stored in the app's internal storage.\\
 			}
 			\end{itemize}
 	
 			\item Hardware limitations
 			\normalfont{
-			The main HW limitations regard the smartphone used by the customer. It has to provide:\\			- iOS or Android compatibity\\			- 2G/3G/4G connection\\			- GPS\\
+			The main HW limitations regard the smartphone used by the customer. It has to provide:\\
+			- iOS or Android compatibity\\
+			- 2G/3G/4G connection\\
+			- GPS\\
 			}
 			\end{legal}
     		\item \textit{Software System Attributes }\\
