@@ -1,30 +1,13 @@
-\documentclass{report}
-\usepackage{enumitem}
-\usepackage{geometry}
-
-\newlist{legal}{enumerate}{10}
-\setlist[legal]{label*=\arabic*.}
-
- \geometry{
- a4paper,
- left=20mm,
- right=20mm,
- top=25mm,
- bottom=20mm
- }
-
 \pagenumbering{gobble}
-
-\begin{document}
 	\underline{\textbf{Architectural design} }
 	\begin{legal}
     		\item \textit{\textbf{Overview: high-level components and their interaction}}\\\\
-		
+		\includegraphics[width=\linewidth]{../images/OverviewDiagram.png}
 		\item \textit{\textbf{Component view}}\\\\
+		%s\includegraphics[width=\linewidth]{../images/ComponentDiagram.png}
 		\item \textit{\textbf{Deployment view}}\\\\
+		\includegraphics[width=\linewidth]{../images/DeploymentDiagram.png}
 		\item \textit{\textbf{Runtime view}}\\\\
 		\item \textit{\textbf{Component interfaces}}\\\\
 		\item \textit{\textbf{Selected architectural styles and patterns}}\\\\
   	\end{legal}
-	
-\end{document}

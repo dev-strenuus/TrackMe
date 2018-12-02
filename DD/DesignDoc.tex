@@ -2,7 +2,6 @@
 \usepackage{enumitem}
 \usepackage{geometry}
 \usepackage{pdfpages}
-
  \geometry{
  a4paper,
  left=20mm,
@@ -15,7 +14,7 @@
 \setlist[legal]{label*=\arabic*.}
 
 \begin{document}
-
+	
 	\begin{figure}
   	\includegraphics[width=\linewidth]{../images/Logo-PoliMi.jpg}
 	\end{figure}
@@ -67,9 +66,18 @@
 	\end{legal}
 	
 	\newpage
-	\includepdf[pages=-,pagecommand={},width=\textwidth]{DD1.pdf}
-	\includepdf[pages=-,pagecommand={},width=\textwidth]{DD2.pdf}
-	\includepdf[pages=-,pagecommand={},width=\textwidth]{DD3.pdf}
+	\begin{legal}
+	\item {\input{DD1}}
+	\item{\input{DD2}}
+	\item{\input{DD3}}
+	\item{\input{DD4}}
+	\item{\input{DD5}}
+	\item{\input{DD6}}
+	\item{\input{DD7}}
+	\end{legal}
+	%\includepdf[pages=-,pagecommand={},width=\textwidth]{DD1.pdf}
+	%includepdf[pages=-,pagecommand={},width=\textwidth]{DD2.pdf}
+	%\includepdf[pages=-,pagecommand={},width=\textwidth]{DD3.pdf}
 	%\includepdf[pages=-,pagecommand={},width=\textwidth]{DD4.pdf}
 	%\includepdf[pages=-,pagecommand={},width=\textwidth]{DD5.pdf}
 	%\includepdf[pages=-,pagecommand={},width=\textwidth]{DD6.pdf}

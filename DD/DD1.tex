@@ -1,40 +1,50 @@
-\documentclass{report}
-\usepackage{enumitem}
-\usepackage{geometry}
-
-\newlist{legal}{enumerate}{10}
-\setlist[legal]{label*=\arabic*.}
-
- \geometry{
- a4paper,
- left=20mm,
- right=20mm,
- top=25mm,
- bottom=20mm
- }
-
 \pagenumbering{gobble}
-\begin{document}
 	\underline{\textbf{Introduction} }
 	\begin{legal}
     		\item \textit{\textbf{Purpose}}\\\\
 		This document is thought to be an overview of the TrackMe application, in which is explained how to satisfy the several project requirements stated in the RASD. This document is principally intended for the developers and the testers, with the purpose of providing a functional description of the main architectural components, their interfaces and their interactions, along with the design patterns.
 		\item \textit{\textbf{Scope}}\\\\
-		---\\ 
-		TrackMe is structured in a multi-tier architecture. More specifically, the Business logic layer has the task of computing checks, taking charge of the incoming requests/data and interacting with external third-party services through the use of interfaces. This layer is connected with the Data layer, in which are stored all the Users data (credentials, health data, joined runs (?) ). The Presentation layer is build through the thin (?) Client paradigm in which the client needs to perform close to no computation, allowing a more portable system.
+		---Presentation---\\ 
+		TrackMe is structured in a multi-tier architecture. More specifically, the Business logic layer has the task of taking charge of the incoming requests/data, computing checks, and interacting with external third-party services through the use of interfaces. This layer is connected with the Data layer, in which are stored all the Users data (credentials, health data). The Presentation layer is build through the fat Client paradigm in which the client needs to perform computation to temporarily store health data in the local memory in case of missing internet connection between the client and the server.
 		\item \textit{\textbf{Definitions, acronyms, abbreviations}}\\
-			\begin{itemize}
-			\item API: Application Program Interface
-			\item DBMS: Database Management System
-			\item GUI: Graphical User Interface
-			\item HTTP: Hypet Text Transfer Protocol
-			\item MVC: Model View Controller pattern
-			\item OS: Operating System
-			\item RASD: Requirements Analysis and Specifications Document
-			\item REST: REpresentational State Transfer	
-			\end{itemize}
+			\begin{legal}
+				\item Definitions
+				\begin{itemize}
+					\item Client: A client is a piece of computer hardware or software that accesses a service made available by a server;
+					\item Firewall: A network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules;
+					\item Server: A computer program or a device that provides functionality for other programs or devices, called "clients".
+				\end{itemize}
+				\item Acronyms
+				\begin{itemize}
+					\item API: Application Program Interface;
+					\item DBMS: Database Management System;
+					\item DD: Design Document
+					\item GUI: Graphical User Interface;
+					\item HTTP: Hypet Text Transfer Protocol;
+					\item MVC: Model View Controller pattern;
+					\item OS: Operating System;
+					\item RASD: Requirements Analysis and Specifications Document;
+					\item REST: REpresentational State Transfer;
+				\end{itemize}
+				\item Abbreviations\\
+				\begin{itemize}
+					\item Gn: n-goal in the RASD;
+					\item Rn: n-functional requirement in the RASD;
+				\end{itemize}
+			\end{legal}
 		\item \textit{\textbf{Revision history}}\\\\
 		\item \textit{\textbf{Reference documents}}\\\\
+			\begin{itemize}
+				\item RASD document;
+				\item Mandatory project assignment;
+			\end{itemize}
 		\item \textit{\textbf{Document structure}}\\\\
+		The following document is organised in this way:
+		\begin{itemize}
+				\item Architectural Design: this section shows the main components of the system and the connections among them. It will also focus on design choices, styles and patterns.
+				\item User Interface Design: this section includes an improvement of the user interface given in the RASD document. It will be described through the use of UX modeling.
+				\item Requirements Traceability: this section shows how the requirements in the RASD are mapped to the design components presented in the DD;
+				\item Implementation, Integration and Test plan: this section shows the order in which the implementation and the integration of the subcomponents will occur and how the integration will be tested.
+			\end{itemize}
   	\end{legal}
-\end{document}
+
