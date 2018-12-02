@@ -1,0 +1,40 @@
+\documentclass{report}
+\usepackage{enumitem}
+\usepackage{geometry}
+
+\newlist{legal}{enumerate}{10}
+\setlist[legal]{label*=\arabic*.}
+
+ \geometry{
+ a4paper,
+ left=20mm,
+ right=20mm,
+ top=25mm,
+ bottom=20mm
+ }
+
+\pagenumbering{gobble}
+\begin{document}
+	\underline{\textbf{Introduction} }
+	\begin{legal}
+    		\item \textit{\textbf{Purpose}}\\\\
+		This document is thought to be an overview of the TrackMe application, in which is explained how to satisfy the several project requirements stated in the RASD. This document is principally intended for the developers and the testers, with the purpose of providing a functional description of the main architectural components, their interfaces and their interactions, along with the design patterns.
+		\item \textit{\textbf{Scope}}\\\\
+		---\\ 
+		TrackMe is structured in a multi-tier architecture. More specifically, the Business logic layer has the task of computing checks, taking charge of the incoming requests/data and interacting with external third-party services through the use of interfaces. This layer is connected with the Data layer, in which are stored all the Users data (credentials, health data, joined runs (?) ). The Presentation layer is build through the thin (?) Client paradigm in which the client needs to perform close to no computation, allowing a more portable system.
+		\item \textit{\textbf{Definitions, acronyms, abbreviations}}\\
+			\begin{itemize}
+			\item API: Application Program Interface
+			\item DBMS: Database Management System
+			\item GUI: Graphical User Interface
+			\item HTTP: Hypet Text Transfer Protocol
+			\item MVC: Model View Controller pattern
+			\item OS: Operating System
+			\item RASD: Requirements Analysis and Specifications Document
+			\item REST: REpresentational State Transfer	
+			\end{itemize}
+		\item \textit{\textbf{Revision history}}\\\\
+		\item \textit{\textbf{Reference documents}}\\\\
+		\item \textit{\textbf{Document structure}}\\\\
+  	\end{legal}
+\end{document}
