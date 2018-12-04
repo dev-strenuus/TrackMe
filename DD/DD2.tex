@@ -74,19 +74,10 @@ system's hardware.\\
 		\end{figure}
 		As previously stated in the section 1, the system is structured in a multi-tier architecture. The specific role of each node is clarified here:\\\\
 		\textbf{Clients}\\
-The first tier is composed by the mobile clients machines. The client will be able to access TrackMe functionalities through the dedicated native application.\\\\
-		\textbf{Reverse Proxy}\\
-We chose to deploy a reverse proxy on a Linux machine with Nginx server installed on it, in order to safely increase parallelism of requests and scalability
-of our application. This architecture leads to several advantages:
-		\begin{itemize}
-			\item Load balancing, distributing requests among different servers
-			\item Optimising content by compressing it in order to speed up loading times
-			\item Event-driven architecture, increasing parallelism by not locking the CPU
-			\item Very conservative memory-wise\\
-		\end{itemize}
-		\textbf{Application Servers}\\
+The first tier is composed by the clients machines (mobile for individuals and desktop for third parties). The individuals will be able to access TrackMe functionalities through the dedicated native application while the third parties through any web browser.\\\\
+		\textbf{Application Server}\\
 This is the middleware level of the architecture: all the business logic of
-the system is contained in these servers.\\\\
+the system is contained in this server.\\\\
 		\textbf{Network Firewall}\\
 The access to the Database is mediated by a network firewall in order to
 avoid unauthorised access to the data and the credentials of the user.\\\\
