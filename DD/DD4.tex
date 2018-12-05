@@ -14,7 +14,6 @@
 		\item \textbf{Mobile Data Retriever}
 		\begin{itemize}
 			\item R3) The system must be able to retrieve data from the smartwatches and similar devices;\\
-
 		\end{itemize}
 		\item \textbf{Data and Storage Interfaces}
 		\begin{itemize}
@@ -29,6 +28,7 @@
 		\begin{itemize}
 			\item R28) The user must have an active subscription to stop it;\\
 	 		\item R29) The system must be able to allow the user to unsubscribe to the third party and to stop the transmission of his/her data.\\
+	 		\item R26) The system must allow the user to enable/disable the AutomatedSOS service at any time.\\
 		\end{itemize}
 		\item \textbf{Authentification Controller}
 		\begin{itemize}
@@ -39,11 +39,23 @@
 			\item R16) The system must allow the third party to register to the application, by specifying its VAT registration number and a password;\\
 			\item R17) The system must allow the third party to log in to the application by providing the combination of a VAT registration number and a password that match an account;\\
 		\end{itemize}
-		\item \textbf{Track4Run Controller}
+		\item \textbf{Track4Run third party controller}\
 		\begin{itemize}
 			\item R19) The system must be able to retrieve the position of all the runners;\\
+			\item R24) The system must allow the third party to organize a race by dening its track andits time.\\
+		\end{itemize}
+		\item \textbf{Health checker}
+		\begin{itemize}
+			\item R18) When the health status values go below the threshold an SOS is sent within 5 seconds;\\
+			\item R25) The AutomatedSOS service must be enabled.\\
+		\end{itemize}
+		\item \textbf{Track4Run user controller}
+		\begin{itemize}
 			\item R20) The system must be able to provide the position of all the runners in the track in real time.\\
-
+			\item R21) The user can check the list of available races at any time.\\
+			\item R22) The user can join an available race only before its starting time.\\
+			\item R23) The user cannot join two different overlapping races.\\
+			\item R30) The system must avoid the registration of users after having reached of the maximum number of participants.\\
 		\end{itemize}
 	\end{itemize}
 	
