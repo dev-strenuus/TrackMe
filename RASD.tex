@@ -176,6 +176,7 @@ The features offered by the abovementioned services comply with strict requireme
 		{\normalfont
 			\begin{itemize}
 			\item 09/11/2018		Version 1.0\\
+			\item 06/12/2018		Version 1.1\\
 			\end{itemize}
 		}
 		\item \textit{Reference documents}\\
@@ -288,12 +289,12 @@ respect to the already mentioned main services:
 						\centering
 						\begin{subfigure}{.5\textwidth}
   						\centering
-  						\includegraphics[width=.4\linewidth]{./images/mockups/Login-Sign-up.png}
+  						\includegraphics[width=.4\linewidth]{./images/mockups/Join-a-run.png}
  						 \caption{Join a run}
 						\end{subfigure}%
 						\begin{subfigure}{.5\textwidth}
  						 \centering
- 						 \includegraphics[width=.4\linewidth]{./images/mockups/Login-Sign-up.png}
+ 						 \includegraphics[width=.4\linewidth]{./images/mockups/Path-definition.png}
  						 \caption{Select the track of the run}
 						\end{subfigure}
 						\end{figure}
@@ -677,7 +678,7 @@ The association WalkMore wants to promote walking among young people who have a 
 					\begin{itemize}
 					\item D3) The data acquired from the user’s devices are sent to the mobile application as soon as they are produced;\\
 	 				\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
-					\item R10) The data acquired by the mobile application are sent to TrackMe servers as soon as an internet connection is available;\\
+					\item R10) The data acquired by the mobile application are sent to TrackMe servers only when the connection is available;\\
 					\item R11) The system is optimized to send the data received from the mobile application to the third parties as soon as possible.\\
 					\end{itemize}
 				}
@@ -694,7 +695,7 @@ The association WalkMore wants to promote walking among young people who have a 
 					\item D4) The identification data provided by the users are correct;\\
 	 				\item R12) The users must provide their personal data to the application during the registration process, SSN (or fiscal code) included;\\
 					\item R13) The user can register to the application by selecting a username and a password;\\
-					\item R14) The user can log in to the application by providing the combination of a username and a password that matches an account;\\
+					\item R14) The system must allow the user to log in to the application by providing the combination of a username and a password that matches an account;;\\
 					\item R15) Two different users cannot have the same username.\\
 					\end{itemize}
 				}
@@ -702,9 +703,8 @@ The association WalkMore wants to promote walking among young people who have a 
 				{\normalfont
 					\begin{itemize}
 					\item D5) The identification data provided by the third parties are correct;\\
-	 				\item R16) The third party can register to the application, by specifying its VAT registration number and a password;\\
-					\item R17) The third party can log in to the application by providing the combination of a VAT registration number and a password that match an account;\\
-					\item R18) When the health status values go below the threshold an SOS is sent within 5 seconds.\\
+	 				\item R16) The system must allow the third party to register to the application, by specifying its VAT registration number and a password;\\
+					\item R17) The system must allow the third party to log in to the application by providing the combination of a VAT registration number and a password that match an account;\\
 					\end{itemize}
 				}
 				\item G8) The user can check the position of the runners at any time during a race;\\
@@ -722,15 +722,15 @@ The association WalkMore wants to promote walking among young people who have a 
 					\item D6) When an SOS is launched, an ambulance is sent to the position of the user linked to the account that raised the SOS itself;\\
 					\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
 	 				\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
-					\item R18) When the health status values go below the threshold an SOS is sent within 5 seconds;\\
+					\item R18) When the health status values go below the threshold, the system must send an SOS within 5 seconds;\\
 	 				\item R25) The AutomatedSOS service must be enabled.\\
 					\end{itemize}
 				}
 				\item G10) A user can participate to the available races. \\
 				{\normalfont
 					\begin{itemize}
-					\item R21) The user can check the list of available races at any time.\\
-					\item R22) The user can join an available race only before its starting time.\\
+					\item R21) The system must allow the user to check the list of available races at any time.\\
+					\item R22) The system must allow the user to join an available race only before its starting time.\\
 	 				\item R23) The user cannot join two different overlapping races.\\
 					\item R30) The system must avoid the registration of users after having reached of the maximum number of participants.\\
 					\end{itemize}
