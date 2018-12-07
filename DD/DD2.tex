@@ -12,56 +12,59 @@ on the system components and their interaction will be further explained in the 
 		\begin{figure}[H]
 		\includegraphics[width=\linewidth]{../images/design/ComponentDiagram.png}
 		\end{figure}
-		The UML component diagram shows the internal structure of the system highlighting the individual modules and the connections among them. Individual components are wired together by using an assembly connector to connect the required interface of one component with the provided interface of another component. Below is the description of the components:\\
+		The UML component diagram shows the internal structure of the system highlighting the individual modules and the connections among them. It models the static implementation view of a system by breaking it down into various high levels of functionality.  Individual components are wired together by using an assembly connector to connect the required interface of one component with the provided interface of another component. Below is the description of the components:\\
 		\begin{itemize}
-		\item{\textbf{User mobile client}\\
-		This is the component that represents the client machine that accesses to the API of the Business Logic container for the user. ???????????????????????? Da completare in base a come lo vogliamo implementare (dati lato utente o no?)
+		\item{\textbf{Mobile Controller}\\
+		This is the component that allows the individual mobile application to access to the API of the Business Logic Server. It implements the interface dedicated to the transfer of data from client to server and it translates the individual user interactions in REST API calls. If internet connection is not available or it's too slow, older health and location data are not saved locally but discarded by giving priority to new data.
 				}\\
-		\item{\textbf{Third party mobile client}\\
-		This component represents the client machine that accesses to the API of the Business Logic container for the third party. ????????????????????????????????
+		\item{\textbf{Data Retriever}\\
+		This component retrieves health data from smartwatches or similar devices, it filters them and forwards them to the Health Checker component, if the AutomatedSOS service is enabled, and to the Mobile Controller component.
 				}\\
-		\item{\textbf{User controller}\\
-		The main role of this component is to manage the transfer of data from the client to the server using the interface provided by the Data component. It also provides methods to accept/refuse a request of agreement and to change login credentials. It can communicate with the Notification controller component to display notifications.
+		\item{\textbf{Health Checker}\\
+		This component analyzis in real time health data of the individual and checks if his or her health is fine. If it's not it interact with the operating system of the running application in order to make a SOS call.
 				}\\
-		\item{\textbf{Third party controller}\\
-		This component is built to manage the transfer of data from the system to the third party using the interface provided by the Data component. It also provides methods to send requests of agreement and requests of data to the system. It can communicate with the Notification controller component to display notifications.
+		\item{\textbf{Presentation}\\
+		This is the component that is aimed to display the front-end content to the individual and to allow him or her to interact with the application.
 				}\\
-		\item{\textbf{Authorization controller}\\
-		This component provides authentication and registration processes for both the users and the third parties. It takes the needed data from the Data component and communicates the result of the operations trough the Notification controller.
+		\item{\textbf{Web Browser}\\
+		The system allows the third party to interact with it through any web browser.
 				}\\
-		\item{\textbf{User run controller}\\
-		This component provides the methods to permit a user to join, leave, check and watch a run. It communicates with the external service that provides maps trough the Map services interface. Every time a user wants to join a run, it calls the Feasability checker that checks if all the constraints are satisfied. Finally, it can access data of the runs trough the Data component and it can call the Notification controller to send notifications.
+		\item{\textbf{Individual Controller}\\
+		The main role of this component is to manage the data coming from the specific individual by invoking the proper methods of the Storage Controller. It also provides methods to accept/refuse a request of agreement and to change personal information or preferences. Furthermore it notify to the client if there are new requests or info for him.
 				}\\
-		\item{\textbf{Third party run controller}\\
+		\item{\textbf{Third Party Controller}\\
+		This component provides methods that allow the third party to send invidual and anonymous requests to the system. If there are new individual agreements or new data available, it sends them to the third party.
+				}\\
+		\item{\textbf{Authentication Controller}\\
+		This component provides authentication and registration processes for both the individuals and the third parties.
+				}\\
+		\item{\textbf{Track4Run Individual Controller}\\
+		This component provides the methods to permit an individual to join, leave, check and watch a run. It communicates with the external service that provides maps trough the Map services interface. Every time a user wants to join a run, it checks if all the constraints are satisfied. Finally, it keeps updated the individual about new info by sending him or her notifications.
+				}\\
+		\item{\textbf{Track4Run Third Party Controller}\\
 		This component provides the methods to allow a third party to organize a run. It communicates with the external service that provides maps trough the Map services interface to allow the third party to select the track for the run.
 				}\\				
-		\item{\textbf{Notification controller}\\
-		This component manages the notifications forwarded by the other components. It only shows notifications inside the application.
+		\item{\textbf{Storage Controller}
+		This component provides the methods for querying and updating the Database.
 				}\\
-		\item{\textbf{Health checker}\\
-		This component is the core of the service AutomatedSOS. It receives data from the Data component, elaborates them and, if needed, communicates to the Call service interface to send an SOS trough the related external service.
-				}\\
-		\item{\textbf{Feasability checker}\\
-		This component is built to check if a user can actually join a run that is shown trough the Mobile client.
-		----------- Serve davvero??????????????????????????????????
-				}\\
-		\item{\textbf{Data}\\
-		The Data component provides the set of Classes corresponding to the tables contained in the Database.
-				}\\
-		\item{\textbf{Storage interface}
-		This component provides the methods for querying the Database.
+		\item{\textbf{Anonymous Request Builder}
+		This component aggregates data in order to answer to third party group requests by assuring anonymity.
 				}\\
 		\item{\textbf{Database}
 		This component represent the DBMS. It provides the interfaces to retrieve and store data. In the database there are data about users, third parties and the set of agreements among them. It also contains data about the runs.
 				}\\
 		\item{\textbf{External services interfaces}\\
+		These interfaces are not implemented by the system but are provided by external services in order to run the application.
       	\begin{itemize}
-      	\item{\textbf{Map services interface}\\\
-      	It communicates with the map service to allow the third party to select the track and to show the position of runners in real time on the map.
-					}\\
-			\item{\textbf{Call service interface}\\
-			It communicates with the external service to dispatch automatic calls (or emails?) in case of emergency.
-					}\\
+		  	\item{\textbf{Map Service Interface}\\\
+		  	It allows the third party to select the track and to show the position of runners in real time on the map.
+						}\\
+			\item{\textbf{OS Call Service Interface}\\
+			It allows the mobile application to make a SOS phone call in case of emergency.
+						}\\
+			\item{\textbf{Smartwatch Interface}\\
+			It allows the mobile application to get data from smartwatches.
+						}\\
       	\end{itemize}
 				}
 		\end{itemize}
