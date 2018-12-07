@@ -12,7 +12,7 @@ on the system components and their interaction will be further explained in the 
 		\begin{figure}[H]
 		\includegraphics[width=\linewidth]{../images/design/ComponentDiagram.png}
 		\end{figure}
-		The UML component diagram shows the internal structure of the system highlighting the individual modules and the connections among them. It models the static implementation view of a system by breaking it down into various high levels of functionality.  Individual components are wired together by using an assembly connector to connect the required interface of one component with the provided interface of another component. Below is the description of the components:\\
+		The UML component diagram shows the internal structure of the system highlighting the individual modules and the connections among them. It models the static implementation view of a system by breaking it down into various high levels of functionality.  Individual components are wired together by using an assembly connector to connect the required interface of one component with the provided interface of another component. For simplicity reasons, the interfaces between REST controllers (Individual, Third Party, Track4Run Individual and Track4Run Third Party Controller) and the Authentication Controller have not been drawn in the diagram. However they are present in the system in order to validate the successive user sessions after the log in. Below is the description of the components:\\
 		\begin{itemize}
 		\item{\textbf{Mobile Controller}\\
 		This is the component that allows the individual mobile application to access to the API of the Business Logic Server. It implements the interface dedicated to the transfer of data from client to server and it translates the individual user interactions in REST API calls. If internet connection is not available or it's too slow, older health and location data are not saved locally but discarded by giving priority to new data.
@@ -100,47 +100,372 @@ This is the last layer of the architecture: all the data are stored in a Databas
 				\item \textbf{Group request Runtime View}\\
 			\end {legal}
 		\item \textit{\textbf{Component interfaces}}\\\\
-			\textbf{Registration}
+			\begin{itemize}
+				\item \textbf{Authentication Controller} \\
+				
+				\textbf{Third Party Registration} \\
+			
+					\begin{tabularx}{\linewidth}{| l | l |}
+						\hline
+						endpoint & */auth/thirdparty/register \\
+						\hline
+						method & POST \\
+						\hline
+						url params & \\
+						\hline
+						data params &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							VAT: [alphanumeric]\\
+							password : [alphanumeric]\\
+							\bigskip
+						} \\
+						\hline
+						success response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							code: 200\\
+							Content : \{message: "Registration successful"\}
+							\bigskip
+						} \\
+						\hline
+						error response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							code: 422 UNPROCESSABLE ENTRY \\
+							Content : \{error: "Registration Data not correct"\}
+							\bigskip
+						} \\
+						\hline
+						Notes & 
+						\parbox{0.7\textwidth}{
+							\bigskip Allows a third party to register to the system.
+						\bigskip}  \\
+						\hline
+					\end{tabularx}\\
+					
+				\textbf{Individual Registration} \\
+			
+					\begin{tabularx}{\linewidth}{| l | l |}
+						\hline
+						endpoint & */auth/individual/register \\
+						\hline
+						method & POST \\
+						\hline
+						url params & \\
+						\hline
+						data params &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							username: [alphanumeric]\\
+							password : [alphanumeric]\\
+							name: [text]\\
+							surname: [text]\\
+							address: [alphanumeric]\\
+							age: [integer]
+							\bigskip
+						} \\
+						\hline
+						success response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							code: 200\\
+							Content : \{message: "Registration successful"\}
+							\bigskip
+						} \\
+						\hline
+						error response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							code: 422 UNPROCESSABLE ENTRY \\
+							Content : \{error: "Registration Data not correct"\}
+							\bigskip
+						} \\
+						\hline
+						Notes & 
+						\parbox{0.7\textwidth}{
+							\bigskip Allows an individual to register to the system.
+						\bigskip}  \\
+						\hline
+					\end{tabularx}\\
+					
+					\textbf{Individual Login}\\
 
-\begin{tabularx}{\linewidth}{| l | l |}
-	\hline
-	endpoint & */auth/register \\
-	\hline
-	method & POST \\
-	\hline
-	url params & \\
-	\hline
-	data params &
-	\parbox{0.7\textwidth}{
-		\bigskip
-		mail: [alphanumeric]\\
-		password : [alphanumeric]\\
-		name: [text]\\
-		surname: [text]
-		\bigskip
-	} \\
-	\hline
-	success response &
-	\parbox{0.7\textwidth}{
-		\bigskip
-		code: 200\\
-		Content : \{message: "Registration successful"\}
-		\bigskip
-	} \\
-	\hline
-	error response &
-	\parbox{0.7\textwidth}{
-		\bigskip
-		code: 422 UNPROCESSABLE ENTRY \\
-		Content : \{error: "Registration Data not correct"\}
-		\bigskip
-	} \\
-	\hline
-	Notes & 
-	\parbox{0.7\textwidth}{
-		\bigskip Allows a Client to request the registration of a new User
-	\bigskip}  \\
-	\hline
-\end{tabularx}
+						\begin{tabularx}{\linewidth}{| l | l |}
+							\hline
+							endpoint & */auth/individual/login \\
+							\hline
+							method & POST \\
+							\hline
+							url params & \\
+							\hline
+							data params &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								username: [alphanumeric]\\
+								password : [alphanumeric]
+								\bigskip
+							} \\
+							\hline
+							success response &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								code: 200\\
+								Content : \{accessToken: [alphanumeric]\}
+								\bigskip
+							} \\
+							\hline
+							error response &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								Code: 422 UNPROCESSABLE ENTRY \\
+								Content : \{error: "Login data not correct"\}\\
+								Code: 401 UNAUTHORIZED \\
+								Content : \{error: "Wrong username or password"\}
+								\bigskip
+							} \\
+							\hline
+							Notes & 
+							\parbox{0.7\textwidth}{
+								\bigskip Allows an individual to obtain an authentication Token
+							\bigskip }\\
+							\hline
+						\end{tabularx}
+						
+					\textbf{Third Party Login}\\
+
+						\begin{tabularx}{\linewidth}{| l | l |}
+							\hline
+							endpoint & */auth/thirdparty/login \\
+							\hline
+							method & POST \\
+							\hline
+							url params & \\
+							\hline
+							data params &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								VAT: [alphanumeric]\\
+								password : [alphanumeric]
+								\bigskip
+							} \\
+							\hline
+							success response &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								code: 200\\
+								Content : \{accessToken: [alphanumeric]\}
+								\bigskip
+							} \\
+							\hline
+							error response &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								Code: 422 UNPROCESSABLE ENTRY \\
+								Content : \{error: "Login data not correct"\}\\
+								Code: 401 UNAUTHORIZED \\
+								Content : \{error: "Wrong VAT or password"\}
+								\bigskip
+							} \\
+							\hline
+							Notes & 
+							\parbox{0.7\textwidth}{
+								\bigskip Allows a third party to obtain an authentication Token
+							\bigskip }\\
+							\hline
+						\end{tabularx}\\
+						
+					\item \textbf{Third Party Controller} \\
+					
+					\textbf{Individual Request} \\
+			
+					\begin{tabularx}{\linewidth}{| l | l |}
+						\hline
+						endpoint & */request/individual \\
+						\hline
+						method & POST \\
+						\hline
+						url params & \\
+						\hline
+						data params &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							accessToken: [alphanumeric]\\
+							fiscalcode: [alphanumeric]\\
+							newDataSubscription: [boolean]
+							\bigskip
+						} \\
+						\hline
+						success response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							code: 200\\
+							Content : \{message: "Requested received and ready to be forwarded."\}
+							\bigskip
+						} \\
+						\hline
+						error response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							code: 401 UNAUTHORIZED \\
+							Content : \{error: "Third party not logged in"\}
+							code: 404 NOT FOUND \\
+							Content : \{error: "Fiscalcode not present in database."\}
+							Code: 422 UNPROCESSABLE ENTRY \\
+							Content : \{error: "Fiscal code not correct"\}
+							\bigskip
+						} \\
+						\hline
+						Notes & 
+						\parbox{0.7\textwidth}{
+							\bigskip Allows the third party to do an individual request of data.
+						\bigskip}  \\
+						\hline
+					\end{tabularx}\\
+					
+					\textbf{Anonymous Request} \\
+			
+					\begin{tabularx}{\linewidth}{| l | l |}
+						\hline
+						endpoint & */request/group \\
+						\hline
+						method & POST \\
+						\hline
+						url params & \\
+						\hline
+						data params &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							accessToken: [alphanumeric]\\
+							age: [alphanumeric]\\
+							latCenter: [float]\\
+							lonCenter: [float]\\
+							radius: [float]\\
+							newDataSubscripion: [boolean]
+							\bigskip
+						} \\
+						\hline
+						success response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							code: 200\\
+							Content : \{message: "Requested received and ready to be analyzed."\}
+							code: 404 NOT FOUND \\
+							Content : \{error: "Fiscalcode not present in database."\}\\
+							Code: 422 UNPROCESSABLE ENTRY \\
+							Content : \{error: "Fiscal code not correct"\}
+							\bigskip
+						} \\
+						\hline
+						error response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							code: 401 UNAUTHORIZED \\
+							Content : \{error: "Third party not logged in"\}\\
+							Code: 422 UNPROCESSABLE ENTRY \\
+							Content : \{error: "Incorrect data"\}
+							\bigskip
+						} \\
+						\hline
+						Notes & 
+						\parbox{0.7\textwidth}{
+							\bigskip Allows the third party to do a group request of data.
+						\bigskip}  \\
+						\hline
+					\end{tabularx}\\
+					
+					\textbf{Modify Third Party Password}\\
+				
+					\begin{tabularx}{\linewidth}{| l | l |}
+						\hline
+						endpoint & */thirdParty/newPassword \\
+						\hline
+						method & PUT \\
+						\hline
+						url params & \\
+						\hline
+						data params & 
+						\parbox{0.7\textwidth}{
+							\bigskip
+							accessToken: [alphanumeric] \\
+							(optional) newPassword: [alphanumeric]\\
+							(optional) oldPassword:
+							[alphanumeric]\\
+							\bigskip
+						} \\
+						\hline
+						success response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							Code: 200\\
+							Content : \{message: "Password changed correctly"\}
+							\bigskip
+						} \\
+						\hline
+						error response &
+						\parbox{0.7\textwidth}{
+							\bigskip
+							Code: 401 UNAUTHORIZED \\
+							Content : \{error: "User not logged"\}\\
+							Code: 403 FORBIDDEN \\
+							Content : \{error: "Current password provided is incorrect"\}\\
+							\bigskip
+						} \\
+						\hline
+						Notes & \parbox{0.7\textwidth}{
+							\bigskip
+							Allows a third party to change its password.
+							\bigskip
+						} \\
+						\hline
+					\end{tabularx}\\
+					
+					\item \textbf{Individual Controller} \\
+					
+						\textbf{Answer to Request} \\
+			
+						\begin{tabularx}{\linewidth}{| l | l |}
+							\hline
+							endpoint & */answerToRequest \\
+							\hline
+							method & POST \\
+							\hline
+							url params & \\
+							\hline
+							data params &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								accessToken: [alphanumeric]\\
+								thirdPartyRequester: [alphanumeric]\\
+								answer: [boolean]
+								\bigskip
+							} \\
+							\hline
+							success response &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								code: 200\\
+								Content : \{message: "Answer received correctly."\}
+								\bigskip
+							} \\
+							\hline
+							error response &
+							\parbox{0.7\textwidth}{
+								\bigskip
+								code: 401 UNAUTHORIZED \\
+								Content : \{error: "Individual not logged in"\}\\
+								code: 404 NOT FOUND \\
+								Content : \{error: "Request not found."\}
+								\bigskip
+							} \\
+							\hline
+							Notes & 
+							\parbox{0.7\textwidth}{
+								\bigskip Allows the individual to accept or refuse an individual request.
+							\bigskip}  \\
+							\hline
+						\end{tabularx}\\
+				\end{itemize}
 		\item \textit{\textbf{Selected architectural styles and patterns}}\\\\
+			
   	\end{legal}
