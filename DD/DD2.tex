@@ -62,6 +62,9 @@ on the system components and their interaction will be further explained in the 
 			\item{\textbf{OS Call Service Interface}\\
 			It allows the mobile application to make a SOS phone call in case of emergency.
 						}\\
+			\item{\textbf{OS Bluetooth Interface}\\
+			It allows the mobile application to connect the smartphone to smartwatches or similar devices.
+						}\\
 			\item{\textbf{Smartwatch Interface}\\
 			It allows the mobile application to get data from smartwatches.
 						}\\
@@ -97,5 +100,47 @@ This is the last layer of the architecture: all the data are stored in a Databas
 				\item \textbf{Group request Runtime View}\\
 			\end {legal}
 		\item \textit{\textbf{Component interfaces}}\\\\
+			\textbf{Registration}
+
+\begin{tabularx}{\linewidth}{| l | l |}
+	\hline
+	endpoint & */auth/register \\
+	\hline
+	method & POST \\
+	\hline
+	url params & \\
+	\hline
+	data params &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		mail: [alphanumeric]\\
+		password : [alphanumeric]\\
+		name: [text]\\
+		surname: [text]
+		\bigskip
+	} \\
+	\hline
+	success response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 200\\
+		Content : \{message: "Registration successful"\}
+		\bigskip
+	} \\
+	\hline
+	error response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 422 UNPROCESSABLE ENTRY \\
+		Content : \{error: "Registration Data not correct"\}
+		\bigskip
+	} \\
+	\hline
+	Notes & 
+	\parbox{0.7\textwidth}{
+		\bigskip Allows a Client to request the registration of a new User
+	\bigskip}  \\
+	\hline
+\end{tabularx}
 		\item \textit{\textbf{Selected architectural styles and patterns}}\\\\
   	\end{legal}
