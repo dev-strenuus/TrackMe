@@ -87,10 +87,51 @@ This is the last layer of the architecture: all the data are stored in a Databas
 		\item \textit{\textbf{Runtime view}}\\
 			\begin{legal}
 				\item \textbf{Sign up Runtime View}\\
-				\item \textbf{Login Runtime View}\\
+Third parties and individuals have to sign up to the application before being able to access its functionalities.
+The registration process is the same for both third parties and individuals, the only thing that differentiates it  is the information provided by them.
+The third party must fill up a form with its VAT number and a password. To reach the same goal an individual must fill up a form with username, password and personal data.
+The information is serialized and then sent to the Application Server through an HTTP POST request.
+The Authorization controller handles the request and, through the Storage interface, creates a new
+entry in the User table or in the ThirdParty table on the Database. \\
+				%\begin{figure}[H]
+				%\includegraphics[width=\linewidth]{images/seq_diagrams/seq_UserLogin.png}\\
+				%\end{figure}
+				
+				\newpage
+				\item \textbf{User Login Runtime View}\\
+Third parties and individuals have to be logged to the application before being able to access its functionalities.
+Both third parties and users submit the login information through and HTTP POST request.
+The request is handled by the Authentication Controller that validates the request and checks if the Database has an entry for the requested account. If the entity is present and the credentials are correct, the Authentication Controller generates an Access Token, sets it as the current access Token for the specified entity and returns it to the entity itself.
+The following sequence diagram shows how the process works in detail for the login of an individual user.\\
+				\begin{figure}[H]
+				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_UserLogin.png}\\
+				\end{figure}
+				
+				\newpage
 				\item \textbf{Join a run Runtime View}\\
+The User opens the Track4Run section of the application and, after a GET request to the Application Server he/she receives the list of all the available runs and he/she can choose to join one of them (if there is at least one displayed run).
+The User can send a POST request containg the Access Token and the selected run to the Track4Run Individual Controller.
+The Track4Run Individual Controller passes the Access Token to the Authentication Controller that checks if the Mobile Client provided a valid Token.
+If the Authentication succeeds the control goes back to the Track4Run Individual Controller that checks if the user has already joined an overlapping run or if the maximum number of participants was reached.
+If the control is satisfied the Track4Run Individual Controller asks the Storage Controller to update the tuple of the selected run in the Database.
+To avoid repetitions, the following sequence diagram shows the process assuming that the User already received the list of available runs.
+				\begin{figure}[H]
+				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_JoinRun.png}\\
+				\end{figure}
+				
+				\newpage
 				\item \textbf{Organise a run Runtime View}\\
+The Third party opens the Track4Run section of the application and, after filling the form containing the information about the run it can send a POST request containg the Access Token and the filled form to the Track4Run Third Party Controller.
+The Track4Run Third Party Controller passes the Access Token to the Authentication Controller that checks if the Web Client provided a valid Token.
+If the Authentication succeeds the control goes back to the Track4Run Third Party Controller that asks the Storage Controller to insert a new tuple for the run in the Database.
+				\begin{figure}[H]
+				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_OrganizeRun.png}\\
+				\end{figure}
+				
+				\newpage
 				\item \textbf{Individual request Runtime View}\\
+				
+				\newpage
 				\item \textbf{Group request Runtime View}\\
 			\end {legal}
 		\item \textit{\textbf{Component interfaces}}\\\\
