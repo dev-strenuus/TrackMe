@@ -142,7 +142,15 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 				
 				\newpage
 				\item \textbf{Group request Runtime View}\\
+				
+				\newpage
+				\item \textbf{AutomatedSOS Runtime View}\\
+				This runtime view shows the interactions among mobile client components, since the retrieving of data, from the smartwatch, to the eventual SOS call.
+				\begin{figure}[H]
+				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_automatedSOS.png}\\
+				\end{figure}
 			\end {legal}
+		\newpage
 		\item \textit{\textbf{Component interfaces}}\\\\
 			\begin{legal} 
 				\item \textit{\textbf{REST API}}\\\\
@@ -426,7 +434,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 				
 							\begin{tabularx}{\linewidth}{| l | l |}
 								\hline
-								endpoint & */thirdParty/newPassword \\
+								endpoint & */thirdParty/\{id\} \\
 								\hline
 								method & PUT \\
 								\hline
@@ -456,7 +464,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									Code: 401 UNAUTHORIZED \\
 									Content : \{error: "User not logged"\}\\
 									Code: 403 FORBIDDEN \\
-									Content : \{error: "Current password provided is incorrect"\}\\
+									Content : \{error: "ID provided does not match the authentication Token" $||$  "Current password provided is incorrect"\}\\
 									\bigskip
 								} \\
 								\hline
@@ -513,20 +521,78 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
+								
+								\textbf{Edit User Information} \\
+
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */individual/\{id\} \\
+									\hline
+									method & PUT \\
+									\hline
+									url params & \\
+									\hline
+									data params & 
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric] \\
+										(optional) newPassword: [alphanumeric]\\
+										(optional) name: [text]\\
+										(optional) surname: [text]\\
+										(optional) age: [integer]\\
+										(optional) address: [alphanumeric]\\
+										(optional) automatedSOSchoice: [boolean]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										Code: 200\\
+										Content : \{message: "Personal information edited\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										Code: 401 UNAUTHORIZED \\
+										Content : \{error: "Indiviudal not logged"\}\\
+										Code: 403 FORBIDDEN \\
+										Content : \{error: "Individual ID provided does not match the authentication Token" or "Current password provided is incorrect\}\\
+										Code: 404 NOT FOUND \\
+										Content : \{error: "Individual not found"\}
+										\bigskip
+									} \\
+									\hline
+									Notes & \parbox{0.7\textwidth}{
+										\bigskip
+										Allows an individual to edit his or her related information and enable/disable automatedSOS.
+										\bigskip
+									} \\
+									\hline
+								\end{tabularx} \\
+
 						\end{itemize}
+					\newpage
 					\item \textit{\textbf{Business Logic Interfaces}}\\
-					
+						In the following diagram, the component interfaces and the dependencies between the parts of the application are presented.\\
+						\begin{figure}[H]
+							\centering
+			  				\includegraphics[width=\linewidth]{../images/design/interfaces.png}
+						\end{figure} 
 				\end{legal}
+		\newpage
 		\item \textit{\textbf{Selected architectural styles and patterns}}\\\\
 			\begin{legal}
 				\item \textit{\textbf{Multitier architecture}}\\\\
-				TrackMe is built as multitier architecture. More precisely it's a client/server architecture in which presentation, application processing, and data management functions are physically separated. 
+				TrackMe is built as a multitier architecture. More precisely it's a client/server architecture in which presentation, application processing, and data management functions are physically separated. 
 				\begin{itemize}
 					\item Presentation tier: provides basic user interface and application access services.
-					\item Application processing tier: contains business logic and controls application functionality performing processing.
+					\item Application processing tier: contains business logic and controls application functionalities.
 					\item Data management tier: provides the mechanism used to access and process data and holds and manages data.
 				\end{itemize}
-				 This division allows each tier to be separately developed, tested, executed and reused. Other benefit of such architecture are scalability, ease of management, flexibility, and security.
+				 This division allows each tier to be separately developed, tested, executed and reused. Other benefits of such architecture are scalability, ease of management, flexibility, and security.
 				\begin{itemize}
 					\item Secure: You can secure each of the three tiers separately using different methods.
 					\item Easy to manage: You can manage each tier separately, adding or modifying each tier without affecting the other tiers.
@@ -534,10 +600,10 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 					\item Flexible: Apart from isolated scalability, you can also expand each tier in any manner that your requirements dictate.\\
 				\end{itemize}
 				\textbf{HYBRID CLIENT}\\
-				In our system presentation and application processing are not really totally separated, because mobile client applications have got components which work on the analysis and filtering of data. For this reason individual mobile applications are not thin clients. But they are not considered as fat clients too, because they are not thought to rely on a local store, so they are called hybrid clients. Furthermore clients, also third parties machines, can't be considered thin clients because they have a local controller as explained in the next section.\\\\
+				In our system presentation and application processing are not really totally separated, because mobile client applications have got components which work on the analysis and filtering of data. For this reason individual mobile applications are not thin clients. But they are not even considered as fat clients, because they are not thought to rely on a local store, so they are called hybrid clients. Furthermore, clients, included third parties machines, can't be considered thin clients because they have a local controller as explained in the next section.\\\\
 				\item \textit{\textbf{MVC}}\\\\
 				The main idea compared to other more traditional server-side architectures is to build the server as a set of stateless reusable REST services, and from an MVC perspective to take the controller out of the backend and move it into the client.
-				The client is MVC-capable and contains all the presentation logic which is separated in a view layer, a controller layer, and a frontend services layer. After the initial application startup, only JSON data goes over the wire between client and server.
+				The client is MVC-capable and contains all the presentation logic which is separated in a view layer, a controller layer, and a frontend services layer. After the initial application startup, only JSON data go over the wire between client and server.
 				The frontend should only handle presentation logic, but no business logic. These are the three layers of the frontend:
 				\begin{itemize}
 					\item The view layer: it's intended to be displayed to the user. The presentation contains not just the content, but also the attributes for display such as HTML and CSS.
@@ -546,7 +612,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 				\end{itemize}
 				The backend is built using the usual backend layers:
 				\begin{itemize}
-    				\item Router layer: it defines which service entry points correspond to a given HTTP URL, and how parameters are to be read from the HTTP request.
+    				\item Router layer: it defines which service entry points correspond to a given HTTP URL, and how parameters have to be read from the HTTP request.
 					\item Controller Layer: it contains any business logic such as validations, defines the scope of business transactions. Business rules are centralized into this business logic layer that serves as an intermediary for data exchange between the front-end layer and the persistence (storage controller) layer.
     				\item Storage controller layer: maps the database to/from in-memory domain objects.
 				\end{itemize}
