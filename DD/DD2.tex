@@ -29,6 +29,9 @@ on the system components and their interaction will be further explained in the 
 		\item{\textbf{Web Browser}\\
 		The system allows the third party to interact with it through any web browser.
 				}\\
+		\item{\textbf{Router}\\
+		It defines which controller entry points correspond to a given HTTP URL, and how parameters are to be read from the HTTP request.
+				}\\
 		\item{\textbf{Individual Controller}\\
 		The main role of this component is to manage the data coming from the specific individual by invoking the proper methods of the Storage Controller. It also provides methods to accept/refuse a request of agreement and to change personal information or preferences. Furthermore it notify to the client if there are new requests or info for him.
 				}\\
@@ -93,420 +96,423 @@ This is the last layer of the architecture: all the data are stored in a Databas
 		\item \textit{\textbf{Runtime view}}\\
 			\begin{legal}
 				\item \textbf{Sign up Runtime View}\\
-Third parties and individuals have to sign up to the application before being able to access its functionalities.
-The registration process is the same for both third parties and individuals, the only thing that differentiates it  is the information provided by them.
-The third party must fill up a form with its VAT number and a password. To reach the same goal an individual must fill up a form with username, password and personal data.
-The information is serialized and then sent to the Application Server through an HTTP POST request.
-The Authorization controller handles the request and, through the Storage interface, creates a new
-entry in the User table or in the ThirdParty table on the Database. \\
-				%\begin{figure}[H]
-				%\includegraphics[width=\linewidth]{images/seq_diagrams/seq_UserLogin.png}\\
-				%\end{figure}
-				
-				\newpage
-				\item \textbf{User Login Runtime View}\\
-Third parties and individuals have to be logged to the application before being able to access its functionalities.
-Both third parties and users submit the login information through and HTTP POST request.
-The request is handled by the Authentication Controller that validates the request and checks if the Database has an entry for the requested account. If the entity is present and the credentials are correct, the Authentication Controller generates an Access Token, sets it as the current access Token for the specified entity and returns it to the entity itself.
-The following sequence diagram shows how the process works in detail for the login of an individual user.\\
-				\begin{figure}[H]
-				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_UserLogin.png}\\
-				\end{figure}
-				
-				\newpage
+				\item \textbf{Login Runtime View}\\
 				\item \textbf{Join a run Runtime View}\\
-The User opens the Track4Run section of the application and, after a GET request to the Application Server he/she receives the list of all the available runs and he/she can choose to join one of them (if there is at least one displayed run).
-The User can send a POST request containg the Access Token and the selected run to the Track4Run Individual Controller.
-The Track4Run Individual Controller passes the Access Token to the Authentication Controller that checks if the Mobile Client provided a valid Token.
-If the Authentication succeeds the control goes back to the Track4Run Individual Controller that checks if the user has already joined an overlapping run or if the maximum number of participants was reached.
-If the control is satisfied the Track4Run Individual Controller asks the Storage Controller to update the tuple of the selected run in the Database.
-To avoid repetitions, the following sequence diagram shows the process assuming that the User already received the list of available runs.
-				\begin{figure}[H]
-				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_JoinRun.png}\\
-				\end{figure}
-				
-				\newpage
 				\item \textbf{Organise a run Runtime View}\\
-The Third party opens the Track4Run section of the application and, after filling the form containing the information about the run it can send a POST request containg the Access Token and the filled form to the Track4Run Third Party Controller.
-The Track4Run Third Party Controller passes the Access Token to the Authentication Controller that checks if the Web Client provided a valid Token.
-If the Authentication succeeds the control goes back to the Track4Run Third Party Controller that asks the Storage Controller to insert a new tuple for the run in the Database.
-				\begin{figure}[H]
-				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_OrganizeRun.png}\\
-				\end{figure}
-				
-				\newpage
 				\item \textbf{Individual request Runtime View}\\
-				
-				\newpage
 				\item \textbf{Group request Runtime View}\\
 			\end {legal}
 		\item \textit{\textbf{Component interfaces}}\\\\
-			\begin{itemize}
-				\item \textbf{Authentication Controller} \\
-				
-				\textbf{Third Party Registration} \\
-			
-					\begin{tabularx}{\linewidth}{| l | l |}
-						\hline
-						endpoint & */auth/thirdparty/register \\
-						\hline
-						method & POST \\
-						\hline
-						url params & \\
-						\hline
-						data params &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							VAT: [alphanumeric]\\
-							password : [alphanumeric]\\
-							\bigskip
-						} \\
-						\hline
-						success response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							code: 200\\
-							Content : \{message: "Registration successful"\}
-							\bigskip
-						} \\
-						\hline
-						error response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							code: 422 UNPROCESSABLE ENTRY \\
-							Content : \{error: "Registration Data not correct"\}
-							\bigskip
-						} \\
-						\hline
-						Notes & 
-						\parbox{0.7\textwidth}{
-							\bigskip Allows a third party to register to the system.
-						\bigskip}  \\
-						\hline
-					\end{tabularx}\\
-					
-				\textbf{Individual Registration} \\
-			
-					\begin{tabularx}{\linewidth}{| l | l |}
-						\hline
-						endpoint & */auth/individual/register \\
-						\hline
-						method & POST \\
-						\hline
-						url params & \\
-						\hline
-						data params &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							username: [alphanumeric]\\
-							password : [alphanumeric]\\
-							name: [text]\\
-							surname: [text]\\
-							address: [alphanumeric]\\
-							age: [integer]
-							\bigskip
-						} \\
-						\hline
-						success response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							code: 200\\
-							Content : \{message: "Registration successful"\}
-							\bigskip
-						} \\
-						\hline
-						error response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							code: 422 UNPROCESSABLE ENTRY \\
-							Content : \{error: "Registration Data not correct"\}
-							\bigskip
-						} \\
-						\hline
-						Notes & 
-						\parbox{0.7\textwidth}{
-							\bigskip Allows an individual to register to the system.
-						\bigskip}  \\
-						\hline
-					\end{tabularx}\\
-					
-					\textbf{Individual Login}\\
+			\begin{legal} 
+				\item \textit{\textbf{REST API}}\\\\
+				REST (REpresentation State Transfer) describes an architectural style of networked systems such as this application. One of the most important REST principles for Web applications is that the interaction between the client and server is stateless between requests. Each request from the client to the server must contain all of the information necessary to understand the request. The client wouldn't notice if the server were to be restarted at any point between the requests. Additionally, stateless requests are free to be answered by any available server, which is appropriate for an environment such as cloud computing. On the server side, the application state and functionality are divided into resources. A resource is an item of interest, a conceptual identity that is exposed to the clients. Every resource is uniquely addressable using a URI (Universal Resource Identifier). All resources share a uniform interface for the transfer of state between client and server. Standard HTTP methods such as GET, PUT, POST, and DELETE are used. Hypermedia is the engine of the application state, and resource representations are interconnected by hyperlinks, as described partially in this section and section 3.
 
-						\begin{tabularx}{\linewidth}{| l | l |}
-							\hline
-							endpoint & */auth/individual/login \\
-							\hline
-							method & POST \\
-							\hline
-							url params & \\
-							\hline
-							data params &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								username: [alphanumeric]\\
-								password : [alphanumeric]
-								\bigskip
-							} \\
-							\hline
-							success response &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								code: 200\\
-								Content : \{accessToken: [alphanumeric]\}
-								\bigskip
-							} \\
-							\hline
-							error response &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								Code: 422 UNPROCESSABLE ENTRY \\
-								Content : \{error: "Login data not correct"\}\\
-								Code: 401 UNAUTHORIZED \\
-								Content : \{error: "Wrong username or password"\}
-								\bigskip
-							} \\
-							\hline
-							Notes & 
-							\parbox{0.7\textwidth}{
-								\bigskip Allows an individual to obtain an authentication Token
-							\bigskip }\\
-							\hline
-						\end{tabularx}
-						
-					\textbf{Third Party Login}\\
-
-						\begin{tabularx}{\linewidth}{| l | l |}
-							\hline
-							endpoint & */auth/thirdparty/login \\
-							\hline
-							method & POST \\
-							\hline
-							url params & \\
-							\hline
-							data params &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								VAT: [alphanumeric]\\
-								password : [alphanumeric]
-								\bigskip
-							} \\
-							\hline
-							success response &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								code: 200\\
-								Content : \{accessToken: [alphanumeric]\}
-								\bigskip
-							} \\
-							\hline
-							error response &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								Code: 422 UNPROCESSABLE ENTRY \\
-								Content : \{error: "Login data not correct"\}\\
-								Code: 401 UNAUTHORIZED \\
-								Content : \{error: "Wrong VAT or password"\}
-								\bigskip
-							} \\
-							\hline
-							Notes & 
-							\parbox{0.7\textwidth}{
-								\bigskip Allows a third party to obtain an authentication Token
-							\bigskip }\\
-							\hline
-						\end{tabularx}\\
-						
-					\item \textbf{Third Party Controller} \\
-					
-					\textbf{Individual Request} \\
-			
-					\begin{tabularx}{\linewidth}{| l | l |}
-						\hline
-						endpoint & */request/individual \\
-						\hline
-						method & POST \\
-						\hline
-						url params & \\
-						\hline
-						data params &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							accessToken: [alphanumeric]\\
-							fiscalcode: [alphanumeric]\\
-							newDataSubscription: [boolean]
-							\bigskip
-						} \\
-						\hline
-						success response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							code: 200\\
-							Content : \{message: "Requested received and ready to be forwarded."\}
-							\bigskip
-						} \\
-						\hline
-						error response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							code: 401 UNAUTHORIZED \\
-							Content : \{error: "Third party not logged in"\}
-							code: 404 NOT FOUND \\
-							Content : \{error: "Fiscalcode not present in database."\}
-							Code: 422 UNPROCESSABLE ENTRY \\
-							Content : \{error: "Fiscal code not correct"\}
-							\bigskip
-						} \\
-						\hline
-						Notes & 
-						\parbox{0.7\textwidth}{
-							\bigskip Allows the third party to do an individual request of data.
-						\bigskip}  \\
-						\hline
-					\end{tabularx}\\
-					
-					\textbf{Anonymous Request} \\
-			
-					\begin{tabularx}{\linewidth}{| l | l |}
-						\hline
-						endpoint & */request/group \\
-						\hline
-						method & POST \\
-						\hline
-						url params & \\
-						\hline
-						data params &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							accessToken: [alphanumeric]\\
-							age: [alphanumeric]\\
-							latCenter: [float]\\
-							lonCenter: [float]\\
-							radius: [float]\\
-							newDataSubscripion: [boolean]
-							\bigskip
-						} \\
-						\hline
-						success response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							code: 200\\
-							Content : \{message: "Requested received and ready to be analyzed."\}
-							code: 404 NOT FOUND \\
-							Content : \{error: "Fiscalcode not present in database."\}\\
-							Code: 422 UNPROCESSABLE ENTRY \\
-							Content : \{error: "Fiscal code not correct"\}
-							\bigskip
-						} \\
-						\hline
-						error response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							code: 401 UNAUTHORIZED \\
-							Content : \{error: "Third party not logged in"\}\\
-							Code: 422 UNPROCESSABLE ENTRY \\
-							Content : \{error: "Incorrect data"\}
-							\bigskip
-						} \\
-						\hline
-						Notes & 
-						\parbox{0.7\textwidth}{
-							\bigskip Allows the third party to do a group request of data.
-						\bigskip}  \\
-						\hline
-					\end{tabularx}\\
-					
-					\textbf{Modify Third Party Password}\\
+					\begin{itemize}
+						\item \textbf{Authentication Controller} \\
 				
-					\begin{tabularx}{\linewidth}{| l | l |}
-						\hline
-						endpoint & */thirdParty/newPassword \\
-						\hline
-						method & PUT \\
-						\hline
-						url params & \\
-						\hline
-						data params & 
-						\parbox{0.7\textwidth}{
-							\bigskip
-							accessToken: [alphanumeric] \\
-							(optional) newPassword: [alphanumeric]\\
-							(optional) oldPassword:
-							[alphanumeric]\\
-							\bigskip
-						} \\
-						\hline
-						success response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							Code: 200\\
-							Content : \{message: "Password changed correctly"\}
-							\bigskip
-						} \\
-						\hline
-						error response &
-						\parbox{0.7\textwidth}{
-							\bigskip
-							Code: 401 UNAUTHORIZED \\
-							Content : \{error: "User not logged"\}\\
-							Code: 403 FORBIDDEN \\
-							Content : \{error: "Current password provided is incorrect"\}\\
-							\bigskip
-						} \\
-						\hline
-						Notes & \parbox{0.7\textwidth}{
-							\bigskip
-							Allows a third party to change its password.
-							\bigskip
-						} \\
-						\hline
-					\end{tabularx}\\
-					
-					\item \textbf{Individual Controller} \\
-					
-						\textbf{Answer to Request} \\
+						\textbf{Third Party Registration} \\
 			
-						\begin{tabularx}{\linewidth}{| l | l |}
-							\hline
-							endpoint & */answerToRequest \\
-							\hline
-							method & POST \\
-							\hline
-							url params & \\
-							\hline
-							data params &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								accessToken: [alphanumeric]\\
-								thirdPartyRequester: [alphanumeric]\\
-								answer: [boolean]
-								\bigskip
-							} \\
-							\hline
-							success response &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								code: 200\\
-								Content : \{message: "Answer received correctly."\}
-								\bigskip
-							} \\
-							\hline
-							error response &
-							\parbox{0.7\textwidth}{
-								\bigskip
-								code: 401 UNAUTHORIZED \\
-								Content : \{error: "Individual not logged in"\}\\
-								code: 404 NOT FOUND \\
-								Content : \{error: "Request not found."\}
-								\bigskip
-							} \\
-							\hline
-							Notes & 
-							\parbox{0.7\textwidth}{
-								\bigskip Allows the individual to accept or refuse an individual request.
-							\bigskip}  \\
-							\hline
-						\end{tabularx}\\
-				\end{itemize}
+							\begin{tabularx}{\linewidth}{| l | l |}
+								\hline
+								endpoint & */auth/thirdparty/register \\
+								\hline
+								method & POST \\
+								\hline
+								url params & \\
+								\hline
+								data params &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									VAT: [alphanumeric]\\
+									password : [alphanumeric]\\
+									\bigskip
+								} \\
+								\hline
+								success response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									code: 200\\
+									Content : \{message: "Registration successful"\}
+									\bigskip
+								} \\
+								\hline
+								error response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									code: 422 UNPROCESSABLE ENTRY \\
+									Content : \{error: "Registration Data not correct"\}
+									\bigskip
+								} \\
+								\hline
+								Notes & 
+								\parbox{0.7\textwidth}{
+									\bigskip Allows a third party to register to the system.
+								\bigskip}  \\
+								\hline
+							\end{tabularx}\\
+					
+						\textbf{Individual Registration} \\
+			
+							\begin{tabularx}{\linewidth}{| l | l |}
+								\hline
+								endpoint & */auth/individual/register \\
+								\hline
+								method & POST \\
+								\hline
+								url params & \\
+								\hline
+								data params &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									username: [alphanumeric]\\
+									password : [alphanumeric]\\
+									name: [text]\\
+									surname: [text]\\
+									address: [alphanumeric]\\
+									age: [integer]
+									\bigskip
+								} \\
+								\hline
+								success response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									code: 200\\
+									Content : \{message: "Registration successful"\}
+									\bigskip
+								} \\
+								\hline
+								error response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									code: 422 UNPROCESSABLE ENTRY \\
+									Content : \{error: "Registration Data not correct"\}
+									\bigskip
+								} \\
+								\hline
+								Notes & 
+								\parbox{0.7\textwidth}{
+									\bigskip Allows an individual to register to the system.
+								\bigskip}  \\
+								\hline
+							\end{tabularx}\\
+					
+							\textbf{Individual Login}\\
+
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */auth/individual/login \\
+									\hline
+									method & POST \\
+									\hline
+									url params & \\
+									\hline
+									data params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										username: [alphanumeric]\\
+										password : [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{accessToken: [alphanumeric]\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										Code: 422 UNPROCESSABLE ENTRY \\
+										Content : \{error: "Login data not correct"\}\\
+										Code: 401 UNAUTHORIZED \\
+										Content : \{error: "Wrong username or password"\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows an individual to obtain an authentication Token
+									\bigskip }\\
+									\hline
+								\end{tabularx}
+						
+							\textbf{Third Party Login}\\
+
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */auth/thirdparty/login \\
+									\hline
+									method & POST \\
+									\hline
+									url params & \\
+									\hline
+									data params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										VAT: [alphanumeric]\\
+										password : [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{accessToken: [alphanumeric]\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										Code: 422 UNPROCESSABLE ENTRY \\
+										Content : \{error: "Login data not correct"\}\\
+										Code: 401 UNAUTHORIZED \\
+										Content : \{error: "Wrong VAT or password"\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows a third party to obtain an authentication Token
+									\bigskip }\\
+									\hline
+								\end{tabularx}\\
+						
+							\item \textbf{Third Party Controller} \\
+					
+							\textbf{Individual Request} \\
+			
+							\begin{tabularx}{\linewidth}{| l | l |}
+								\hline
+								endpoint & */request/individual \\
+								\hline
+								method & POST \\
+								\hline
+								url params & \\
+								\hline
+								data params &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									accessToken: [alphanumeric]\\
+									fiscalcode: [alphanumeric]\\
+									newDataSubscription: [boolean]
+									\bigskip
+								} \\
+								\hline
+								success response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									code: 200\\
+									Content : \{message: "Requested received and ready to be forwarded."\}
+									\bigskip
+								} \\
+								\hline
+								error response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									code: 401 UNAUTHORIZED \\
+									Content : \{error: "Third party not logged in"\}
+									code: 404 NOT FOUND \\
+									Content : \{error: "Fiscalcode not present in database."\}
+									Code: 422 UNPROCESSABLE ENTRY \\
+									Content : \{error: "Fiscal code not correct"\}
+									\bigskip
+								} \\
+								\hline
+								Notes & 
+								\parbox{0.7\textwidth}{
+									\bigskip Allows the third party to do an individual request of data.
+								\bigskip}  \\
+								\hline
+							\end{tabularx}\\
+					
+							\textbf{Anonymous Request} \\
+			
+							\begin{tabularx}{\linewidth}{| l | l |}
+								\hline
+								endpoint & */request/group \\
+								\hline
+								method & POST \\
+								\hline
+								url params & \\
+								\hline
+								data params &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									accessToken: [alphanumeric]\\
+									age: [alphanumeric]\\
+									latCenter: [float]\\
+									lonCenter: [float]\\
+									radius: [float]\\
+									newDataSubscripion: [boolean]
+									\bigskip
+								} \\
+								\hline
+								success response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									code: 200\\
+									Content : \{message: "Requested received and ready to be analyzed."\}
+									code: 404 NOT FOUND \\
+									Content : \{error: "Fiscalcode not present in database."\}\\
+									Code: 422 UNPROCESSABLE ENTRY \\
+									Content : \{error: "Fiscal code not correct"\}
+									\bigskip
+								} \\
+								\hline
+								error response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									code: 401 UNAUTHORIZED \\
+									Content : \{error: "Third party not logged in"\}\\
+									Code: 422 UNPROCESSABLE ENTRY \\
+									Content : \{error: "Incorrect data"\}
+									\bigskip
+								} \\
+								\hline
+								Notes & 
+								\parbox{0.7\textwidth}{
+									\bigskip Allows the third party to do a group request of data.
+								\bigskip}  \\
+								\hline
+							\end{tabularx}\\
+					
+							\textbf{Modify Third Party Password}\\
+				
+							\begin{tabularx}{\linewidth}{| l | l |}
+								\hline
+								endpoint & */thirdParty/newPassword \\
+								\hline
+								method & PUT \\
+								\hline
+								url params & \\
+								\hline
+								data params & 
+								\parbox{0.7\textwidth}{
+									\bigskip
+									accessToken: [alphanumeric] \\
+									(optional) newPassword: [alphanumeric]\\
+									(optional) oldPassword:
+									[alphanumeric]\\
+									\bigskip
+								} \\
+								\hline
+								success response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									Code: 200\\
+									Content : \{message: "Password changed correctly"\}
+									\bigskip
+								} \\
+								\hline
+								error response &
+								\parbox{0.7\textwidth}{
+									\bigskip
+									Code: 401 UNAUTHORIZED \\
+									Content : \{error: "User not logged"\}\\
+									Code: 403 FORBIDDEN \\
+									Content : \{error: "Current password provided is incorrect"\}\\
+									\bigskip
+								} \\
+								\hline
+								Notes & \parbox{0.7\textwidth}{
+									\bigskip
+									Allows a third party to change its password.
+									\bigskip
+								} \\
+								\hline
+							\end{tabularx}\\
+					
+							\item \textbf{Individual Controller} \\
+					
+								\textbf{Answer to Request} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */answerToRequest \\
+									\hline
+									method & POST \\
+									\hline
+									url params & \\
+									\hline
+									data params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]\\
+										thirdPartyRequester: [alphanumeric]\\
+										answer: [boolean]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{message: "Answer received correctly."\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Individual not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Request not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the individual to accept or refuse an individual request.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+						\end{itemize}
+					\item \textit{\textbf{Business Logic Interfaces}}\\
+					
+				\end{legal}
 		\item \textit{\textbf{Selected architectural styles and patterns}}\\\\
+			\begin{legal}
+				\item \textit{\textbf{Multitier architecture}}\\\\
+				TrackMe is built as multitier architecture. More precisely it's a client/server architecture in which presentation, application processing, and data management functions are physically separated. 
+				\begin{itemize}
+					\item Presentation tier: provides basic user interface and application access services.
+					\item Application processing tier: contains business logic and controls application functionality performing processing.
+					\item Data management tier: provides the mechanism used to access and process data and holds and manages data.
+				\end{itemize}
+				 This division allows each tier to be separately developed, tested, executed and reused. Other benefit of such architecture are scalability, ease of management, flexibility, and security.
+				\begin{itemize}
+					\item Secure: You can secure each of the three tiers separately using different methods.
+					\item Easy to manage: You can manage each tier separately, adding or modifying each tier without affecting the other tiers.
+					\item Scalable: If you need to add more resources, you can do it per tier, without affecting the other tiers.
+					\item Flexible: Apart from isolated scalability, you can also expand each tier in any manner that your requirements dictate.\\
+				\end{itemize}
+				\textbf{HYBRID CLIENT}\\
+				In our system presentation and application processing are not really totally separated, because mobile client applications have got components which work on the analysis and filtering of data. For this reason individual mobile applications are not thin clients. But they are not considered as fat clients too, because they are not thought to rely on a local store, so they are called hybrid clients. Furthermore clients, also third parties machines, can't be considered thin clients because they have a local controller as explained in the next section.\\\\
+				\item \textit{\textbf{MVC}}\\\\
+				The main idea compared to other more traditional server-side architectures is to build the server as a set of stateless reusable REST services, and from an MVC perspective to take the controller out of the backend and move it into the client.
+				The client is MVC-capable and contains all the presentation logic which is separated in a view layer, a controller layer, and a frontend services layer. After the initial application startup, only JSON data goes over the wire between client and server.
+				The frontend should only handle presentation logic, but no business logic. These are the three layers of the frontend:
+				\begin{itemize}
+					\item The view layer: it's intended to be displayed to the user by the browser. The presentation contains not just the content, but also the attributes for display such as HTML and CSS.
+					\item The controller layer: it's made of functions that glue the data retrieved from the backend and the view together. The controller initializes the view model and defines how the view should react to model changes and vice-versa.
+					\item The frontend services layer: a set of functions that allow to interact with the backend and with the controller layer.
+				\end{itemize}
+				The backend is built using the usual backend layers:
+				\begin{itemize}
+    				\item Router layer: it defines which service entry points correspond to a given HTTP URL, and how parameters are to be read from the HTTP request.
+					\item Controller Layer: it contains any business logic such as validations, defines the scope of business transactions. Business rules are centralized into this business logic layer that serves as an intermediary for data exchange between the front-end layer and the persistence (storage controller) layer.
+    				\item Storage controller layer: maps the database to/from in-memory domain objects.
+				\end{itemize}
+				\begin{figure}
+			  		\includegraphics[width=\linewidth]{../images/design/MVC.png}
+				\end{figure} 
+				
+			\end{legal}
 			
   	\end{legal}
