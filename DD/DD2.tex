@@ -1,11 +1,11 @@
 \pagenumbering{gobble}
-	\underline{\textbf{Architectural design} }
+	\underline{\textbf{Architectural design} }\\
 	\begin{legal}
     	\item \textit{\textbf{Overview: high-level components and their interaction}}\\\\
 The figure below represents an high level overview of the system. Further details
-on the system components and their interaction will be further explained in the next sections.\\
+on the system components and their interaction will be further explained in the next sections.\\\\
 		\begin{figure}[H]
-		\includegraphics[width=\linewidth]{../images/design/OverviewDiagram.png}
+		\includegraphics[width=\linewidth]{../images/design/OverviewDiagram.png}\\\\\\\\\\\\
 		\end{figure}
 		
 		\item \textit{\textbf{Component view}}\\\\
@@ -92,7 +92,6 @@ The access to the Database is mediated by a network firewall in order to
 avoid unauthorised access to the data and the credentials of the user.\\\\
 		\textbf{Database Server}\\
 This is the last layer of the architecture: all the data are stored in a Database Server accessed through a relational DBMS. \\\\
-		\newpage
 		\item \textit{\textbf{Runtime view}}\\
 			\begin{legal}
 				\item \textbf{Sign up Runtime View}\\
@@ -103,7 +102,7 @@ The information is serialized and then sent to the Application Server through an
 The Authorization controller handles the request and, through the Storage interface, creates a new
 entry in the User table or in the ThirdParty table on the Database. \\
 				\begin{figure}[H]
-				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_UserLogin.png}\\
+				\includegraphics[width=\linewidth]{images/seq_diagrams/thirdPartySignUpSeq.png}\\
 				\end{figure}
 				
 				\newpage
@@ -139,19 +138,23 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 				
 				\newpage
 				\item \textbf{Individual request Runtime View}\\
-				
-				%\begin{figure}[H]
-				%\includegraphics[width=\linewidth]{images/seq_diagrams/individualRequestSeq.png}\\
-				%\end{figure}
+				The Third party opens the Data4Help section of the application and, after filling the form containing the information about the request, it can send a POST request containg the Access Token and the filled form to the Third Party controller.
+The Third Party Controller passes the Access Token to the Authentication Controller that checks if the Web Client provided a valid Token.
+If the Authentication succeeds, the Third Party Controller forwards the request to the Storage Controller, that adds an instance of the request into the Database. Then, if the request is successfully inserted, the Third party is notified.
+When this process is completed and the answer to the previous request is ready, the system will notify the Third Party as soon as it will ask for notifications.
+
+				\begin{figure}[H]
+				\includegraphics[width=\linewidth]{images/seq_diagrams/individualRequestSeq.png}\\
+				\end{figure}
 				
 				\newpage
 				\item \textbf{Group request Runtime View}\\
 The Third party opens the Data4Help section of the application and, after filling the form containing the information about the request, it can send a POST request containg the Access Token and the filled form to the Third Party controller.
 The Third Party Controller passes the Access Token to the Authentication Controller that checks if the Web Client provided a valid Token.
-If the Authentication succeeds, the control goes back to the Third Party Controller that asks the Anonymuos Request Builder to get the data from the Database, through the Storage Controller. If the constraints on data are satisfied, the Third Party Controller asks the Storage Controller to add an instance of the request into the Database. Then, if the request is successfully inserted, the Third party is notified and the Third Party Controller communicates to the Anonymous Request Builder to aggregate the received data and to register into the Database the end of the aggregation process.
-				\begin{figure}[H]s
-				\includegraphics[width=\linewidth]{images/seq_diagrams/groupRequestSeq.png}\\
-				\end{figure}
+If the Authentication succeeds, the Third Party Controller asks the Anonymuos Request Builder to get the data from the Database, through the Storage Controller. If the constraints on data are satisfied, the Third Party Controller asks the Storage Controller to add an instance of the request into the Database. Then, if the request is successfully inserted, the Third party is notified and the Third Party Controller communicates the Anonymous Request Builder to aggregate the received data.
+				\begin{center}
+				\includegraphics[width=14cm]{images/seq_diagrams/groupRequestSeq.png}\\
+				\end{center}
 				
 				\newpage
 				\item \textbf{AutomatedSOS Runtime View}\\
@@ -164,14 +167,14 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 		\item \textit{\textbf{Component interfaces}}\\\\
 			\begin{legal} 
 				\item \textit{\textbf{REST API}}\\\\
-				REST (REpresentation State Transfer) describes an architectural style of networked systems such as this application. One of the most important REST principles for Web applications is that the interaction between the client and server is stateless between requests. Each request from the client to the server must contain all of the information necessary to understand the request. The client wouldn't notice if the server were to be restarted at any point between the requests. Additionally, stateless requests are free to be answered by any available server, which is appropriate for an environment such as cloud computing. On the server side, the application state and functionality are divided into resources. A resource is an item of interest, a conceptual identity that is exposed to the clients. Every resource is uniquely addressable using a URI (Universal Resource Identifier). All resources share a uniform interface for the transfer of state between client and server. Standard HTTP methods such as GET, PUT, POST, and DELETE are used. Hypermedia is the engine of the application state, and resource representations are interconnected by hyperlinks, as described partially in this section and section 3.
+				REST (REpresentation State Transfer) describes an architectural style of networked systems such as this application. One of the most important REST principles for Web applications is that the interaction between the client and server is stateless between requests. Each request from the client to the server must contain all of the information necessary to understand the request. The client wouldn't notice if the server were to be restarted at any point between the requests. Additionally, stateless requests are free to be answered by any available server, which is appropriate for an environment such as cloud computing. On the server side, the application state and functionality are divided into resources. A resource is an item of interest, a conceptual identity that is exposed to the clients. Every resource is uniquely addressable using a URI (Universal Resource Identifier). All resources share a uniform interface for the transfer of state between client and server. Standard HTTP methods such as GET, PUT, POST, and DELETE are used. Hypermedia is the engine of the application state, and resource representations are interconnected by hyperlinks, as described partially in this section and section 3.\\
 
 					\begin{itemize}
 						\item \textbf{Authentication Controller} \\
-				
+						
 						\textbf{Third Party Registration} \\
-			
-							\begin{tabularx}{\linewidth}{| l | l |}
+						
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
 								endpoint & */auth/thirdparty/register \\
 								\hline
@@ -211,10 +214,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 								\bigskip}  \\
 								\hline
 							\end{tabularx}\\
-					
+							
+						\newpage
 						\textbf{Individual Registration} \\
 			
-							\begin{tabularx}{\linewidth}{| l | l |}
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
 								endpoint & */auth/individual/register \\
 								\hline
@@ -257,11 +261,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\bigskip Allows an individual to register to the system.
 								\bigskip}  \\
 								\hline
-							\end{tabularx}\\
+							\end{tabularx}\\\\
 					
 							\textbf{Individual Login}\\
 
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */auth/individual/login \\
 									\hline
@@ -281,7 +285,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{accessToken: [alphanumeric]\}
+										Content : \{accessToken: [alphanumeric]\} and \{id: [integer]\}
 										\bigskip
 									} \\
 									\hline
@@ -302,11 +306,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 										\bigskip Allows an individual to obtain an authentication Token
 									\bigskip }\\
 									\hline
-								\end{tabularx}
-						
+								\end{tabularx}\\
+							\newpage
 							\textbf{Third Party Login}\\
 
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */auth/thirdparty/login \\
 									\hline
@@ -326,7 +330,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{accessToken: [alphanumeric]\}
+										Content : \{accessToken: [alphanumeric]\}  and \{id: [integer]\}
 										\bigskip
 									} \\
 									\hline
@@ -347,15 +351,15 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 										\bigskip Allows a third party to obtain an authentication Token
 									\bigskip }\\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 						
 							\item \textbf{Third Party Controller} \\
 					
 							\textbf{Individual Request} \\
 			
-							\begin{tabularx}{\linewidth}{| l | l |}
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
-								endpoint & */request/individual \\
+								endpoint & *thirdparty/\{id\}/request/individual \\
 								\hline
 								method & POST \\
 								\hline
@@ -398,12 +402,12 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 								\bigskip}  \\
 								\hline
 							\end{tabularx}\\
-					
+							\newpage
 							\textbf{Anonymous Request} \\
 			
-							\begin{tabularx}{\linewidth}{| l | l |}
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
-								endpoint & */request/group \\
+								endpoint & *thirdparty/\{id\}/request/group \\
 								\hline
 								method & POST \\
 								\hline
@@ -448,11 +452,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\bigskip Allows the third party to do a group request of data.
 								\bigskip}  \\
 								\hline
-							\end{tabularx}\\
+							\end{tabularx}\\\\
 					
 							\textbf{Modify Third Party Password}\\
 				
-							\begin{tabularx}{\linewidth}{| l | l |}
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
 								endpoint & */thirdParty/\{id\} \\
 								\hline
@@ -486,7 +490,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									Code: 401 UNAUTHORIZED \\
 									Content : \{error: "User not logged"\}\\
 									Code: 403 FORBIDDEN \\
-									Content : \{error: "ID provided does not match the authentication Token" $||$  "Current password provided is incorrect"\}\\
+									Content : \{error: "ID provided does not match the authentication Token" or  "Current password provided is incorrect"\}\\
 									\bigskip
 								} \\
 								\hline
@@ -497,12 +501,12 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 								} \\
 								\hline
 							\end{tabularx}\\
-							
+							\newpage
 							\textbf{Get notifications} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
-									endpoint & */thirdParty/notifications/\{id\} \\
+									endpoint & */thirdParty/\{id\}/notifications \\
 									\hline
 									method & GET \\
 									\hline
@@ -538,11 +542,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 										\bigskip Allows the third parties to request for notifications, such as new answers from individuals, new answers from the server for anonymous requests.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 								
 								\textbf{Get data} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */thirdParty/\{id\}/\{notification\} \\
 									\hline
@@ -561,7 +565,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{notifications: Data\}
+										Content : \{newData: Data\}
 										\bigskip
 									} \\
 									\hline
@@ -581,14 +585,14 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
-					
+							\newpage
 							\item \textbf{Individual Controller} \\
 					
 								\textbf{Answer to Request} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
-									endpoint & */answerToRequest/\{id\} \\
+									endpoint & *individual/\{id\}/answerToRequest \\
 									\hline
 									method & POST \\
 									\hline
@@ -628,11 +632,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 										\bigskip Allows the individual to accept or refuse an individual request.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 								
 								\textbf{Edit User Information} \\
 
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\} \\
 									\hline
@@ -685,9 +689,9 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 							
 								\textbf{Send Data} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
-									endpoint & */data/\{id\} \\
+									endpoint & *individual/\{id\}/data \\
 									\hline
 									method & POST \\
 									\hline
@@ -705,7 +709,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{message: "Answer received correctly."\}
+										Content : \{message: "Data received correctly."\}
 										\bigskip
 									} \\
 									\hline
@@ -730,9 +734,9 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 								
 								\textbf{Get notifications} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
-									endpoint & */individual/notifications/\{id\} \\
+									endpoint & */individual/\{id\}/notifications\\
 									\hline
 									method & GET \\
 									\hline
@@ -769,11 +773,12 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
+							\newpage
 							\item \textbf{Track4Run Individual Controller} \\
 							
 								\textbf{Get notifications} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/track4Run/notifications \\
 									\hline
@@ -792,7 +797,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{notifications: Array<Notifications>\}
+										Content : \{notifications: Array of Notification\}
 										\bigskip
 									} \\
 									\hline
@@ -811,11 +816,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 										\bigskip Allows the individual to request for notifications, such as new runs.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 								
 								\textbf{Get list of runs} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/track4Run/runs\\
 									\hline
@@ -834,7 +839,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{notifications: Array<Runs>\}
+										Content : \{runs: array of Run\}
 										\bigskip
 									} \\
 									\hline
@@ -854,10 +859,10 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
-								
+								\newpage
 								\textbf{Request to partecipate to a run} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/track4Run/request \\
 									\hline
@@ -877,7 +882,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{message: "Answer received correctly."\}
+										Content : \{message: "Request received correctly."\}
 										\bigskip
 									} \\
 									\hline
@@ -898,11 +903,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 										\bigskip Allows the individual to send data.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 								
 								\textbf{Get positions of runners} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/track4run/\{run\}/positions \\
 									\hline
@@ -941,12 +946,12 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
-								
+							\newpage	
 							\item \textbf{Track4Run Third Party Controller} \\
 							
 								\textbf{Organise a run} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */thirdParty/\{id\}/track4Run/newRun \\
 									\hline
@@ -987,11 +992,11 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 										\bigskip Allows the third party to organise a new run.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 							
 								\textbf{Get notifications} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */thirdParty/\{id\}/track4Run/notifications \\
 									\hline
@@ -1057,7 +1062,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 					\item Scalable: If you need to add more resources, you can do it per tier, without affecting the other tiers.
 					\item Flexible: Apart from isolated scalability, you can also expand each tier in any manner that your requirements dictate.\\
 				\end{itemize}
-				\textbf{HYBRID CLIENT}\\
+				\item \textit{\textbf{Hybrid Client}}\\\\
 				In our system presentation and application processing are not really totally separated, because mobile client applications have got components which work on the analysis and filtering of data. For this reason individual mobile applications are not thin clients. But they are not even considered as fat clients, because they are not thought to rely on a local store, so they are called hybrid clients. Furthermore, clients, included third parties machines, can't be considered thin clients because they have a local controller as explained in the next section.\\\\
 				\item \textit{\textbf{MVC}}\\\\
 				The main idea compared to other more traditional server-side architectures is to build the server as a set of stateless reusable REST services, and from an MVC perspective to take the controller out of the backend and move it into the client.
@@ -1065,7 +1070,7 @@ If the Authentication succeeds, the control goes back to the Third Party Control
 				The frontend should only handle presentation logic, but no business logic. These are the three layers of the frontend:
 				\begin{itemize}
 					\item The view layer: it's intended to be displayed to the user. The presentation contains not just the content, but also the attributes for display such as HTML and CSS.
-					\item The controller layer: it's made of functions that glue the data retrieved from the backend and the view together. The controller initializes the view model and defines how the view should react to model changes and vice-versa.
+					\item The controller layer: it's made of functions that glue the data retrieved from the backend and the view together. The controller initialises the view model and defines how the view should react to model changes and vice-versa.
 					\item The frontend services layer: a set of functions that allow to interact with the backend and with the controller layer.
 				\end{itemize}
 				The backend is built using the usual backend layers:
