@@ -201,7 +201,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								\bigskip}  \\
 								\hline
 							\end{tabularx}\\
-					
+						\newpage
 						\textbf{Individual Registration} \\
 			
 							\begin{tabularx}{\linewidth}{| l | l |}
@@ -247,7 +247,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\bigskip Allows an individual to register to the system.
 								\bigskip}  \\
 								\hline
-							\end{tabularx}\\
+							\end{tabularx}\\\\
 					
 							\textbf{Individual Login}\\
 
@@ -271,7 +271,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{accessToken: [alphanumeric]\}
+										Content : \{accessToken: [alphanumeric]\} and \{id: [integer]\}
 										\bigskip
 									} \\
 									\hline
@@ -292,8 +292,8 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 										\bigskip Allows an individual to obtain an authentication Token
 									\bigskip }\\
 									\hline
-								\end{tabularx}
-						
+								\end{tabularx}\\
+							\newpage
 							\textbf{Third Party Login}\\
 
 								\begin{tabularx}{\linewidth}{| l | l |}
@@ -316,7 +316,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{accessToken: [alphanumeric]\}
+										Content : \{accessToken: [alphanumeric]\}  and \{id: [integer]\}
 										\bigskip
 									} \\
 									\hline
@@ -337,7 +337,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 										\bigskip Allows a third party to obtain an authentication Token
 									\bigskip }\\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 						
 							\item \textbf{Third Party Controller} \\
 					
@@ -345,7 +345,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 			
 							\begin{tabularx}{\linewidth}{| l | l |}
 								\hline
-								endpoint & */request/individual \\
+								endpoint & *thirdparty/\{id\}/request/individual \\
 								\hline
 								method & POST \\
 								\hline
@@ -388,12 +388,12 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								\bigskip}  \\
 								\hline
 							\end{tabularx}\\
-					
+							\newpage
 							\textbf{Anonymous Request} \\
 			
 							\begin{tabularx}{\linewidth}{| l | l |}
 								\hline
-								endpoint & */request/group \\
+								endpoint & *thirdparty/\{id\}/request/group \\
 								\hline
 								method & POST \\
 								\hline
@@ -438,7 +438,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\bigskip Allows the third party to do a group request of data.
 								\bigskip}  \\
 								\hline
-							\end{tabularx}\\
+							\end{tabularx}\\\\
 					
 							\textbf{Modify Third Party Password}\\
 				
@@ -487,12 +487,12 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								} \\
 								\hline
 							\end{tabularx}\\
-							
+							\newpage
 							\textbf{Get notifications} \\
 			
 								\begin{tabularx}{\linewidth}{| l | l |}
 									\hline
-									endpoint & */thirdParty/notifications/\{id\} \\
+									endpoint & */thirdParty/\{id\}/notifications \\
 									\hline
 									method & GET \\
 									\hline
@@ -528,7 +528,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 										\bigskip Allows the third parties to request for notifications, such as new answers from individuals, new answers from the server for anonymous requests.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 								
 								\textbf{Get data} \\
 			
@@ -551,7 +551,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{notifications: Data\}
+										Content : \{newData: Data\}
 										\bigskip
 									} \\
 									\hline
@@ -571,14 +571,14 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
-					
+							\newpage
 							\item \textbf{Individual Controller} \\
 					
 								\textbf{Answer to Request} \\
 			
 								\begin{tabularx}{\linewidth}{| l | l |}
 									\hline
-									endpoint & */answerToRequest/\{id\} \\
+									endpoint & *individual/\{id\}/answerToRequest \\
 									\hline
 									method & POST \\
 									\hline
@@ -618,7 +618,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 										\bigskip Allows the individual to accept or refuse an individual request.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 								
 								\textbf{Edit User Information} \\
 
@@ -677,7 +677,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 			
 								\begin{tabularx}{\linewidth}{| l | l |}
 									\hline
-									endpoint & */data/\{id\} \\
+									endpoint & *individual/\{id\}/data \\
 									\hline
 									method & POST \\
 									\hline
@@ -695,7 +695,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{message: "Answer received correctly."\}
+										Content : \{message: "Data received correctly."\}
 										\bigskip
 									} \\
 									\hline
@@ -722,7 +722,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 			
 								\begin{tabularx}{\linewidth}{| l | l |}
 									\hline
-									endpoint & */individual/notifications/\{id\} \\
+									endpoint & */individual/\{id\}/notifications\\
 									\hline
 									method & GET \\
 									\hline
@@ -759,6 +759,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
+							\newpage
 							\item \textbf{Track4Run Individual Controller} \\
 							
 								\textbf{Get notifications} \\
@@ -782,7 +783,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{notifications: Array<Notifications>\}
+										Content : \{notifications: Array of Notification\}
 										\bigskip
 									} \\
 									\hline
@@ -801,7 +802,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 										\bigskip Allows the individual to request for notifications, such as new runs.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 								
 								\textbf{Get list of runs} \\
 			
@@ -824,7 +825,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{notifications: Array<Runs>\}
+										Content : \{runs: array of Run\}
 										\bigskip
 									} \\
 									\hline
@@ -844,7 +845,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
-								
+								\newpage
 								\textbf{Request to partecipate to a run} \\
 			
 								\begin{tabularx}{\linewidth}{| l | l |}
@@ -867,7 +868,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\parbox{0.7\textwidth}{
 										\bigskip
 										code: 200\\
-										Content : \{message: "Answer received correctly."\}
+										Content : \{message: "Request received correctly."\}
 										\bigskip
 									} \\
 									\hline
@@ -888,7 +889,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 										\bigskip Allows the individual to send data.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 								
 								\textbf{Get positions of runners} \\
 			
@@ -931,7 +932,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\bigskip}  \\
 									\hline
 								\end{tabularx}\\
-								
+							\newpage	
 							\item \textbf{Track4Run Third Party Controller} \\
 							
 								\textbf{Organise a run} \\
@@ -977,7 +978,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 										\bigskip Allows the third party to organise a new run.
 									\bigskip}  \\
 									\hline
-								\end{tabularx}\\
+								\end{tabularx}\\\\
 							
 								\textbf{Get notifications} \\
 			
@@ -1047,7 +1048,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 					\item Scalable: If you need to add more resources, you can do it per tier, without affecting the other tiers.
 					\item Flexible: Apart from isolated scalability, you can also expand each tier in any manner that your requirements dictate.\\
 				\end{itemize}
-				\textbf{HYBRID CLIENT}\\
+				\item \textit{\textbf{Hybrid Client}}\\\\
 				In our system presentation and application processing are not really totally separated, because mobile client applications have got components which work on the analysis and filtering of data. For this reason individual mobile applications are not thin clients. But they are not even considered as fat clients, because they are not thought to rely on a local store, so they are called hybrid clients. Furthermore, clients, included third parties machines, can't be considered thin clients because they have a local controller as explained in the next section.\\\\
 				\item \textit{\textbf{MVC}}\\\\
 				The main idea compared to other more traditional server-side architectures is to build the server as a set of stateless reusable REST services, and from an MVC perspective to take the controller out of the backend and move it into the client.
