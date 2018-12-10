@@ -1,11 +1,11 @@
 \pagenumbering{gobble}
-	\underline{\textbf{Architectural design} }
+	\underline{\textbf{Architectural design} }\\
 	\begin{legal}
     	\item \textit{\textbf{Overview: high-level components and their interaction}}\\\\
 The figure below represents an high level overview of the system. Further details
-on the system components and their interaction will be further explained in the next sections.\\
+on the system components and their interaction will be further explained in the next sections.\\\\
 		\begin{figure}[H]
-		\includegraphics[width=\linewidth]{../images/design/OverviewDiagram.png}
+		\includegraphics[width=\linewidth]{../images/design/OverviewDiagram.png}\\\\\\\\\\\\
 		\end{figure}
 		
 		\item \textit{\textbf{Component view}}\\\\
@@ -92,7 +92,6 @@ The access to the Database is mediated by a network firewall in order to
 avoid unauthorised access to the data and the credentials of the user.\\\\
 		\textbf{Database Server}\\
 This is the last layer of the architecture: all the data are stored in a Database Server accessed through a relational DBMS. \\\\
-		\newpage
 		\item \textit{\textbf{Runtime view}}\\
 			\begin{legal}
 				\item \textbf{Sign up Runtime View}\\
@@ -103,7 +102,7 @@ The information is serialized and then sent to the Application Server through an
 The Authorization controller handles the request and, through the Storage interface, creates a new
 entry in the User table or in the ThirdParty table on the Database. \\
 				\begin{figure}[H]
-				\includegraphics[width=\linewidth]{images/seq_diagrams/seq_UserLogin.png}\\
+				\includegraphics[width=\linewidth]{images/seq_diagrams/thirdPartySignUpSeq.png}\\
 				\end{figure}
 				
 				\newpage
@@ -139,19 +138,23 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 				
 				\newpage
 				\item \textbf{Individual request Runtime View}\\
-				
-				%\begin{figure}[H]
-				%\includegraphics[width=\linewidth]{images/seq_diagrams/individualRequestSeq.png}\\
-				%\end{figure}
+				The Third party opens the Data4Help section of the application and, after filling the form containing the information about the request, it can send a POST request containg the Access Token and the filled form to the Third Party controller.
+The Third Party Controller passes the Access Token to the Authentication Controller that checks if the Web Client provided a valid Token.
+If the Authentication succeeds, the Third Party Controller forwards the request to the Storage Controller, that adds an instance of the request into the Database. Then, if the request is successfully inserted, the Third party is notified.
+When this process is completed and the answer to the previous request is ready, the system will notify the Third Party as soon as it will ask for notifications.
+
+				\begin{figure}[H]
+				\includegraphics[width=\linewidth]{images/seq_diagrams/individualRequestSeq.png}\\
+				\end{figure}
 				
 				\newpage
 				\item \textbf{Group request Runtime View}\\
 The Third party opens the Data4Help section of the application and, after filling the form containing the information about the request, it can send a POST request containg the Access Token and the filled form to the Third Party controller.
 The Third Party Controller passes the Access Token to the Authentication Controller that checks if the Web Client provided a valid Token.
-If the Authentication succeeds, the control goes back to the Third Party Controller that asks the Anonymuos Request Builder to get the data from the Database, through the Storage Controller. If the constraints on data are satisfied, the Third Party Controller asks the Storage Controller to add an instance of the request into the Database. Then, if the request is successfully inserted, the Third party is notified and the Third Party Controller communicates to the Anonymous Request Builder to aggregate the received data and to register into the Database the end of the aggregation process.
-				\begin{figure}[H]s
-				\includegraphics[width=\linewidth]{images/seq_diagrams/groupRequestSeq.png}\\
-				\end{figure}
+If the Authentication succeeds, the Third Party Controller asks the Anonymuos Request Builder to get the data from the Database, through the Storage Controller. If the constraints on data are satisfied, the Third Party Controller asks the Storage Controller to add an instance of the request into the Database. Then, if the request is successfully inserted, the Third party is notified and the Third Party Controller communicates the Anonymous Request Builder to aggregate the received data.
+				\begin{center}
+				\includegraphics[width=14cm]{images/seq_diagrams/groupRequestSeq.png}\\
+				\end{center}
 				
 				\newpage
 				\item \textbf{AutomatedSOS Runtime View}\\
