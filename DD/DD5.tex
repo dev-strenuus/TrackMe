@@ -8,7 +8,7 @@ As it is evident from the Component Diagram, the components can be classified in
 		\item Components: Mobile controller,  Data retriever, Health checker, Presentation mobile;
 		\item Interfaces for external services: Map service interface, OS Bluetooth interface, Smartwatch interface, OS call service interface.
 		\end{itemize}
-	\item Web client;
+	\item Web client: browser and Map service interface.
 	\item Business logic, made up by:
 		\begin{itemize}
 		\item Components: Individual controller, Third party controller, Authentication controller, Track4Run Individual controller, Track4Run Third party controller, Anonymous request builder, Storage controller;
@@ -17,14 +17,15 @@ As it is evident from the Component Diagram, the components can be classified in
 	\item External components: Map service, OS Bluetooth service, OS call service, Smartwatch service, DBMS.\\
 	\end{itemize}
 
-A bottom-up strategy will be used to implement, integrate and test the system. Then the following steps will be performed:
+A bottom-up strategy will be used to implement, integrate and test the system.
+Firstly single components have to be implemented and then unit tested. Later the following steps will be performed:
 	\begin{enumerate} 
 	\item each subsystem will be implemented, integrated and tested;
 	\item the subsystems will be integrated and tested togheter.\\
 	\end{enumerate}
 Since we cannot directly manage external components, we assume they are reliable and we use the provided interfaces to test our system.\\
 
-To keep the integration and testing process more clear we can split the Business logic subsystem into the following subsystems:
+To keep the integration and testing process more clear we can split the Business logic subsystem into the following subsystems, based on their main functionalities:
 	\begin{itemize}
 	\item Individual subsystem: Individual controller and Storage controller;
 	\item Authentication subsystem: Authentication controller and Storage controller;
@@ -36,11 +37,11 @@ To keep the integration and testing process more clear we can split the Business
 
 To reach the same goal, in the Mobile client subsystem we can distinguish:
 	\begin{itemize}
-	\item Data4Help subsystem: Data retriever and Health checker;
+	\item AutomatedSOS subsystem: Data retriever and Health checker;
 	\item Transfer data subsystem: Data retriever and Mobile controller.\\
 	\end{itemize}
 
-Focusing the attention on the Mobile client, after having implemented and tested all the subsystems (step 1), it is needed to test the integration of all of them. Let's call the result Mobile client subsystem.
+Focusing the attention on the Mobile client, after having tested all the subsystems (step 1), it is needed to test the integration of all of them. Let's call the result Mobile client subsystem.
 	\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5] {images/integration/mobileClient.png}
