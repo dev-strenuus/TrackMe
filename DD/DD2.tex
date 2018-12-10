@@ -154,14 +154,14 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 		\item \textit{\textbf{Component interfaces}}\\\\
 			\begin{legal} 
 				\item \textit{\textbf{REST API}}\\\\
-				REST (REpresentation State Transfer) describes an architectural style of networked systems such as this application. One of the most important REST principles for Web applications is that the interaction between the client and server is stateless between requests. Each request from the client to the server must contain all of the information necessary to understand the request. The client wouldn't notice if the server were to be restarted at any point between the requests. Additionally, stateless requests are free to be answered by any available server, which is appropriate for an environment such as cloud computing. On the server side, the application state and functionality are divided into resources. A resource is an item of interest, a conceptual identity that is exposed to the clients. Every resource is uniquely addressable using a URI (Universal Resource Identifier). All resources share a uniform interface for the transfer of state between client and server. Standard HTTP methods such as GET, PUT, POST, and DELETE are used. Hypermedia is the engine of the application state, and resource representations are interconnected by hyperlinks, as described partially in this section and section 3.
+				REST (REpresentation State Transfer) describes an architectural style of networked systems such as this application. One of the most important REST principles for Web applications is that the interaction between the client and server is stateless between requests. Each request from the client to the server must contain all of the information necessary to understand the request. The client wouldn't notice if the server were to be restarted at any point between the requests. Additionally, stateless requests are free to be answered by any available server, which is appropriate for an environment such as cloud computing. On the server side, the application state and functionality are divided into resources. A resource is an item of interest, a conceptual identity that is exposed to the clients. Every resource is uniquely addressable using a URI (Universal Resource Identifier). All resources share a uniform interface for the transfer of state between client and server. Standard HTTP methods such as GET, PUT, POST, and DELETE are used. Hypermedia is the engine of the application state, and resource representations are interconnected by hyperlinks, as described partially in this section and section 3.\\
 
 					\begin{itemize}
 						\item \textbf{Authentication Controller} \\
-				
+						
 						\textbf{Third Party Registration} \\
-			
-							\begin{tabularx}{\linewidth}{| l | l |}
+						
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
 								endpoint & */auth/thirdparty/register \\
 								\hline
@@ -201,10 +201,11 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								\bigskip}  \\
 								\hline
 							\end{tabularx}\\
+							
 						\newpage
 						\textbf{Individual Registration} \\
 			
-							\begin{tabularx}{\linewidth}{| l | l |}
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
 								endpoint & */auth/individual/register \\
 								\hline
@@ -251,7 +252,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 					
 							\textbf{Individual Login}\\
 
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */auth/individual/login \\
 									\hline
@@ -296,7 +297,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 							\newpage
 							\textbf{Third Party Login}\\
 
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */auth/thirdparty/login \\
 									\hline
@@ -343,7 +344,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 					
 							\textbf{Individual Request} \\
 			
-							\begin{tabularx}{\linewidth}{| l | l |}
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
 								endpoint & *thirdparty/\{id\}/request/individual \\
 								\hline
@@ -391,7 +392,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 							\newpage
 							\textbf{Anonymous Request} \\
 			
-							\begin{tabularx}{\linewidth}{| l | l |}
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
 								endpoint & *thirdparty/\{id\}/request/group \\
 								\hline
@@ -442,7 +443,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 					
 							\textbf{Modify Third Party Password}\\
 				
-							\begin{tabularx}{\linewidth}{| l | l |}
+							\begin{tabularx}{\linewidth}{| l| l }
 								\hline
 								endpoint & */thirdParty/\{id\} \\
 								\hline
@@ -476,7 +477,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									Code: 401 UNAUTHORIZED \\
 									Content : \{error: "User not logged"\}\\
 									Code: 403 FORBIDDEN \\
-									Content : \{error: "ID provided does not match the authentication Token" $||$  "Current password provided is incorrect"\}\\
+									Content : \{error: "ID provided does not match the authentication Token" or  "Current password provided is incorrect"\}\\
 									\bigskip
 								} \\
 								\hline
@@ -490,7 +491,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 							\newpage
 							\textbf{Get notifications} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */thirdParty/\{id\}/notifications \\
 									\hline
@@ -532,7 +533,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								
 								\textbf{Get data} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */thirdParty/\{id\}/\{notification\} \\
 									\hline
@@ -576,7 +577,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 					
 								\textbf{Answer to Request} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & *individual/\{id\}/answerToRequest \\
 									\hline
@@ -622,7 +623,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								
 								\textbf{Edit User Information} \\
 
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\} \\
 									\hline
@@ -675,7 +676,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 							
 								\textbf{Send Data} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & *individual/\{id\}/data \\
 									\hline
@@ -720,7 +721,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								
 								\textbf{Get notifications} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/notifications\\
 									\hline
@@ -764,7 +765,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 							
 								\textbf{Get notifications} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/track4Run/notifications \\
 									\hline
@@ -806,7 +807,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								
 								\textbf{Get list of runs} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/track4Run/runs\\
 									\hline
@@ -848,7 +849,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								\newpage
 								\textbf{Request to partecipate to a run} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/track4Run/request \\
 									\hline
@@ -893,7 +894,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								
 								\textbf{Get positions of runners} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */individual/\{id\}/track4run/\{run\}/positions \\
 									\hline
@@ -937,7 +938,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 							
 								\textbf{Organise a run} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */thirdParty/\{id\}/track4Run/newRun \\
 									\hline
@@ -982,7 +983,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 							
 								\textbf{Get notifications} \\
 			
-								\begin{tabularx}{\linewidth}{| l | l |}
+								\begin{tabularx}{\linewidth}{| l| l }
 									\hline
 									endpoint & */thirdParty/\{id\}/track4Run/notifications \\
 									\hline
