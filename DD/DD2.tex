@@ -188,6 +188,8 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								error response &
 								\parbox{0.7\textwidth}{
 									\bigskip
+									code: 400 BAD REQUEST \\
+									Content : \{error: "Malformed data parameters syntax"\}\\
 									code: 422 UNPROCESSABLE ENTRY \\
 									Content : \{error: "Registration Data not correct"\}
 									\bigskip
@@ -233,6 +235,8 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								error response &
 								\parbox{0.7\textwidth}{
 									\bigskip
+									code: 400 BAD REQUEST \\
+									Content : \{error: "Malformed data parameters syntax"\}\\
 									code: 422 UNPROCESSABLE ENTRY \\
 									Content : \{error: "Registration Data not correct"\}
 									\bigskip
@@ -274,6 +278,8 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									error response &
 									\parbox{0.7\textwidth}{
 										\bigskip
+										code: 400 BAD REQUEST \\
+										Content : \{error: "Malformed data parameters syntax"\}\\
 										Code: 422 UNPROCESSABLE ENTRY \\
 										Content : \{error: "Login data not correct"\}\\
 										Code: 401 UNAUTHORIZED \\
@@ -317,6 +323,8 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									error response &
 									\parbox{0.7\textwidth}{
 										\bigskip
+										code: 400 BAD REQUEST \\
+										Content : \{error: "Malformed data parameters syntax"\}\\
 										Code: 422 UNPROCESSABLE ENTRY \\
 										Content : \{error: "Login data not correct"\}\\
 										Code: 401 UNAUTHORIZED \\
@@ -363,6 +371,8 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								error response &
 								\parbox{0.7\textwidth}{
 									\bigskip
+									code: 400 BAD REQUEST \\
+									Content : \{error: "Malformed data parameters syntax"\}\\
 									code: 401 UNAUTHORIZED \\
 									Content : \{error: "Third party not logged in"\}
 									code: 404 NOT FOUND \\
@@ -406,16 +416,16 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									\bigskip
 									code: 200\\
 									Content : \{message: "Requested received and ready to be analyzed."\}
-									code: 404 NOT FOUND \\
-									Content : \{error: "Fiscalcode not present in database."\}\\
-									Code: 422 UNPROCESSABLE ENTRY \\
-									Content : \{error: "Fiscal code not correct"\}
 									\bigskip
 								} \\
 								\hline
 								error response &
 								\parbox{0.7\textwidth}{
 									\bigskip
+									code: 400 BAD REQUEST \\
+									Content : \{error: "Malformed data parameters syntax"\}\\
+									code: 404 NOT FOUND \\
+									Content : \{error: "Fiscalcode not present in database."\}\\
 									code: 401 UNAUTHORIZED \\
 									Content : \{error: "Third party not logged in"\}\\
 									Code: 422 UNPROCESSABLE ENTRY \\
@@ -461,6 +471,8 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								error response &
 								\parbox{0.7\textwidth}{
 									\bigskip
+									code: 400 BAD REQUEST \\
+									Content : \{error: "Malformed data parameters syntax"\}\\
 									Code: 401 UNAUTHORIZED \\
 									Content : \{error: "User not logged"\}\\
 									Code: 403 FORBIDDEN \\
@@ -475,6 +487,90 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 								} \\
 								\hline
 							\end{tabularx}\\
+							
+							\textbf{Get notifications} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */thirdParty/notifications/\{id\} \\
+									\hline
+									method & GET \\
+									\hline
+									data params & \\
+									\hline
+									url params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{notifications: Array<Notifications>\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Third party not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Third party not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the third parties to request for notifications, such as new answers from individuals, new answers from the server for anonymous requests.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+								
+								\textbf{Get data} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */thirdParty/\{id\}/\{notification\} \\
+									\hline
+									method & GET \\
+									\hline
+									data params & \\
+									\hline
+									url params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{notifications: Data\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Third party not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Third party not found." or "Notification not found for this third party"\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the third parties to request for data after having received the notifications that they are ready.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
 					
 							\item \textbf{Individual Controller} \\
 					
@@ -482,7 +578,7 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 			
 								\begin{tabularx}{\linewidth}{| l | l |}
 									\hline
-									endpoint & */answerToRequest \\
+									endpoint & */answerToRequest/\{id\} \\
 									\hline
 									method & POST \\
 									\hline
@@ -508,10 +604,12 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									error response &
 									\parbox{0.7\textwidth}{
 										\bigskip
+										code: 400 BAD REQUEST \\
+										Content : \{error: "Malformed data parameters syntax"\}\\
 										code: 401 UNAUTHORIZED \\
 										Content : \{error: "Individual not logged in"\}\\
 										code: 404 NOT FOUND \\
-										Content : \{error: "Request not found."\}
+										Content : \{error: "Request not found." or "Individual not found."\}
 										\bigskip
 									} \\
 									\hline
@@ -556,6 +654,8 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									error response &
 									\parbox{0.7\textwidth}{
 										\bigskip
+										code: 400 BAD REQUEST \\
+										Content : \{error: "Malformed data parameters syntax"\}\\
 										Code: 401 UNAUTHORIZED \\
 										Content : \{error: "Indiviudal not logged"\}\\
 										Code: 403 FORBIDDEN \\
@@ -572,11 +672,359 @@ If the Authentication succeeds the control goes back to the Track4Run Third Part
 									} \\
 									\hline
 								\end{tabularx} \\
+							
+								\textbf{Send Data} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */data/\{id\} \\
+									\hline
+									method & POST \\
+									\hline
+									url params & \\
+									\hline
+									data params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]\\
+										data: [] (implementation detail)\\
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{message: "Answer received correctly."\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 400 BAD REQUEST \\
+										Content : \{error: "Malformed data parameters syntax"\}\\
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Individual not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Individual not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the individual to send data.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+								
+								\textbf{Get notifications} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */individual/notifications/\{id\} \\
+									\hline
+									method & GET \\
+									\hline
+									data params & \\
+									\hline
+									url params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{notifications: Array<Notifications>\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Individual not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Individual not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the individual to request for notifications, such as new third parties requests.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+							\item \textbf{Track4Run Individual Controller} \\
+							
+								\textbf{Get notifications} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */individual/\{id\}/track4Run/notifications \\
+									\hline
+									method & GET \\
+									\hline
+									data params & \\
+									\hline
+									url params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{notifications: Array<Notifications>\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Individual not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Individual not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the individual to request for notifications, such as new runs.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+								
+								\textbf{Get list of runs} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */individual/\{id\}/track4Run/runs\\
+									\hline
+									method & GET \\
+									\hline
+									data params & \\
+									\hline
+									url params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{notifications: Array<Runs>\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Individual not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Individual not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the individual to get the list of all the available runs, with informations about his/her partecipations.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+								
+								\textbf{Request to partecipate to a run} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */individual/\{id\}/track4Run/request \\
+									\hline
+									method & POST \\
+									\hline
+									url params & \\
+									\hline
+									data params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]\\
+										runId: [integer]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{message: "Answer received correctly."\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 400 BAD REQUEST \\
+										Content : \{error: "Malformed data parameters syntax"\}\\
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Individual not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Individual not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the individual to send data.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+								
+								\textbf{Get positions of runners} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */individual/\{id\}/track4run/\{run\}/positions \\
+									\hline
+									method & GET \\
+									\hline
+									data params & \\
+									\hline
+									url params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{notifications: Array<Position>\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Individual not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Individual not found" or "Run not found"\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the individual to request for the positions of runners during a run in order to display them on the map.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+								
+							\item \textbf{Track4Run Third Party Controller} \\
+							
+								\textbf{Organise a run} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */thirdParty/\{id\}/track4Run/newRun \\
+									\hline
+									method & POST \\
+									\hline
+									url params & \\
+									\hline
+									data params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]\\
+										runInfo: [] (implementation detail)
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{message: "Request received correctly."\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 400 BAD REQUEST \\
+										Content : \{error: "Malformed data parameters syntax"\}\\
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Third party not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Third party not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the third party to organise a new run.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
+							
+								\textbf{Get notifications} \\
+			
+								\begin{tabularx}{\linewidth}{| l | l |}
+									\hline
+									endpoint & */thirdParty/\{id\}/track4Run/notifications \\
+									\hline
+									method & GET \\
+									\hline
+									data params & \\
+									\hline
+									url params &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										accessToken: [alphanumeric]
+										\bigskip
+									} \\
+									\hline
+									success response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 200\\
+										Content : \{notifications: Array<Notifications>\}
+										\bigskip
+									} \\
+									\hline
+									error response &
+									\parbox{0.7\textwidth}{
+										\bigskip
+										code: 401 UNAUTHORIZED \\
+										Content : \{error: "Third party not logged in"\}\\
+										code: 404 NOT FOUND \\
+										Content : \{error: "Third part not found."\}
+										\bigskip
+									} \\
+									\hline
+									Notes & 
+									\parbox{0.7\textwidth}{
+										\bigskip Allows the third party to request for notifications, such as new partecipants to a run.
+									\bigskip}  \\
+									\hline
+								\end{tabularx}\\
 
 						\end{itemize}
 					\newpage
 					\item \textit{\textbf{Business Logic Interfaces}}\\
-						In the following diagram, the component interfaces and the dependencies between the parts of the application are presented.\\
+						In the following diagram, the component interfaces and the dependencies between the parts of the application are presented. Methods of interfaces are just a simplification of the real ones.\\
 						\begin{figure}[H]
 							\centering
 			  				\includegraphics[width=\linewidth]{../images/design/interfaces.png}
