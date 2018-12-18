@@ -1,4 +1,4 @@
-package se2.trackme;
+package se2.trackMe;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
