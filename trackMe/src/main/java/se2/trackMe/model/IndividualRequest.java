@@ -1,29 +1,31 @@
 package se2.trackMe.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class IndividualRequest {
+public class IndividualRequest{
 
     @Id
+    @GeneratedValue
+    private Long id;
+
     @ManyToOne
     private Individual individual;
 
-    @Id
     @ManyToOne
     private ThirdParty thirdParty;
 
     @Column
     private Boolean accepted;
 
+    public IndividualRequest(){}
+
     public IndividualRequest(ThirdParty thirdParty, Individual individual){
 
         this.thirdParty = thirdParty;
         this.individual = individual;
-        this.accepted = false;
+        this.accepted = null;
     }
 
 

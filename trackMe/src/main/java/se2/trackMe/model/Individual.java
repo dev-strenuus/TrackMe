@@ -16,6 +16,14 @@ public class Individual {
     @Column
     private  String surname;
 
+    public Individual(){}
+
+    public Individual(String fiscalCode, String name, String surname) {
+        this.fiscalCode = fiscalCode;
+        this.name = name;
+        this.surname = surname;
+    }
+
     public String getFiscalCode() {
         return fiscalCode;
     }

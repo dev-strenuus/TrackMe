@@ -7,6 +7,6 @@ import se2.trackMe.model.ThirdParty;
 
 import java.util.Optional;
 
-public interface IndividualRequestRepository extends CrudRepository<IndividualRequest, String> {
-    Optional<IndividualRequest> findByIndividualAndThirdParty(Individual individual, ThirdParty thirdParty);
+public interface IndividualRequestRepository extends CrudRepository<IndividualRequest, Long> {
+    Optional<IndividualRequest> findByThirdPartyAndIndividual(ThirdParty thirdParty, Individual individual);
 }

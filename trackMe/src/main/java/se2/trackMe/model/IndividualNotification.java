@@ -1,27 +1,36 @@
 package se2.trackMe.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class IndividualNotification {
 
     @Id
-    String id;
+    private String id;
 
-    //TODO
-    @Column
-    Individual individual;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Individual individual;
 
-    //TODO
-    @Column
-    IndividualRequest individualRequest;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private IndividualRequest individualRequest;
+
+    public IndividualNotification(){}
 
     public IndividualNotification(IndividualRequest individualRequest){
         this.individual = individualRequest.getIndividual();
         this.individualRequest = individualRequest;
         this.id = (new Integer(individualRequest.hashCode())).toString();
+    }
+
+    public IndividualRequest getIndividualRequest() {
+        return individualRequest;
+    }
+
+    public Individual getIndividual() {
+        return individual;
+    }
+
+    public String getId() {
+        return id;
     }
 }

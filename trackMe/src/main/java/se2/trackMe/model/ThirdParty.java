@@ -1,5 +1,7 @@
 package se2.trackMe.model;
 
+
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -7,7 +9,15 @@ import javax.persistence.Id;
 public class ThirdParty {
 
     @Id
-    private String VAT;
+    private String vat;
 
+    public ThirdParty(){}
 
+    public ThirdParty(String vat) {
+        this.vat = vat;
+    }
+
+    public String getVat() {
+        return vat;
+    }
 }
