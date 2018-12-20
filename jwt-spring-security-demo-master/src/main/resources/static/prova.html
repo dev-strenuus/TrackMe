@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<title>TrackMe</title>
+<body>
+<h1>Sign up:</h1>
+
+<div ng-app="individualSignUp">
+    <!--
+    <div  ng-controller="individualSignUpController">
+        <style type="text/css">
+            .red {color: red}
+            .green {color: green}
+            .yellow {color: yellow}
+        </style>
+
+        <form>
+            <p>Name: <input type="text" ng-model="individual.name" required></p>
+            <p>Surname: <input type="text" ng-model="individual.surname" required></p>
+            <p>Birth date: <input type="date" ng-model="individual.birthDate" required></p>
+            <p>Fiscal code: <input type="text" ng-model="individual.fiscalCode" required></p>
+            <p>Country: <input type="text" ng-model="individual.country" required></p>
+            <p>City: <input type="text" ng-model="individual.city" required></p>
+            <p>Street:<input type="text" ng-model="individual.street" required></p>
+            <p>Password: <input type="password" ng-model="individual.password" minlength="6" required></p>
+            <p ng-class="{'red': individual.password.length < 6, 'yellow': individual.password.length >= 6 && individual.password.length < 10, 'green': individual.password.length >= 10}">
+                password strength
+            </p>
+        </form>
+    </div>
+    -->
+    <div  ng-controller="notificationController">
+        <table>
+            <tr><th>Id</th><th>Company</th><th>Status</th></tr>
+            <tr ng-repeat="notification in notifications">
+                <td>{{notification.id}}</td><td>{{notification.thirdParty}}</td><td>{{notification.status}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script src="js/prova.js"></script>
+<script src="js/angular/angular.min.js"></script>
+</body>
+</html>
