@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<title>TrackMe</title>
+
+<script src="js/angular/angular.min.js"></script>
+<script src="js/thirdPartySignUp.js"></script>
+<body>
+<h1>Sign up:</h1>
+
+<div ng-app="thirdPartySignUp">
+    <div  ng-controller="thirdPartySignUpController">
+        <form ng-submit="submit()">
+            <p>Fiscal code: <input type="text" ng-model="thirdParty.vatNumber" size="11" required></p>
+            <p>Name: <input type="text" ng-model="thirdParty.name" required></p>
+            <p>Password: <input type="text" ng-model="thirdParty.password" required></p>
+            <p>I accept the agreement!<input type="checkbox" required ></p>
+            <input type="submit" id="submit" value="Submit">
+        </form>
+    </div>
+</div>
+</body>
+</html>
