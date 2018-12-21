@@ -1,6 +1,7 @@
 package se2.trackMe.controller.thirdPartyController;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +12,7 @@ import se2.trackMe.model.Individual;
 import se2.trackMe.model.IndividualRequest;
 import se2.trackMe.model.ThirdParty;
 import se2.trackMe.model.ThirdPartyNotification;
+import se2.trackMe.model.profileJSON.Profile;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class ThirdPartyController {
         thirdPartyService.addIndividualRequest(thirdParty, individual);
     }
 
+    @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/notifications")
     public @ResponseBody List<ThirdPartyNotification> getThirdPartyNotificationList(@PathVariable("thirdParty") String id){
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));

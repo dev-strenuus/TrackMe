@@ -1,5 +1,8 @@
 package se2.trackMe.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import se2.trackMe.model.profileJSON.Profile;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +14,7 @@ public class IndividualNotification {
     @ManyToOne(cascade = CascadeType.ALL)
     private Individual individual;
 
+    @JsonView(Profile.IndividualPublicView.class)
     @ManyToOne(cascade = CascadeType.ALL)
     private IndividualRequest individualRequest;
 

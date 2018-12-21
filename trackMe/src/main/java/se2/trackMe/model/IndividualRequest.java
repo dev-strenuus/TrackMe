@@ -1,5 +1,8 @@
 package se2.trackMe.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import se2.trackMe.model.profileJSON.Profile;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,12 +13,15 @@ public class IndividualRequest{
     @GeneratedValue
     private Long id;
 
+    @JsonView(Profile.ThirdPartyPublicView.class)
     @ManyToOne
     private Individual individual;
 
+    @JsonView(Profile.IndividualPublicView.class)
     @ManyToOne
     private ThirdParty thirdParty;
 
+    @JsonView(Profile.ThirdPartyPublicView.class)
     @Column
     private Boolean accepted;
 
