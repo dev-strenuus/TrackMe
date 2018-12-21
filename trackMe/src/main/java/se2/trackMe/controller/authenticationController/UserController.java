@@ -52,6 +52,9 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/auth/individual/signUp")
     public void addIndividual(@RequestBody Individual individual){
+        if(userService.getUser(individual.getFiscalCode())!=null)
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This user already exists");
+        //useless
         individualService.getIndividual(individual.getFiscalCode()).ifPresent(i -> {throw new ResponseStatusException(HttpStatus.CONFLICT, "This individual already exists");});
         individualService.addIndividual(individual);
         userService.addUser(individual.getFiscalCode(), individual.getPassword(), AuthorityName.ROLE_INDIVIDUAL);
@@ -59,6 +62,9 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/auth/thirdParty/signUp")
     public void addThirdParty(@RequestBody ThirdParty thirdParty){
+        if(userService.getUser(thirdParty.getVat())!=null)
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This user already exists");
+        //useless
         thirdPartyService.getThirdParty(thirdParty.getVat()).ifPresent(t -> {throw new ResponseStatusException(HttpStatus.CONFLICT, "This third party already exists");});
         thirdPartyService.addThirdParty(thirdParty);
         userService.addUser(thirdParty.getVat(), thirdParty.getPassword(), AuthorityName.ROLE_THIRDPARTY);
