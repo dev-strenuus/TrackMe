@@ -3,6 +3,7 @@ package se2.trackMe.controller.thirdPartyController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,17 +15,12 @@ import se2.trackMe.model.ThirdPartyNotification;
 import java.util.List;
 
 @Controller
+@PreAuthorize("hasRole('THIRDPARTY')")
 @ResponseStatus(HttpStatus.OK)
 public class ThirdPartyController {
 
     @Autowired
     private ThirdPartyService thirdPartyService;
-
-    @RequestMapping(method = RequestMethod.POST, value = "/thirdParty/signin")
-    public void addPlayer(@RequestBody ThirdParty thirdParty){
-        thirdPartyService.getThirdParty(thirdParty.getVat()).ifPresent(t -> {throw new ResponseStatusException(HttpStatus.CONFLICT, "This third party already exists");});
-        thirdPartyService.addThirdParty(thirdParty);
-    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/thirdParty/individualRequest")
     public void addPlayer(@RequestBody IndividualRequest individualRequest){
