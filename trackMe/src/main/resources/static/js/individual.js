@@ -8,7 +8,7 @@ let app = angular.module("individual", []);
 
 app.service('SharedDataService', function () {
     let sharedData = {
-        signUp: true,
+        signUp: false,
         login: true,
         home: false,
         notifications: false,
@@ -26,7 +26,6 @@ app.controller("individualSignUpController", function($scope, $http, SharedDataS
 
         console.log($scope.individual);
 
-        //$http.post('http://192.168.100.2:8080/auth/individual/signUp', $scope.individual, config);
         $http.post('/auth/individual/signUp', $scope.individual, config).
         then(function onSuccess(response) {
             console.log(response);
@@ -36,6 +35,10 @@ app.controller("individualSignUpController", function($scope, $http, SharedDataS
         catch(function onError(response) {
             console.log(response);
         });
+    };
+    $scope.showLogin = function () {
+        $scope.sharedDataService.signUp = false;
+        $scope.sharedDataService.login = true;
     }
 });
 
@@ -69,6 +72,10 @@ app.controller("individualLoginController", function($scope, $http, SharedDataSe
             let config = response.config;
             console.log(response);
         });
+    };
+    $scope.showSignUp = function () {
+        $scope.sharedDataService.login = false;
+        $scope.sharedDataService.signUp = true;
     }
 });
 
@@ -89,31 +96,47 @@ app.controller("individualController", function($scope, $http, SharedDataService
 app.controller("individualNotificationsController", function($scope, $http, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.notifications = [];
+    $scope.answer = {};
 
     $scope.$watch('sharedDataService.notifications', function (newVal, oldVal) {
         if (newVal == oldVal)
             return;
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        $http.get("/individual/"+$scope.sharedDataService.username+"/notifications")
+        $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
             .then(function (response) {
+
                 console.log(response);
 
-                /*
                 // filtering data
-                let thirdParties = response.data.map(function (request) {
+                console.log(response.data);
+
+                let result = response.data.forEach(function(element) {
+                    element.map(function (el) {
+                        return el.individualRequest.thirdParty.vat
+                    })
+                });
+                /*
+                let individualRequests = response.data.map(function (elem) {
+                    return response.data[elem]
+                });
+
+                console.log(individualRequests);
+
+                let thirdParties = individualRequests.map(function (request) {
                     return request.thirdParty
                 });
+
+                console.log(thirdParties);
 
                 let vatNumbers = thirdParties.map(function (thirdParty) {
                     return thirdParty.vat
                 });
 
-                $scope.notifications = vatNumbers
-
+                console.log(vatNumbers);
                 */
 
-                $scope.notifications = response.data;
+                $scope.notifications = result
 
             }).catch(function onError(response) {
             // Handle error
@@ -125,6 +148,66 @@ app.controller("individualNotificationsController", function($scope, $http, Shar
             console.log(response);
         });
     });
+
+    $scope.manageRequest = function ($scope, $http) {
+        let content = {
+            "thirdParty" : $scope.answer.vatNumber,
+            "accepted" : $scope.answer.status
+        };
+
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.post("/individual/individualRequest/answer", content, config).
+        then(function onSuccess(response) {
+            console.log(response);
+
+            // TODO: controllare se  possibile definire una funzione per non ripetere il codice
+            $http.defaults.headers.common.Authorization = SharedDataService.token;
+            $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
+                .then(function (response) {
+                    console.log(response);
+
+                    // TODO: stesso problema delle notifiche individuali
+                    let thirdParties = response.data.map(function (request) {
+                        return request.thirdParty
+                    });
+
+                    let vatNumbers = thirdParties.map(function (thirdParty) {
+                        return thirdParty.vat
+                    });
+
+                    $scope.notifications = vatNumbers
+
+                }).catch(function onError(response) {
+                // Handle error
+                let data = response.data;
+                let status = response.status;
+                let statusText = response.statusText;
+                let headers = response.headers;
+                let config = response.config;
+                console.log(response);
+            });
+        }).
+        catch(function onError(response) {
+            // Handle error
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
+            console.log(response);
+        });
+
+    };
+
+    $scope.acceptRequest = function ($scope, $http) {
+        $scope.answer.status = true;
+        $scope.manageRequest($scope, $http)
+    };
+
+    $scope.refuseRequest = function ($scope, $http) {
+        $scope.answer.status = true;
+        $scope.manageRequest($scope, $http)
+    };
 
     $scope.backHome = function () {
                         $scope.sharedDataService.home = true;
@@ -179,4 +262,15 @@ app.controller("individualSettingsController", function($scope, $http, SharedDat
                         $scope.sharedDataService.home = true;
                         $scope.sharedDataService.settings = false;
     }
+});
+
+app.controller("individualLogoutController", function ($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+
+    $scope.logout = function () {
+        $scope.sharedDataService.notifications = false;
+        $scope.sharedDataService.settings = false;
+        $scope.sharedDataService.home = false;
+        $scope.sharedDataService.login = true;
+    };
 });

@@ -36,7 +36,7 @@ public class UserService {
         System.out.println(password);
         password = passwordEncoder.encode(password);
         System.out.println(password);
-        User user= new User(username, password,true, clock.now(),roles);
+        User user = new User(username, password,true, clock.now(),roles);
         userRepository.save(user);
     }
 
