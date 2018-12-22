@@ -15,10 +15,13 @@
     <h1>Sign up:</h1>
     <form ng-submit="submitSignUp()">
 
-        <p>Fiscal code: <input type="text" ng-model="individual.fiscalCode" pattern=".{16}" title="Field must be 16 characters long" required/>
-        <p>Name: <input type="text" ng-model="individual.name" minlength="4" maxlength="50" title="Insert your name" required></p>
+        <p>Fiscal code: <input type="text" ng-model="individual.fiscalCode" pattern=".{16}"
+                               title="Field must be 16 characters long" required/>
+        <p>Name: <input type="text" ng-model="individual.name" minlength="4" maxlength="50" title="Insert your name"
+                        required></p>
         <p>Surname: <input type="text" ng-model="individual.surname" title="Insert your surname" required></p>
-        <p>Password: <input type="password" ng-model="individual.password" minlength="6" title="Insert your password" required></p>
+        <p>Password: <input type="password" ng-model="individual.password" minlength="6" title="Insert your password"
+                            required></p>
         <!--
          <p>Birth date: <input type="date" ng-model="individual.birthDate" required></p>
          <p>Country: <input type="text" ng-model="individual.country" required></p>
@@ -27,7 +30,8 @@
          <p>Number: <input type="text" ng-model="individual.number" required></p>
          <p>Zip code: <input type="number" ng-model="individual.zipCode" size="5" required></p>
          -->
-        <p>I accept the agreement!<input type="checkbox" required></p>
+        <p>I accept the agreement!<input type="checkbox" title="You must agree our terms to use our services" required>
+        </p>
         <input type="submit" id="submitSignUp" value="Submit">
     </form>
 </div>
@@ -35,10 +39,15 @@
 <div ng-controller="individualLoginController" ng-show="sharedDataService.login">
     <h1>Login:</h1>
     <form ng-submit="submitLogin()">
-        <p>Fiscal code: <input type="text" ng-model="credentials.username" size="16" required></p>
-        <p>Password: <input type="password" ng-model="credentials.password" required></p>
+        <p>Fiscal code: <input type="text" ng-model="credentials.username" pattern=".{16}"
+                               title="Field must be 16 characters long" required></p>
+        <p>Password: <input type="password" ng-model="credentials.password" title="Insert your password" required></p>
         <input type="submit" id="submitLogin" value="Login">
     </form>
+    <div>
+        <p>If you do not have an account, please sign up</p>
+        <button ng-click="showSignUp()">Sign up</button>
+    </div>
 </div>
 
 <div ng-controller="individualController" ng-show="sharedDataService.home">
@@ -49,33 +58,39 @@
     <div>
         <button ng-click="showSettings()">Settings</button>
     </div>
+    <div>
+        <button ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
+    </div>
 </div>
 
 <div ng-controller="individualNotificationsController" ng-show="sharedDataService.notifications">
-    <h1>All your requests:</h1>
-
-    <!--<table>
-        <tr>
-            <th>Id</th>
-            <th>Company VAT Number</th>
-        </tr>
-        <tr ng-repeat="notification in notifications">
-            <td>{{$index}}</td>
-            <td>{{notification}}</td>
-        </tr>
-    </table>-->
+    <h1>All your new requests, you can accept or refuse them at any moment:</h1>
 
     <table>
-        <tr><th>TEMPORARY List of Notifications:</th></tr>
+        <tr>
+            <th>Company VAT Number</th>
+            <!--
+            <th>Actions</th>
+            -->
+        </tr>
         <tr ng-repeat="notification in notifications">
-            <td>{{notification}}</td>
+            <td>{{notification.individualRequest.thirdParty.vat}}</td>
+
+            <!-- TODO: capire come passare la partita iva
+            <td>
+                <button ng-click="acceptRequest()">Accept</button>
+                <button ng-click="refuseRequest()">Refuse</button>
+            </td>
+            -->
         </tr>
     </table>
 
     <div>
+        <button ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
+    </div>
+    <div>
         <button ng-click="backHome()">Back to the Home page</button>
     </div>
-
 </div>
 
 <div ng-controller="individualSettingsController" ng-show="sharedDataService.settings">
@@ -85,20 +100,26 @@
     <p>Surname: </p>
     <p>...</p>
     <h3>Change your password:</h3>
-    <p>Old password: <input type="password" ng-model="settings.oldPassword" required></p>
-    <p>New password: <input type="password" ng-model="settings.newPassword" minlength="6" required></p>
+    <p>Old password: <input type="password" ng-model="settings.oldPassword" title="Insert your current password"
+                            required></p>
+    <p>New password: <input type="password" ng-model="settings.newPassword" title="Insert your new password"
+                            minlength="6" required></p>
     <h3>Your accepted requests:</h3>
     <table>
         <tr>
             <th>Id</th>
             <th>Company VAT Number</th>
+            <th>Company name</th>
         </tr>
         <tr ng-repeat="notification in notifications">
             <td>{{$index}}</td>
             <td>{{notification}}</td>
+            <td>name</td>
         </tr>
     </table>
-
+    <div>
+        <button ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
+    </div>
     <div>
         <button ng-click="backHome()">Back to the Home page</button>
     </div>
