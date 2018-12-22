@@ -13,7 +13,7 @@ app.service('SharedDataService', function () {
         home: false,
         settings: false,
         notifications: false,
-        username: '',
+        uername: '',
         token: ''
     };
     return sharedData;
@@ -103,9 +103,11 @@ app.controller("thirdPartyController", function($scope, $http, SharedDataService
         $http.post('/thirdParty/individualRequest', $scope.data, config).
         then(function onSuccess(response) {
             console.log(response);
+            $scope.indReqResult = "The Individual Request has been correctly sent.";
         }).
         catch(function onError(response) {
             console.log(response);
+            $scope.indReqResult = "The Individual Request has not been sent. Check the Fiscal code and retry.";
         });
     }
 
@@ -116,9 +118,11 @@ app.controller("thirdPartyController", function($scope, $http, SharedDataService
         $http.post('/thirdParty/groupRequest', $scope.data, config).
         then(function onSuccess(response) {
             console.log(response);
+            $scope.indReqResult = "The Group Request has been correctly sent.";
         }).
         catch(function onError(response) {
             console.log(response);
+            $scope.indReqResult = "The Group Request has not been sent. Check the parameters and retry.";
         });
     }*/
 
@@ -155,12 +159,20 @@ app.controller("thirdPartyNotificationsController", function($scope, $http, Shar
     $scope.$watch('sharedDataService.notifications', function (newVal, oldVal) {
         if (newVal == oldVal)
             return;
-        // TODO: completare in base a cosa vogliamo mostrare
-
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        //$http.get("/thirdParty/{thirdParty}/notifications")
         $http.get("/thirdParty/"+$scope.sharedDataService.username+"/notifications")
-
+            .then(function (response) {
+                console.log(response);
+                $scope.notifications = response.data;
+            }).catch(function onError(response) {
+                // Handle error
+                let data = response.data;
+                let status = response.status;
+                let statusText = response.statusText;
+                let headers = response.headers;
+                let config = response.config;
+                console.log(response);
+            });
     });
 });
 

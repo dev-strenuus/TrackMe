@@ -95,11 +95,11 @@ app.controller("individualNotificationsController", function($scope, $http, Shar
             return;
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        //$http.get("/individual/{individual}/notifications")
         $http.get("/individual/"+$scope.sharedDataService.username+"/notifications")
             .then(function (response) {
                 console.log(response);
 
+                /*
                 // filtering data
                 let thirdParties = response.data.map(function (request) {
                     return request.thirdParty
@@ -110,6 +110,10 @@ app.controller("individualNotificationsController", function($scope, $http, Shar
                 });
 
                 $scope.notifications = vatNumbers
+
+                */
+
+                $scope.notifications = response.data;
 
             }).catch(function onError(response) {
             // Handle error
@@ -140,8 +144,7 @@ app.controller("individualSettingsController", function($scope, $http, SharedDat
 
         // get the accepted requests
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        //$http.get("/individual/{individual}/notifications")
-        $http.get("/individual/notifications")
+        $http.get("/individual/"+$scope.sharedDataService.username+"/notifications")
             .then(function (response) {
                 console.log(response);
 

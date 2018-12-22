@@ -34,13 +34,6 @@ public class IndividualService {
     private ThirdPartyNotificationRepository thirdPartyNotificationRepository;
 
 
-
-    public List<Individual> getAllIndividuals(){
-        List<Individual> people = new ArrayList<>();
-        individualRepository.findAll().forEach(people::add);
-        return people;
-    }
-
     public void addIndividual(Individual individual) throws DataAccessException {
         individualRepository.save(individual);
     }
