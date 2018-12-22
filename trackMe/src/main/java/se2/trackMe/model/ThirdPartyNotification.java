@@ -1,5 +1,8 @@
 package se2.trackMe.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import se2.trackMe.model.profileJSON.Profile;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -13,6 +16,7 @@ public class ThirdPartyNotification {
     @ManyToOne
     private ThirdParty thirdParty;
 
+    @JsonView(Profile.ThirdPartyPublicView.class)
     @ManyToOne
     private IndividualRequest individualRequest;
 

@@ -1,6 +1,8 @@
 package se2.trackMe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import se2.trackMe.model.profileJSON.Profile;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class Individual {
 
+    @JsonView(Profile.ThirdPartyPublicView.class)
     @Id
     private String fiscalCode;
 

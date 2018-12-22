@@ -1,5 +1,6 @@
 package se2.trackMe.controller.individualController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import se2.trackMe.model.Individual;
 import se2.trackMe.model.IndividualNotification;
 import se2.trackMe.model.IndividualRequest;
 import se2.trackMe.model.ThirdParty;
+import se2.trackMe.model.profileJSON.Profile;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class IndividualController {
         return individualService.getAllIndividuals();
     }
 
+    @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping("/individual/{individual}/notifications")
     public @ResponseBody List<IndividualNotification> getIndividualNotificationList(@PathVariable("individual") String id){
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
