@@ -1,15 +1,18 @@
-var config = {
+let config = {
     headers : {
         'Content-Type': 'application/json;charset=utf-8;'
     }
-}
-var app = angular.module("individual", []);
+};
+
+let app = angular.module("individual", []);
 
 app.service('SharedDataService', function () {
-    var sharedData = {
+    let sharedData = {
         signUp: true,
         login: false,
         home: false,
+        notifications: false,
+        settings: false,
         token: ''
     };
     return sharedData;
@@ -43,24 +46,24 @@ app.controller("individualLoginController", function($scope, $http, SharedDataSe
         $http.post('/auth', $scope.credentials, config).
         then(function onSuccess(response) {
             // Handle success
-            var data = response.data;
-            var status = response.status;
-            var statusText = response.statusText;
-            var headers = response.headers;
-            var config = response.config;
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
             console.log(response);
-            $scope.sharedDataService.login =false;
+            $scope.sharedDataService.login = false;
             $scope.sharedDataService.home = true;
             $scope.sharedDataService.token = 'Bearer ' + response.data.token;
             console.log($scope.sharedDataService.token);
         }).
         catch(function onError(response) {
             // Handle error
-            var data = response.data;
-            var status = response.status;
-            var statusText = response.statusText;
-            var headers = response.headers;
-            var config = response.config;
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
             console.log(response);
         });
     }
@@ -68,28 +71,96 @@ app.controller("individualLoginController", function($scope, $http, SharedDataSe
 
 app.controller("individualController", function($scope, $http, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
-    $scope.people = [
-        { fiscalCode: "Marco"}
-    ];
 
-    $scope.$watch('sharedDataService.home',function(newVal,oldVal){
-        if(newVal == oldVal)
+    $scope.showNotifications = function () {
+        $scope.sharedDataService.home = false;
+        $scope.sharedDataService.notifications = true;
+    };
+
+    $scope.showSettings = function () {
+        $scope.sharedDataService.home = false;
+        $scope.sharedDataService.settings = true;
+    }
+});
+
+app.controller("individualNotificationsController", function($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+    $scope.notifications = [];
+
+    $scope.$watch('sharedDataService.notifications', function (newVal, oldVal) {
+        if (newVal == oldVal)
             return;
+
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        $http.get("/people")
-            .then(function(response) {
+        //$http.get("/individual/{individual}/notifications")
+        $http.get("/individual/notifications")
+            .then(function (response) {
                 console.log(response);
-                $scope.people = response.data;
-            }).
-        catch(function onError(response) {
+
+                // filtering data
+                let thirdParties = response.data.map(function (request) {
+                    return request.thirdParty
+                });
+
+                let vatNumbers = thirdParties.map(function (thirdParty) {
+                    return thirdParty.vat
+                });
+
+                $scope.notifications = vatNumbers
+
+            }).catch(function onError(response) {
             // Handle error
-            var data = response.data;
-            var status = response.status;
-            var statusText = response.statusText;
-            var headers = response.headers;
-            var config = response.config;
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
             console.log(response);
         });
     });
+});
 
+app.controller("individualSettingsController", function($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+    $scope.notifications = [];
+
+    $scope.$watch('sharedDataService.settings', function (newVal, oldVal) {
+        $scope.settings = {};
+
+        if (newVal == oldVal)
+            return;
+        // TODO: completare in base a cosa vogliamo mostrare
+
+        // get personal data
+
+        // post change of password
+
+        // get the accepted requests
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        //$http.get("/individual/{individual}/notifications")
+        $http.get("/individual/notifications")
+            .then(function (response) {
+                console.log(response);
+
+                // filtering data
+                let thirdParties = response.data.map(function (request) {
+                    return request.thirdParty
+                });
+
+                let vatNumbers = thirdParties.map(function (thirdParty) {
+                    return thirdParty.vat
+                });
+
+                $scope.notifications = vatNumbers
+
+            }).catch(function onError(response) {
+            // Handle error
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
+            console.log(response);
+        });
     });
+});

@@ -1,12 +1,13 @@
-var config = {
+let config = {
     headers : {
         'Content-Type': 'application/json;charset=utf-8;'
     }
-}
-var app = angular.module("thirdParty", []);
+};
+
+let app = angular.module("thirdParty", []);
 
 app.service('SharedDataService', function () {
-    var sharedData = {
+    let sharedData = {
         signUp: true,
         login: false,
         home: false,
@@ -43,29 +44,55 @@ app.controller("thirdPartyLoginController", function($scope, $http, SharedDataSe
         $http.post('/auth', $scope.credentials, config).
         then(function onSuccess(response) {
             // Handle success
-            var data = response.data;
-            var status = response.status;
-            var statusText = response.statusText;
-            var headers = response.headers;
-            var config = response.config;
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
             console.log(response);
-            $scope.sharedDataService.login =false;
+            $scope.sharedDataService.login = false;
             $scope.sharedDataService.home = true;
             $scope.sharedDataService.token = 'Bearer ' + response.data.token;
             console.log($scope.sharedDataService.token);
         }).
         catch(function onError(response) {
             // Handle error
-            var data = response.data;
-            var status = response.status;
-            var statusText = response.statusText;
-            var headers = response.headers;
-            var config = response.config;
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
             console.log(response);
         });
     }
 });
 
 
+app.controller("thirdPartyController", function($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+    $scope.people = [];
+
+    $scope.$watch('sharedDataService.home', function(newVal,oldVal){
+        if(newVal == oldVal)
+            return;
+
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.get("/people")
+            .then(function(response) {
+                console.log(response);
+                $scope.people = response.data;
+            }).
+        catch(function onError(response) {
+            // Handle error
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
+            console.log(response);
+        });
+    });
+
+});
 
 
