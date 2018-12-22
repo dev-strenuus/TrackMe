@@ -13,6 +13,7 @@ app.service('SharedDataService', function () {
         home: false,
         settings: false,
         notifications: false,
+        username: '',
         token: ''
     };
     return sharedData;
@@ -55,6 +56,7 @@ app.controller("thirdPartyLoginController", function($scope, $http, SharedDataSe
             $scope.sharedDataService.signUp = false;
             $scope.sharedDataService.home = true;
             $scope.sharedDataService.token = 'Bearer ' + response.data.token;
+            $scope.sharedDataService.username = $scope.credentials.username
             console.log($scope.sharedDataService.token);
         }).
         catch(function onError(response) {
@@ -157,7 +159,7 @@ app.controller("thirdPartyNotificationsController", function($scope, $http, Shar
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
         //$http.get("/thirdParty/{thirdParty}/notifications")
-        $http.get("/thirdParty/notifications")
+        $http.get("/thirdParty/"+$scope.sharedDataService.username+"/notifications")
 
     });
 });
