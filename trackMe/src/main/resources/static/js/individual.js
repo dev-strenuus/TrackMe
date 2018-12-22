@@ -9,7 +9,7 @@ let app = angular.module("individual", []);
 app.service('SharedDataService', function () {
     let sharedData = {
         signUp: true,
-        login: false,
+        login: true,
         home: false,
         notifications: false,
         settings: false,
@@ -53,6 +53,7 @@ app.controller("individualLoginController", function($scope, $http, SharedDataSe
             let config = response.config;
             console.log(response);
             $scope.sharedDataService.login = false;
+            $scope.sharedDataService.signUp = false;
             $scope.sharedDataService.home = true;
             $scope.sharedDataService.token = 'Bearer ' + response.data.token;
             console.log($scope.sharedDataService.token);

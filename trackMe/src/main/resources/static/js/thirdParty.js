@@ -9,8 +9,10 @@ let app = angular.module("thirdParty", []);
 app.service('SharedDataService', function () {
     let sharedData = {
         signUp: true,
-        login: false,
+        login: true,
         home: false,
+        settings: false,
+        notifications: false,
         token: ''
     };
     return sharedData;
@@ -23,7 +25,6 @@ app.controller("thirdPartySignUpController", function($scope, $http, SharedDataS
 
         console.log($scope.thirdParty);
 
-        //$http.post('http://192.168.100.2:8080/auth/thirdParty/signUp', $scope.thirdParty, config);
         $http.post('/auth/thirdParty/signUp', $scope.thirdParty, config).
         then(function onSuccess(response) {
             console.log(response);
@@ -51,6 +52,7 @@ app.controller("thirdPartyLoginController", function($scope, $http, SharedDataSe
             let config = response.config;
             console.log(response);
             $scope.sharedDataService.login = false;
+            $scope.sharedDataService.signUp = false;
             $scope.sharedDataService.home = true;
             $scope.sharedDataService.token = 'Bearer ' + response.data.token;
             console.log($scope.sharedDataService.token);
@@ -93,6 +95,71 @@ app.controller("thirdPartyController", function($scope, $http, SharedDataService
         });
     });
 
+    $scope.submitIndividualRequest = function () {
+
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.post('/thirdParty/individualRequest', $scope.data, config).
+        then(function onSuccess(response) {
+            console.log(response);
+        }).
+        catch(function onError(response) {
+            console.log(response);
+        });
+    }
+
+  //GROUP REQUEST
+  /*$scope.submitGroupRequest = function () {
+
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.post('/thirdParty/groupRequest', $scope.data, config).
+        then(function onSuccess(response) {
+            console.log(response);
+        }).
+        catch(function onError(response) {
+            console.log(response);
+        });
+    }*/
+
+
+    $scope.showSettings = function () {
+            $scope.sharedDataService.home = false;
+            $scope.sharedDataService.settings = true;
+    }
+
+    $scope.showNotifications = function () {
+            $scope.sharedDataService.home = false;
+            $scope.sharedDataService.notifications = true;
+        }
+
+});
+
+app.controller("thirdPartySettingsController", function($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+
+    $scope.$watch('sharedDataService.settings', function (newVal, oldVal) {
+        $scope.settings = {};
+
+        if (newVal == oldVal)
+            return;
+        // TODO: completare in base a cosa vogliamo mostrare
+
+    });
+});
+
+app.controller("thirdPartyNotificationsController", function($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+    $scope.notifications = [];
+
+    $scope.$watch('sharedDataService.notifications', function (newVal, oldVal) {
+        if (newVal == oldVal)
+            return;
+        // TODO: completare in base a cosa vogliamo mostrare
+
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        //$http.get("/thirdParty/{thirdParty}/notifications")
+        $http.get("/thirdParty/notifications")
+
+    });
 });
 
 
