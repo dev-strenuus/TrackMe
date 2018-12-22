@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import se2.trackMe.model.Individual;
-import se2.trackMe.model.IndividualNotification;
-import se2.trackMe.model.IndividualRequest;
-import se2.trackMe.model.ThirdPartyNotification;
+import se2.trackMe.model.*;
 import se2.trackMe.model.security.Authority;
 import se2.trackMe.model.security.AuthorityName;
 import se2.trackMe.model.security.User;
@@ -32,6 +29,9 @@ public class IndividualService {
 
     @Autowired
     private ThirdPartyNotificationRepository thirdPartyNotificationRepository;
+
+    @Autowired
+    private IndividualDataRepository individualDataRepository;
 
 
 
@@ -60,6 +60,13 @@ public class IndividualService {
     public void setIndividualRequestAnswer(IndividualRequest individualRequest){
         individualRequestRepository.save(individualRequest);
         thirdPartyNotificationRepository.save(new ThirdPartyNotification(individualRequest));
+    }
+
+    public void saveData(List<IndividualData> individualDataList){
+        individualDataList.forEach(data -> individualDataRepository.save(data));
+        List<IndividualRequest> individualRequestList = new ArrayList<>();
+        individualRequestRepository.findAllByIndividual(individualDataList.get(0).getIndividual()).forEach(individualRequestList::add);
+        individualRequestList.forEach(individualRequest -> {if(individualRequest.getSubscribedToNewData()) thirdPartyNotificationRepository.save(new ThirdPartyNotification(individualDataList, individualRequest.getThirdParty()));});
     }
 
 

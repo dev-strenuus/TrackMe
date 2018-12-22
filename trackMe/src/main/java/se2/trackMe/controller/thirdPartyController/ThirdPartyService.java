@@ -32,9 +32,9 @@ public class ThirdPartyService {
     }
 
 
-    public void addIndividualRequest(ThirdParty thirdParty, Individual individual) throws DataAccessException {
+    public void addIndividualRequest(ThirdParty thirdParty, Individual individual, Boolean subscribedToNewData) throws DataAccessException {
 
-        IndividualRequest individualRequest = new IndividualRequest(thirdParty, individual);
+        IndividualRequest individualRequest = new IndividualRequest(thirdParty, individual, subscribedToNewData);
         individualRequestRepository.save(individualRequest);
         individualNotificationRepository.save(new IndividualNotification(individualRequest));
     }

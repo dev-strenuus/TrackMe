@@ -8,10 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import se2.trackMe.model.Individual;
-import se2.trackMe.model.IndividualNotification;
-import se2.trackMe.model.IndividualRequest;
-import se2.trackMe.model.ThirdParty;
+import se2.trackMe.controller.authenticationController.UserService;
+import se2.trackMe.model.*;
 import se2.trackMe.model.profileJSON.Profile;
 
 import java.util.List;
@@ -24,25 +22,43 @@ public class IndividualController {
     @Autowired
     private IndividualService individualService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/people")
     public @ResponseBody List<Individual> getPeople(){
         return individualService.getAllIndividuals();
     }
 
+    public void checkUsername(String username, String token){
+        if(!userService.checkUsername(username, token.substring(7)))
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Trying to be another user");
+    }
+
     @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping("/individual/{individual}/notifications")
     public @ResponseBody List<IndividualNotification> getIndividualNotificationList(@PathVariable("individual") String id){
+        //if(!userService.checkUsername())
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
         List<IndividualNotification> individualNotificationList = individualService.getIndvidualNotificationList(individual);
         return individualNotificationList;
     }
 
+    //better with third party as parameter and individual in the url
     @RequestMapping(method = RequestMethod.POST, value = "/individual/individualRequest/answer")
     public void answerToIndividualRequest(@RequestBody IndividualRequest individualRequest){
         Individual individual = individualService.getIndividual(individualRequest.getIndividual().getFiscalCode()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
         IndividualRequest individualRequest1 = individualService.getIndividualRequest(individualRequest).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Request Not Found"));
         individualRequest1.setAccepted(individualRequest.getAccepted());
         individualService.setIndividualRequestAnswer(individualRequest1);
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/individual/{individual}/data")
+    public void addData(@PathVariable("individual") String id, @RequestBody List<IndividualData> individualDataList){
+        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        individualDataList.forEach(data -> data.setIndividual(individual));
+        individualService.saveData(individualDataList);
     }
 
 }

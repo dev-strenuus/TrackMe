@@ -25,13 +25,18 @@ public class IndividualRequest{
     @Column
     private Boolean accepted;
 
+    @JsonView(Profile.IndividualPublicView.class)
+    @Column
+    private Boolean subscribedToNewData;
+
     public IndividualRequest(){}
 
-    public IndividualRequest(ThirdParty thirdParty, Individual individual){
+    public IndividualRequest(ThirdParty thirdParty, Individual individual, Boolean subscribedToNewData){
 
         this.thirdParty = thirdParty;
         this.individual = individual;
         this.accepted = null;
+        this.subscribedToNewData = subscribedToNewData;
     }
 
 
@@ -49,5 +54,9 @@ public class IndividualRequest{
 
     public void setAccepted(Boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public Boolean getSubscribedToNewData() {
+        return subscribedToNewData;
     }
 }

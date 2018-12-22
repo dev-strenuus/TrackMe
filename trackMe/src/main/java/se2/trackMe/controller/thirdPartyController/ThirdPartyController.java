@@ -29,7 +29,7 @@ public class ThirdPartyController {
         ThirdParty thirdParty = thirdPartyService.getThirdParty(individualRequest.getThirdParty().getVat()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "ThirdParty Not Found"));
         Individual individual = thirdPartyService.getIndividual(individualRequest.getIndividual().getFiscalCode()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Individual Not Found"));
         thirdPartyService.getIndividualRequest(thirdParty, individual).ifPresent(iR -> {throw new ResponseStatusException(HttpStatus.CONFLICT, "This request has been already done");});
-        thirdPartyService.addIndividualRequest(thirdParty, individual);
+        thirdPartyService.addIndividualRequest(thirdParty, individual, individualRequest.getSubscribedToNewData());
     }
 
     @JsonView(Profile.ThirdPartyPublicView.class)

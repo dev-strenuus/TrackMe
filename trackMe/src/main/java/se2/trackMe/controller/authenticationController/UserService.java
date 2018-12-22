@@ -27,6 +27,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "It's okay here")
     private Clock clock = DefaultClock.INSTANCE;
 
@@ -42,6 +45,10 @@ public class UserService {
 
     public User getUser(String username){
         return userRepository.findByUsername(username);
+    }
+
+    public Boolean checkUsername(String username, String token){
+        return username.equals(jwtTokenUtil.getUsernameFromToken(token));
     }
 
 
