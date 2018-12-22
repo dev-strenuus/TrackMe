@@ -24,11 +24,6 @@ public class IndividualController {
     @Autowired
     private IndividualService individualService;
 
-    @RequestMapping("/people")
-    public @ResponseBody List<Individual> getPeople(){
-        return individualService.getAllIndividuals();
-    }
-
     @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping("/individual/{individual}/notifications")
     public @ResponseBody List<IndividualNotification> getIndividualNotificationList(@PathVariable("individual") String id){

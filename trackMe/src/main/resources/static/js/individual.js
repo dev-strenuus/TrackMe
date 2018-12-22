@@ -95,7 +95,60 @@ app.controller("individualNotificationsController", function($scope, $http, Shar
             return;
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        //$http.get("/individual/{individual}/notifications")
+        $http.get("/individual/"+$scope.sharedDataService.username+"/notifications")
+            .then(function (response) {
+                console.log(response);
+
+                /*
+                // filtering data
+                let thirdParties = response.data.map(function (request) {
+                    return request.thirdParty
+                });
+
+                let vatNumbers = thirdParties.map(function (thirdParty) {
+                    return thirdParty.vat
+                });
+
+                $scope.notifications = vatNumbers
+
+                */
+
+                $scope.notifications = response.data;
+
+            }).catch(function onError(response) {
+            // Handle error
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
+            console.log(response);
+        });
+    });
+
+    $scope.backHome = function () {
+                        $scope.sharedDataService.home = true;
+                        $scope.sharedDataService.notifications = false;
+    }
+});
+
+app.controller("individualSettingsController", function($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+    $scope.notifications = [];
+
+    $scope.$watch('sharedDataService.settings', function (newVal, oldVal) {
+        $scope.settings = {};
+
+        if (newVal == oldVal)
+            return;
+        // TODO: completare in base a cosa vogliamo mostrare
+
+        // get personal data
+
+        // post change of password
+
+        // get the accepted requests
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
         $http.get("/individual/"+$scope.sharedDataService.username+"/notifications")
             .then(function (response) {
                 console.log(response);
@@ -121,49 +174,9 @@ app.controller("individualNotificationsController", function($scope, $http, Shar
             console.log(response);
         });
     });
-});
 
-app.controller("individualSettingsController", function($scope, $http, SharedDataService) {
-    $scope.sharedDataService = SharedDataService;
-    $scope.notifications = [];
-
-    $scope.$watch('sharedDataService.settings', function (newVal, oldVal) {
-        $scope.settings = {};
-
-        if (newVal == oldVal)
-            return;
-        // TODO: completare in base a cosa vogliamo mostrare
-
-        // get personal data
-
-        // post change of password
-
-        // get the accepted requests
-        $http.defaults.headers.common.Authorization = SharedDataService.token;
-        //$http.get("/individual/{individual}/notifications")
-        $http.get("/individual/notifications")
-            .then(function (response) {
-                console.log(response);
-
-                // filtering data
-                let thirdParties = response.data.map(function (request) {
-                    return request.thirdParty
-                });
-
-                let vatNumbers = thirdParties.map(function (thirdParty) {
-                    return thirdParty.vat
-                });
-
-                $scope.notifications = vatNumbers
-
-            }).catch(function onError(response) {
-            // Handle error
-            let data = response.data;
-            let status = response.status;
-            let statusText = response.statusText;
-            let headers = response.headers;
-            let config = response.config;
-            console.log(response);
-        });
-    });
+    $scope.backHome = function () {
+                        $scope.sharedDataService.home = true;
+                        $scope.sharedDataService.settings = false;
+    }
 });

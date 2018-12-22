@@ -49,7 +49,8 @@
 
 <div ng-controller="individualNotificationsController" ng-show="sharedDataService.notifications">
     <h1>All your requests:</h1>
-    <table>
+
+    <!--<table>
         <tr>
             <th>Id</th>
             <th>Company VAT Number</th>
@@ -58,7 +59,18 @@
             <td>{{$index}}</td>
             <td>{{notification}}</td>
         </tr>
+    </table>-->
+
+    <table>
+        <tr><th>TEMPORARY List of Notifications:</th></tr>
+        <tr ng-repeat="notification in notifications">
+            <td>{{notification}}</td>
+        </tr>
     </table>
+
+    <div>
+        <button ng-click="backHome()">Back to the Home page</button>
+    </div>
 
 </div>
 
@@ -82,6 +94,10 @@
             <td>{{notification}}</td>
         </tr>
     </table>
+
+    <div>
+        <button ng-click="backHome()">Back to the Home page</button>
+    </div>
 
 </div>
 </body>
