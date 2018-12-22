@@ -65,7 +65,7 @@ public class UserController {
         userService.addUser(thirdParty.getVat(), thirdParty.getPassword(), AuthorityName.ROLE_THIRDPARTY);
         thirdPartyService.addThirdParty(thirdParty);
     }
-    
+
 
 
 

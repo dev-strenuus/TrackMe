@@ -1,5 +1,6 @@
 package se2.trackMe.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import se2.trackMe.model.profileJSON.Profile;
 
@@ -14,6 +15,7 @@ public class IndividualData {
     @GeneratedValue
     private Long id;
 
+    //@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="GMT")
     @JsonView(Profile.ThirdPartyPublicView.class)
     @Column
     @Temporal(TemporalType.TIMESTAMP)
@@ -46,15 +48,6 @@ public class IndividualData {
     private Individual individual;
 
     public IndividualData(){}
-
-    public IndividualData(@NotNull Date timestamp, @NotNull Float heartRate, @NotNull Float systolicBloodPressure, @NotNull Float diastolicBloodPressure, @NotNull Float oxygenPercentage, Individual individual) {
-        this.timestamp = timestamp;
-        this.heartRate = heartRate;
-        this.systolicBloodPressure = systolicBloodPressure;
-        this.diastolicBloodPressure = diastolicBloodPressure;
-        this.oxygenPercentage = oxygenPercentage;
-        this.individual = individual;
-    }
 
     public IndividualData(@NotNull Date timestamp, @NotNull Float heartRate, @NotNull Float systolicBloodPressure, @NotNull Float diastolicBloodPressure, @NotNull Float oxygenPercentage) {
         this.timestamp = timestamp;

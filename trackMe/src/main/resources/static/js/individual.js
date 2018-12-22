@@ -91,11 +91,64 @@ app.controller("individualNotificationsController", function($scope, $http, Shar
     $scope.notifications = [];
 
     $scope.$watch('sharedDataService.notifications', function (newVal, oldVal) {
-        if (newVal == oldVal)
+        if (newVal == oldVal || newVal==false)
             return;
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        //$http.get("/individual/{individual}/notifications")
+        $http.get("/individual/"+$scope.sharedDataService.username+"/notifications")
+            .then(function (response) {
+                console.log(response);
+
+                /*
+                // filtering data
+                let thirdParties = response.data.map(function (request) {
+                    return request.thirdParty
+                });
+
+                let vatNumbers = thirdParties.map(function (thirdParty) {
+                    return thirdParty.vat
+                });
+
+                $scope.notifications = vatNumbers
+
+                */
+
+                $scope.notifications = response.data;
+
+            }).catch(function onError(response) {
+            // Handle error
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
+            console.log(response);
+        });
+    });
+
+    $scope.backHome = function () {
+                        $scope.sharedDataService.home = true;
+                        $scope.sharedDataService.notifications = false;
+    }
+});
+
+app.controller("individualSettingsController", function($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+    $scope.notifications = [];
+
+    $scope.$watch('sharedDataService.settings', function (newVal, oldVal) {
+        $scope.settings = {};
+
+        if (newVal == oldVal || newVal==false)
+            return;
+        // TODO: completare in base a cosa vogliamo mostrare
+
+        // get personal data
+
+        // post change of password
+
+        // get the accepted requests
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
         $http.get("/individual/"+$scope.sharedDataService.username+"/notifications")
             .then(function (response) {
                 console.log(response);
@@ -121,49 +174,72 @@ app.controller("individualNotificationsController", function($scope, $http, Shar
             console.log(response);
         });
     });
+
+    $scope.backHome = function () {
+                        $scope.sharedDataService.home = true;
+                        $scope.sharedDataService.settings = false;
+    }
 });
 
-app.controller("individualSettingsController", function($scope, $http, SharedDataService) {
+app.controller('graphController', function($scope, $interval, $http, SharedDataService){
+
     $scope.sharedDataService = SharedDataService;
-    $scope.notifications = [];
-
-    $scope.$watch('sharedDataService.settings', function (newVal, oldVal) {
-        $scope.settings = {};
-
-        if (newVal == oldVal)
+    $scope.$watch('sharedDataService.home', function (newVal, oldVal) {
+        if (newVal == oldVal || newVal==false)
             return;
-        // TODO: completare in base a cosa vogliamo mostrare
-
-        // get personal data
-
-        // post change of password
-
-        // get the accepted requests
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        //$http.get("/individual/{individual}/notifications")
-        $http.get("/individual/notifications")
-            .then(function (response) {
-                console.log(response);
+        $scope.width = 600;
+        $scope.height = 350;
+        $scope.yAxis = ['Heart Rate', 'Systolic Blood Pressure', 'Diastolic Blood Pressure', 'Oxygen Percentage'];
+        $scope.xAxis = 'Time';
+        $scope.data = [];
+        $scope.res = [];
+        $scope.max = [90, 150, 200, 100];
+        $scope.cont = 0;
 
-                // filtering data
-                let thirdParties = response.data.map(function (request) {
-                    return request.thirdParty
+        $interval(function () {
+            if ($scope.data.length > 12) {
+                $scope.data.shift();
+                $scope.res.shift();
+
+            }
+
+            $scope.data.push([
+                {
+                    value: Math.floor((Math.random() * 40) + 50)
+                },
+                {
+                    value: Math.floor((Math.random() * 100) + 50)
+                },
+                {
+                    value: Math.floor((Math.random() * 100) + 100)
+                },
+                {
+                    value: Math.floor((Math.random() * 50) + 50)
+                }
+            ]);
+            $scope.res.push(
+                {
+                    timestamp: new Date(),
+                    heartRate: $scope.data[$scope.data.length - 1][0].value,
+                    systolicBloodPressure: $scope.data[$scope.data.length - 1][1].value,
+                    diastolicBloodPressure: $scope.data[$scope.data.length - 1][2].value,
+                    oxygenPercentage: $scope.data[$scope.data.length - 1][3].value
+                }
+            );
+            $scope.cont = $scope.cont + 1;
+            $scope.cont = $scope.cont % 12;
+            if ($scope.cont == 0) {
+                console.log($scope.res);
+                $http.post("/individual/" + $scope.sharedDataService.username + "/data", $scope.res, config).then(function onSuccess(response) {
+                    console.log(response);
+                }).catch(function onError(response) {
+                    console.log(response);
                 });
+            }
 
-                let vatNumbers = thirdParties.map(function (thirdParty) {
-                    return thirdParty.vat
-                });
 
-                $scope.notifications = vatNumbers
-
-            }).catch(function onError(response) {
-            // Handle error
-            let data = response.data;
-            let status = response.status;
-            let statusText = response.statusText;
-            let headers = response.headers;
-            let config = response.config;
-            console.log(response);
-        });
+        }, 1000, 1000);
     });
 });
+

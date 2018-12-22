@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import se2.trackMe.model.*;
 import se2.trackMe.storageController.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,12 @@ public class ThirdPartyService {
 
     @Autowired
     private IndividualRepository individualRepository;
+
+    public List<Individual> getAllIndividuals(){
+        List<Individual> people = new ArrayList<>();
+        individualRepository.findAll().forEach(people::add);
+        return people;
+    }
 
     public void addThirdParty(ThirdParty thirdParty){
         thirdPartyRepository.save(thirdParty);

@@ -22,13 +22,12 @@ public class IndividualController {
     @Autowired
     private IndividualService individualService;
 
+
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/people")
-    public @ResponseBody List<Individual> getPeople(){
-        return individualService.getAllIndividuals();
-    }
+
+
 
     public void checkUsername(String username, String token){
         if(!userService.checkUsername(username, token.substring(7)))

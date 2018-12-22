@@ -11,7 +11,7 @@
     <h1>Sign Up:</h1>
     <form ng-submit="submitSignUp()">
         <p>VAT: <input type="text" ng-model="thirdParty.vat" size="11" required></p>
-        <p>Name: <input type="text" ng-model="thirdParty.name" ></p>
+        <p>Name: <input type="text" ng-model="thirdParty.name" required></p>
         <p>Password: <input type="text" ng-model="thirdParty.password" required></p>
         <p>I accept the agreement!<input type="checkbox" required ></p>
         <input type="submit" id="submitSignUp" value="Submit">
@@ -31,27 +31,29 @@
 
     <h1>Third Party HomePage:</h1>
     <table>
-        <tr><th>List of FiscalCodes:</th></tr>
+        <tr><th>List of Fiscal Codes:</th></tr>
         <tr ng-repeat="person in people">
             <td>{{person.fiscalCode}}</td>
         </tr>
     </table>
 
-    <h1>Individual Request:</h1>
+    <h2>Individual Request:</h2>
     <form ng-submit="submitIndividualRequest()">
-        <p>Fiscal code: <input type="text" ng-model="data.individual.fiscalCode" size="16" required></p>
+        <p>Fiscal Code: <input type="text" ng-model="data.individual.fiscalCode" size="16" required></p>
         <p>VAT: <input type="text" ng-model="data.thirdParty.vat" size="16" required></p>
         <input type="submit" id="submitIndividualRequest" value="Submit">
     </form>
+    <p ng-bind="indReqResult"></p>
 
-    <h1>Group Request:</h1>
+    <h2>Group Request:</h2>
     <form ng-submit="submitGroupRequest()">
         <p>Area: <input type="text" ng-model="data.area" size="16" required></p>
         <p>Age: <input type="text" ng-model="data.age" size="16" required></p>
         <input type="submit" id="submitGroupRequest" value="Submit">
     </form>
+    <p ng-bind="GroupReqResult"></p>
 
-    <h1>Other options:</h1>
+    <h2>Other options:</h2>
     <div>
         <button ng-click="showNotifications()">Notifications</button>
     </div>
@@ -69,11 +71,16 @@
     <h3>Change your password:</h3>
     <p>Old password: <input type="password" ng-model="settings.oldPassword" required></p>
     <p>New password: <input type="password" ng-model="settings.newPassword" minlength="6" required></p>
+
+    <div>
+        <button ng-click="backHome()">Back to the Home page</button>
+    </div>
+
 </div>
 
 <div ng-controller="thirdPartyNotificationsController" ng-show="sharedDataService.notifications">
     <h1>All your requests:</h1>
-    <table>
+    <!--<table>
         <tr>
             <th>Fiscal Code</th>
         </tr>
@@ -81,7 +88,18 @@
             <td>{{$index}}</td>
             <td>{{notification}}</td>
         </tr>
+    </table>-->
+
+    <table>
+        <tr><th>TEMPORARY List of Notifications:</th></tr>
+        <tr ng-repeat="notification in notifications">
+            <td>{{notification}}</td>
+        </tr>
     </table>
+
+    <div>
+        <button ng-click="backHome()">Back to the Home page</button>
+    </div>
 
 </div>
 

@@ -24,6 +24,11 @@ public class ThirdPartyController {
     @Autowired
     private ThirdPartyService thirdPartyService;
 
+    @RequestMapping("/people")
+    public @ResponseBody List<Individual> getPeople(){
+        return thirdPartyService.getAllIndividuals();
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/thirdParty/individualRequest")
     public void addIndividualRequest(@RequestBody IndividualRequest individualRequest){
         ThirdParty thirdParty = thirdPartyService.getThirdParty(individualRequest.getThirdParty().getVat()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "ThirdParty Not Found"));
