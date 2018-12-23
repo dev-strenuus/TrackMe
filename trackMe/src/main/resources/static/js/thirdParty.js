@@ -186,4 +186,15 @@ app.controller("thirdPartyNotificationsController", function($scope, $http, Shar
     }
 });
 
+app.controller("thirdPartyLogoutController", function ($scope, $http, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+
+    $scope.logout = function () {
+        $scope.sharedDataService.notifications = false;
+        $scope.sharedDataService.settings = false;
+        $scope.sharedDataService.home = false;
+        $scope.sharedDataService.login = true;
+    };
+});
+
 
