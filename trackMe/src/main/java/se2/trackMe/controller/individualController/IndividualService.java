@@ -8,9 +8,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se2.trackMe.model.*;
-import se2.trackMe.model.security.Authority;
-import se2.trackMe.model.security.AuthorityName;
-import se2.trackMe.model.security.User;
 import se2.trackMe.storageController.*;
 
 import java.util.*;

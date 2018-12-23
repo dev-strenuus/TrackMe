@@ -4,6 +4,9 @@
 
 <script src="js/angular/angular.min.js"></script>
 <script src="js/thirdParty.js"></script>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/thirdParty.css">
+</head>
 
 <body ng-app="thirdParty">
 
@@ -29,8 +32,8 @@
 
 <div ng-controller="thirdPartyController" ng-show="sharedDataService.home">
 
-    <h1>Third Party HomePage:</h1>
-    <table>
+    <h1>Third Party Home Page</h1>
+    <table align="center">
         <tr><th>List of Fiscal Codes:</th></tr>
         <tr ng-repeat="person in people">
             <td>{{person.fiscalCode}}</td>
@@ -41,6 +44,7 @@
     <form ng-submit="submitIndividualRequest()">
         <p>Fiscal Code: <input type="text" ng-model="data.individual.fiscalCode" size="16" required></p>
         <p>VAT: <input type="text" ng-model="data.thirdParty.vat" size="16" required></p>
+        <p>I want to subscribe to new data<input type="checkbox" ng-model="data.subscribedToNewData"> </p>  <!--TODO:-->
         <input type="submit" id="submitIndividualRequest" value="Submit">
     </form>
     <p ng-bind="indReqResult"></p>
@@ -59,6 +63,10 @@
     </div>
     <div>
         <button ng-click="showSettings()">Settings</button>
+    </div>
+
+    <div>
+        <button ng-controller="thirdPartyLogoutController" ng-click="logout()">Logout</button>
     </div>
 
 </div>
@@ -90,10 +98,19 @@
         </tr>
     </table>-->
 
-    <table>
-        <tr><th>TEMPORARY List of Notifications:</th></tr>
+    <table align="center">
+        <tr><th>List of Notifications:</th></tr>
+        <tr>
+            <th>Individual</th>
+            <th>Status</th>
+            <th>Past data</th>
+        </tr>
         <tr ng-repeat="notification in notifications">
-            <td>{{notification}}</td>
+            <td>{{notification.individualRequest.individual.fiscalCode}}</td>
+            <td>{{notification.individualRequest.accepted}}</td>
+            <!-- TODO: link askForPastData()
+            <td><button ng-click="askForPastData()">Ask</button></td>
+            -->
         </tr>
     </table>
 
