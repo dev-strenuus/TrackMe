@@ -111,6 +111,21 @@ app.controller("individualNotificationsController", function ($scope, $http, Sha
             let config = response.config;
             console.log(response);
         });
+
+        $http.get("/individual/" + $scope.sharedDataService.username + "/acceptedRequests")
+            .then(function (response) {
+
+                $scope.activeRequests = response.data;
+
+            }).catch(function onError(response) {
+            // Handle error
+            let data = response.data;
+            let status = response.status;
+            let statusText = response.statusText;
+            let headers = response.headers;
+            let config = response.config;
+            console.log(response);
+        });
     });
 
     $scope.acceptRequest = function (vatNumber) {
@@ -130,11 +145,11 @@ app.controller("individualNotificationsController", function ($scope, $http, Sha
     $scope.manageRequest = function () {
 
         let content = {
-            "individual" : {
-                "fiscalCode" : $scope.sharedDataService.username
+            "individual": {
+                "fiscalCode": $scope.sharedDataService.username
             },
             "thirdParty": {
-                "vat" : $scope.answer.vatNumber
+                "vat": $scope.answer.vatNumber
             },
             "accepted": $scope.answer.status
         };
@@ -145,7 +160,22 @@ app.controller("individualNotificationsController", function ($scope, $http, Sha
             $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
                 .then(function (response) {
 
-                    $scope.notifications = response.data;
+                    $scope.pendingRequests = response.data;
+
+                }).catch(function onError(response) {
+                // Handle error
+                let data = response.data;
+                let status = response.status;
+                let statusText = response.statusText;
+                let headers = response.headers;
+                let config = response.config;
+                console.log(response);
+            });
+
+            $http.get("/individual/" + $scope.sharedDataService.username + "/acceptedRequests")
+                .then(function (response) {
+
+                    $scope.activeRequests = response.data;
 
                 }).catch(function onError(response) {
                 // Handle error

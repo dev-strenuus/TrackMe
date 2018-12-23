@@ -43,6 +43,14 @@ public class IndividualController {
         return individualNotificationList;
     }
 
+    @JsonView(Profile.IndividualPublicView.class)
+    @RequestMapping("/individual/{individual}/acceptedRequests")
+    public @ResponseBody List<IndividualNotification> getIndividualAcceptedNotificationList(@PathVariable("individual") String id){
+        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        List<IndividualNotification> individualAcceptedNotificationList = individualService.getIndividualAcceptedNotificationList(individual, true);
+        return individualAcceptedNotificationList;
+    }
+
     //better with third party as parameter and individual in the url
     @RequestMapping(method = RequestMethod.POST, value = "/individual/individualRequest/answer")
     public void answerToIndividualRequest(@RequestBody IndividualRequest individualRequest){
