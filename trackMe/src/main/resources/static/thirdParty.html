@@ -44,7 +44,7 @@
     <form ng-submit="submitIndividualRequest()">
         <p>Fiscal Code: <input type="text" ng-model="data.individual.fiscalCode" size="16" required></p>
         <p>VAT: <input type="text" ng-model="data.thirdParty.vat" size="16" required></p>
-        <p>I want to subscribe to new data<input type="checkbox" ng-checked="subscribeToNewData()"> </p>  <!--TODO: link subscribeToNewData()-->
+        <p>I want to subscribe to new data<input type="checkbox" ng-model="data.subscribedToNewData"> </p>  <!--TODO:-->
         <input type="submit" id="submitIndividualRequest" value="Submit">
     </form>
     <p ng-bind="indReqResult"></p>
