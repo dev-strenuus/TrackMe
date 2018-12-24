@@ -97,9 +97,15 @@ app.controller("thirdPartyController", function($scope, $http, SharedDataService
         });
     });
 
+    $scope.data={
+        individual:{fiscalCode:""},
+        thirdParty:{vat: ""}
+    }
+
     $scope.submitIndividualRequest = function () {
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $scope.data.thirdParty.vat=SharedDataService.username;
         $http.post('/thirdParty/individualRequest', $scope.data, config).
         then(function onSuccess(response) {
             console.log(response);
@@ -184,6 +190,10 @@ app.controller("thirdPartyNotificationsController", function($scope, $http, Shar
                     $scope.sharedDataService.home = true;
                     $scope.sharedDataService.notifications = false;
     }
+
+    $scope.requestPastData = function (fiscalCode) {
+
+        };
 });
 
 app.controller("thirdPartyLogoutController", function ($scope, $http, SharedDataService) {

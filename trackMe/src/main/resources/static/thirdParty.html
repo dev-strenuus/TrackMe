@@ -17,10 +17,12 @@
         <p>Name: <input type="text" ng-model="thirdParty.name" required></p>
         <p>Password: <input type="password" ng-model="thirdParty.password" required></p>
         <p>I accept the agreement!<input type="checkbox" required ></p>
-        <input type="submit" id="submitSignUp" value="Submit">
+        <input type="submit" id="submitSignUp" value="Sign Up">
     </form>
 </div>
-
+<p></p>
+<p>or</p>
+<p></p>
 <div ng-controller="thirdPartyLoginController" ng-show="sharedDataService.login">
     <h1>Login:</h1>
     <form ng-submit="submitLogin()">
@@ -43,8 +45,7 @@
     <h2>Individual Request:</h2>
     <form ng-submit="submitIndividualRequest()">
         <p>Fiscal Code: <input type="text" ng-model="data.individual.fiscalCode" size="16" required></p>
-        <p>VAT: <input type="text" ng-model="data.thirdParty.vat" size="16" required></p>
-        <p>I want to subscribe to new data<input type="checkbox" ng-model="data.subscribedToNewData"> </p>  <!--TODO:-->
+        <p>I want to subscribe to new data<input type="checkbox" ng-model="data.subscribedToNewData"> </p>  <!--TODO-->
         <input type="submit" id="submitIndividualRequest" value="Submit">
     </form>
     <p ng-bind="indReqResult"></p>
@@ -88,29 +89,18 @@
 
 <div ng-controller="thirdPartyNotificationsController" ng-show="sharedDataService.notifications">
     <h1>All your requests:</h1>
-    <!--<table>
-        <tr>
-            <th>Fiscal Code</th>
-        </tr>
-        <tr ng-repeat="notification in notifications">
-            <td>{{$index}}</td>
-            <td>{{notification}}</td>
-        </tr>
-    </table>-->
 
     <table align="center">
-        <tr><th>List of Notifications:</th></tr>
+        <tr><th>List of Requests you sent:</th></tr>
         <tr>
-            <th>Individual</th>
-            <th>Status</th>
+            <th>Individual Fiscal Code</th>
+            <th>Accepted</th>
             <th>Past data</th>
         </tr>
         <tr ng-repeat="notification in notifications">
             <td>{{notification.individualRequest.individual.fiscalCode}}</td>
             <td>{{notification.individualRequest.accepted}}</td>
-            <!-- TODO: link askForPastData()
-            <td><button ng-click="askForPastData()">Ask</button></td>
-            -->
+            <td><button ng-click="requestPastData(notification.individualRequest.individual.fiscalCode)">Request</button></td> <!--TODO-->
         </tr>
     </table>
 

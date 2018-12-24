@@ -12,7 +12,7 @@
 <body ng-app="individual">
 
 <div ng-controller="individualSignUpController" ng-show="sharedDataService.signUp">
-    <h1>Sign up:</h1>
+    <h1>Sign Up:</h1>
     <form ng-submit="submitSignUp()">
 
         <p>Fiscal code: <input type="text" ng-model="individual.fiscalCode" pattern=".{16}"
@@ -32,7 +32,7 @@
          -->
         <p>I accept the agreement!<input type="checkbox" title="You must agree our terms to use our services" required>
         </p>
-        <input type="submit" id="submitSignUp" value="Submit">
+        <input type="submit" id="submitSignUp" value="Sign Up">
     </form>
 </div>
 
@@ -46,7 +46,7 @@
     </form>
     <div>
         <p>If you do not have an account, please sign up</p>
-        <button ng-click="showSignUp()">Sign up</button>
+        <button ng-click="showSignUp()">Sign Up</button>
     </div>
 </div>
 
