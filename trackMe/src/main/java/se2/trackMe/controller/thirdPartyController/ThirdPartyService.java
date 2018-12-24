@@ -28,6 +28,9 @@ public class ThirdPartyService {
     @Autowired
     private IndividualRepository individualRepository;
 
+    @Autowired
+    private AnonymousRequestBuilder anonymousRequestBuilder;
+
     public List<Individual> getAllIndividuals(){
         List<Individual> people = new ArrayList<>();
         individualRepository.findAll().forEach(people::add);
@@ -60,5 +63,10 @@ public class ThirdPartyService {
 
     public Optional<Individual> getIndividual(String id){
         return individualRepository.findById(id);
+    }
+
+    public void addAnonymousRequest(ThirdParty thirdParty, AnonymousRequest anonymousRequest){
+        anonymousRequest.setThirdParty(thirdParty);
+        anonymousRequestBuilder.calculate(anonymousRequest);
     }
 }

@@ -8,10 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import se2.trackMe.model.Individual;
-import se2.trackMe.model.IndividualRequest;
-import se2.trackMe.model.ThirdParty;
-import se2.trackMe.model.ThirdPartyNotification;
+import se2.trackMe.model.*;
 import se2.trackMe.model.profileJSON.Profile;
 
 import java.util.List;
@@ -43,6 +40,12 @@ public class ThirdPartyController {
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
         List<ThirdPartyNotification> thirdPartyNotificationList = thirdPartyService.getThirdPartyNotificationList(thirdParty);
         return thirdPartyNotificationList;
+    }
+
+    @JsonView(Profile.AnonymousRequestPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/anonymousRequest")
+    public void addAnonymousRequest(@RequestBody AnonymousRequest anonymousRequest){
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(anonymousRequest.getThirdParty().getVat()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "ThirdParty Not Found"));
     }
 
 }

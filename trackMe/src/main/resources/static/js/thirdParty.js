@@ -96,7 +96,6 @@ app.controller("thirdPartyController", function($scope, $http, SharedDataService
             console.log(response);
         });
     });
-
     $scope.submitIndividualRequest = function () {
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;

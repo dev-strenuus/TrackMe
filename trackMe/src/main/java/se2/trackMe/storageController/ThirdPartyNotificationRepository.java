@@ -6,6 +6,6 @@ import se2.trackMe.model.ThirdPartyNotification;
 
 import java.util.List;
 
-public interface ThirdPartyNotificationRepository extends CrudRepository<ThirdPartyNotification, String> {
+public interface ThirdPartyNotificationRepository extends CrudRepository<ThirdPartyNotification, Long> {
     List<ThirdPartyNotification> findAllByThirdParty(ThirdParty thirdParty);
 }

@@ -16,28 +16,28 @@ public class IndividualData {
     private Long id;
 
     //@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="GMT")
-    @JsonView(Profile.ThirdPartyPublicView.class)
+    @JsonView(Profile.AnonymousRequestPublicView.class)
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date timestamp;
 
-    @JsonView(Profile.ThirdPartyPublicView.class)
+    @JsonView(Profile.AnonymousRequestPublicView.class)
     @Column
     @NotNull
     private Float heartRate;
 
-    @JsonView(Profile.ThirdPartyPublicView.class)
+    @JsonView(Profile.AnonymousRequestPublicView.class)
     @Column
     @NotNull
     private Float systolicBloodPressure;
 
-    @JsonView(Profile.ThirdPartyPublicView.class)
+    @JsonView(Profile.AnonymousRequestPublicView.class)
     @Column
     @NotNull
     private Float diastolicBloodPressure;
 
-    @JsonView(Profile.ThirdPartyPublicView.class)
+    @JsonView(Profile.AnonymousRequestPublicView.class)
     @Column
     @NotNull
     private  Float oxygenPercentage;
@@ -46,6 +46,18 @@ public class IndividualData {
     @ManyToOne
     @NotNull
     private Individual individual;
+
+    @Column
+    @NotNull
+    private Integer age;
+
+    @Column
+    @NotNull
+    private Float latitude;
+
+    @Column
+    @NotNull
+    private Float longitude;
 
     public IndividualData(){}
 
@@ -87,5 +99,29 @@ public class IndividualData {
 
     public void setIndividual(Individual individual){
         this.individual = individual;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public Float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
     }
 }
