@@ -39,8 +39,8 @@ public class IndividualService {
         return individualRepository.findById(id);
     }
 
-    public List<IndividualNotification> getIndvidualNotificationList(Individual individual){
-        return individualNotificationRepository.findAllByIndividual(individual);
+    public List<IndividualNotification> getIndvidualPendingNotificationList(Individual individual, Boolean value){
+        return individualNotificationRepository.findAllByIndividualAndIndividualRequest_Accepted(individual, value);
     }
 
     public List<IndividualNotification> getIndividualAcceptedNotificationList(Individual individual, Boolean value){
