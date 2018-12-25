@@ -39,6 +39,11 @@ app.service('SharedDataService', function () {
     return sharedData;
 });
 
+app.controller("mainController", function ($scope, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+
+});
+
 app.controller("thirdPartySignUpController", function($scope, $http, $location, SharedDataService) {
     $scope.thirdParty = {};
     $scope.sharedDataService = SharedDataService;
@@ -141,13 +146,20 @@ app.controller("thirdPartySettingsController", function($scope, $http, SharedDat
 
 app.controller("thirdPartyNotificationsController", function($scope, $http, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
-    $scope.notifications = [];
+    $scope.individualRequests = [];
+    $scope.newData = [];
 
     $http.defaults.headers.common.Authorization = SharedDataService.token;
     $http.get("/thirdParty/"+$scope.sharedDataService.username+"/notifications")
         .then(function (response) {
             console.log(response);
-            $scope.notifications = response.data;
+            for(i=0; i<response.data.length; i++){
+                notification = response.data[i];
+                if(notification.individualRequest != null)
+                    $scope.individualRequests.push(notification.individualRequest);
+                if(notification.individualDataList != null && notification.individualDataList.length > 0)
+                    $scope.newData.push(notification.individualDataList);
+            }
         }).catch(function onError(response) {
             console.log(response);
         });

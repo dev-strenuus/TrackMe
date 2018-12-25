@@ -8,11 +8,34 @@
             <th>Accepted</th>
             <th>Past data</th>
         </tr>
-        <tr ng-repeat="notification in notifications">
-            <td>{{notification.individualRequest.individual.fiscalCode}}</td>
-            <td>{{notification.individualRequest.accepted}}</td>
-            <td><button ng-click="requestPastData(notification.individualRequest.individual.fiscalCode)">Request</button></td> <!--TODO-->
+        <tr ng-repeat="notification in individualRequests">
+            <td>{{notification.individual.fiscalCode}}</td>
+            <td>{{notification.accepted}}</td>
+            <td><button ng-click="requestPastData(notification.individual.fiscalCode)">Request</button></td> <!--TODO-->
         </tr>
+    </table>
+
+    <table class="table table-striped" ng-repeat="notification in newData ">
+        <thead>
+        <tr>
+            <th scope="col">FiscalCode</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Heart Rate</th>
+            <th scope="col">Pression 1</th>
+            <th scope="col">Pression 2</th>
+            <th scope="col">Oxygen %</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="individualData in notification">
+            <th>{{individualData.individual.fiscalCode}}</th>
+            <td>{{individualData.timestamp}}</td>
+            <td>{{individualData.heartRate}}</td>
+            <td>{{individualData.systolicBloodPressure}}</td>
+            <td>{{individualData.diastolicBloodPressure}}</td>
+            <td>{{individualData.oxygenPercentage}}</td>
+        </tr>
+        </tbody>
     </table>
 
     <div>

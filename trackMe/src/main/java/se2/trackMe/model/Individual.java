@@ -21,21 +21,13 @@ public class Individual {
     private String name;
 
     @Column
-<<<<<<< HEAD
-    private String surname;
-=======
     @NotNull
     private  String surname;
->>>>>>> 4884dab8cfcc750ad5e0263fb14fd7d5196e6f11
 
     @Column
     @NotNull
     private String password;
 
-<<<<<<< HEAD
-    public Individual() {
-    }
-=======
     @Column
     @NotNull
     private Date birthDate;
@@ -49,7 +41,6 @@ public class Individual {
     private Float longitude;
 
     public Individual(){}
->>>>>>> 4884dab8cfcc750ad5e0263fb14fd7d5196e6f11
 
     public Individual(@NotNull String fiscalCode, @NotNull String name, @NotNull String surname, @NotNull String password, @NotNull Date birthDate, @NotNull Float latitude, @NotNull Float longitude) {
         this.fiscalCode = fiscalCode;
