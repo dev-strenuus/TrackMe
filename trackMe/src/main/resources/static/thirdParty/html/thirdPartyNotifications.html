@@ -11,7 +11,7 @@
         <tr ng-repeat="notification in individualRequests">
             <td>{{notification.individual.fiscalCode}}</td>
             <td>{{notification.accepted}}</td>
-            <td><button ng-click="requestPastData(notification.individual.fiscalCode)">Request</button></td> <!--TODO-->
+            <td><a href="#!pastDataRequest"><button ng-click="pastDataRequest(notification.individualRequest.individual.fiscalCode)">Request</button></a></td>
         </tr>
     </table>
 
@@ -37,9 +37,5 @@
         </tr>
         </tbody>
     </table>
-
-    <div>
-        <a href="#!home"><button class="btn">Home Page</button></a>
-    </div>
 
 </div>
