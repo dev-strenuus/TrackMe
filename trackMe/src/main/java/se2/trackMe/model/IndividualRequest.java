@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import se2.trackMe.model.profileJSON.Profile;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-public class IndividualRequest{
+public class IndividualRequest {
 
     @Id
     @GeneratedValue
@@ -29,9 +28,10 @@ public class IndividualRequest{
     @Column
     private Boolean subscribedToNewData;
 
-    public IndividualRequest(){}
+    public IndividualRequest() {
+    }
 
-    public IndividualRequest(ThirdParty thirdParty, Individual individual, Boolean subscribedToNewData){
+    public IndividualRequest(ThirdParty thirdParty, Individual individual, Boolean subscribedToNewData) {
 
         this.thirdParty = thirdParty;
         this.individual = individual;

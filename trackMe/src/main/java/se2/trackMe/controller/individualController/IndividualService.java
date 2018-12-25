@@ -8,9 +8,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se2.trackMe.model.*;
-import se2.trackMe.model.security.Authority;
-import se2.trackMe.model.security.AuthorityName;
-import se2.trackMe.model.security.User;
 import se2.trackMe.storageController.*;
 
 import java.time.Period;
@@ -44,8 +41,12 @@ public class IndividualService {
         return individualRepository.findById(id);
     }
 
-    public List<IndividualNotification> getIndvidualNotificationList(Individual individual){
-        return individualNotificationRepository.findAllByIndividual(individual);
+    public List<IndividualNotification> getIndvidualPendingNotificationList(Individual individual, Boolean value){
+        return individualNotificationRepository.findAllByIndividualAndIndividualRequest_Accepted(individual, value);
+    }
+
+    public List<IndividualNotification> getIndividualAcceptedNotificationList(Individual individual, Boolean value){
+        return individualNotificationRepository.findAllByIndividualAndIndividualRequest_Accepted(individual, value);
     }
 
     public Optional<IndividualRequest> getIndividualRequest(IndividualRequest individualRequest){

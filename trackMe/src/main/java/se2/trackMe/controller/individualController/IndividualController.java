@@ -2,7 +2,6 @@ package se2.trackMe.controller.individualController;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -39,8 +38,16 @@ public class IndividualController {
     public @ResponseBody List<IndividualNotification> getIndividualNotificationList(@PathVariable("individual") String id){
         //if(!userService.checkUsername())
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
-        List<IndividualNotification> individualNotificationList = individualService.getIndvidualNotificationList(individual);
+        List<IndividualNotification> individualNotificationList = individualService.getIndvidualPendingNotificationList(individual, null);
         return individualNotificationList;
+    }
+
+    @JsonView(Profile.IndividualPublicView.class)
+    @RequestMapping("/individual/{individual}/acceptedRequests")
+    public @ResponseBody List<IndividualNotification> getIndividualAcceptedNotificationList(@PathVariable("individual") String id){
+        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        List<IndividualNotification> individualAcceptedNotificationList = individualService.getIndividualAcceptedNotificationList(individual, true);
+        return individualAcceptedNotificationList;
     }
 
     //better with third party as parameter and individual in the url
