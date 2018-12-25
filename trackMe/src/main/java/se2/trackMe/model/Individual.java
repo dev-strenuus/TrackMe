@@ -1,6 +1,5 @@
 package se2.trackMe.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import se2.trackMe.model.profileJSON.Profile;
 
@@ -19,12 +18,13 @@ public class Individual {
     private String name;
 
     @Column
-    private  String surname;
+    private String surname;
 
     @Column
     private String password;
 
-    public Individual(){}
+    public Individual() {
+    }
 
     public Individual(String fiscalCode, String name, String surname, String password) {
         this.fiscalCode = fiscalCode;

@@ -1,6 +1,5 @@
 package se2.trackMe.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import se2.trackMe.model.profileJSON.Profile;
 
@@ -40,14 +39,15 @@ public class IndividualData {
     @JsonView(Profile.ThirdPartyPublicView.class)
     @Column
     @NotNull
-    private  Float oxygenPercentage;
+    private Float oxygenPercentage;
 
     @JsonView(Profile.ThirdPartyPublicView.class)
     @ManyToOne
     @NotNull
     private Individual individual;
 
-    public IndividualData(){}
+    public IndividualData() {
+    }
 
     public IndividualData(@NotNull Date timestamp, @NotNull Float heartRate, @NotNull Float systolicBloodPressure, @NotNull Float diastolicBloodPressure, @NotNull Float oxygenPercentage) {
         this.timestamp = timestamp;
@@ -85,7 +85,7 @@ public class IndividualData {
         return individual;
     }
 
-    public void setIndividual(Individual individual){
+    public void setIndividual(Individual individual) {
         this.individual = individual;
     }
 }

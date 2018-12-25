@@ -28,6 +28,9 @@ public class ThirdPartyService {
     @Autowired
     private IndividualRepository individualRepository;
 
+    @Autowired
+    private IndividualDataRepository individualDataRepository;
+
     public List<Individual> getAllIndividuals(){
         List<Individual> people = new ArrayList<>();
         individualRepository.findAll().forEach(people::add);
@@ -56,6 +59,10 @@ public class ThirdPartyService {
 
     public List<ThirdPartyNotification> getThirdPartyNotificationList(ThirdParty thirdParty){
         return thirdPartyNotificationRepository.findAllByThirdParty(thirdParty);
+    }
+
+    public List<IndividualData> getIndividualData(Individual individual){
+        return individualDataRepository.findAllByIndividual(individual);
     }
 
     public Optional<Individual> getIndividual(String id){
