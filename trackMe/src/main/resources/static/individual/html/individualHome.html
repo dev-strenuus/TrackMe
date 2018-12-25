@@ -7,9 +7,13 @@
         <a href="#!settings"><button class="btn">Settings</button></a>
     </div>
     <div>
-        <a href="#!dataManager"><button class="btn">Get Data From Smartwatch</button></a>
+        <a href="#!dataManager"><button class="btn">Watch graphs</button></a>
     </div>
     <div>
         <button ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
+    </div>
+    <div>
+        <button ng-controller="individualDataRetriever" ng-click="connect()" ng-hide="sharedDataService.deviceConnected">Connect a device</button>
+        <button ng-controller="individualDataRetriever" ng-click="disconnect()" ng-show="sharedDataService.deviceConnected">Disconnect device</button>
     </div>
 </div>

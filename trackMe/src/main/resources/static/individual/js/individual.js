@@ -37,6 +37,9 @@ app.config(function($routeProvider) {
 app.service('SharedDataService', function () {
     let sharedData = {
         loggedIn: false,
+        deviceConnected: false,
+        intervalPromise: null,
+        data: [],
         username: '',
         token: ''
     };
@@ -184,62 +187,18 @@ app.controller("individualSettingsController", function ($scope, $http, SharedDa
     });
 });
 
-app.controller('graphController', function ($scope, $interval, $http, SharedDataService) {
+app.controller('graphController', function ($scope, $interval, SharedDataService) {
 
     $scope.sharedDataService = SharedDataService;;
-    $http.defaults.headers.common.Authorization = SharedDataService.token;
     $scope.width = 600;
     $scope.height = 350;
     $scope.yAxis = ['Heart Rate', 'Systolic Blood Pressure', 'Diastolic Blood Pressure', 'Oxygen Percentage'];
     $scope.xAxis = 'Time';
-    $scope.data = [];
-    $scope.res = [];
+    $scope.data = $scope.sharedDataService.data;
     $scope.max = [90, 150, 200, 100];
-    $scope.cont = 0;
-
-    $interval(function () {
-        if ($scope.data.length > 12) {
-            $scope.data.shift();
-            $scope.res.shift();
-
-        }
-
-        $scope.data.push([
-            {
-                value: Math.floor((Math.random() * 40) + 50)
-            },
-            {
-                value: Math.floor((Math.random() * 100) + 50)
-            },
-            {
-                value: Math.floor((Math.random() * 100) + 100)
-            },
-            {
-                value: Math.floor((Math.random() * 50) + 50)
-            }
-        ]);
-        $scope.res.push(
-            {
-                timestamp: new Date(),
-                heartRate: $scope.data[$scope.data.length - 1][0].value,
-                systolicBloodPressure: $scope.data[$scope.data.length - 1][1].value,
-                diastolicBloodPressure: $scope.data[$scope.data.length - 1][2].value,
-                oxygenPercentage: $scope.data[$scope.data.length - 1][3].value
-            }
-        );
-        $scope.cont = $scope.cont + 1;
-        $scope.cont = $scope.cont % 12;
-        if ($scope.cont == 0) {
-            console.log($scope.res);
-            $http.post("/individual/" + $scope.sharedDataService.username + "/data", $scope.res, config).then(function onSuccess(response) {
-                console.log(response);
-            }).catch(function onError(response) {
-                console.log(response);
-            });
-        }
 
 
-    }, 1000, 1000);
+
 });
 
 
@@ -249,6 +208,68 @@ app.controller("individualLogoutController", function ($scope, $http, $location,
     $scope.logout = function () {
         $scope.sharedDataService.loggedIn = false;
         $location.path("/login");
+    };
+});
+
+app.controller("individualDataRetriever", function ($scope, $http, $interval, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+    $http.defaults.headers.common.Authorization = SharedDataService.token;
+    $scope.cont = 0;
+    $scope.res = [];
+
+    $scope.connect = function () {
+        console.log("device connected");
+        $scope.sharedDataService.deviceConnected = true;
+        $scope.sharedDataService.intervalPromise = $interval(function () {
+            if ($scope.sharedDataService.data.length > 12) {
+                $scope.sharedDataService.data.shift();
+                $scope.res.shift();
+
+            }
+
+            $scope.sharedDataService.data.push([
+                {
+                    value: Math.floor((Math.random() * 40) + 50)
+                },
+                {
+                    value: Math.floor((Math.random() * 100) + 50)
+                },
+                {
+                    value: Math.floor((Math.random() * 100) + 100)
+                },
+                {
+                    value: Math.floor((Math.random() * 50) + 50)
+                }
+            ]);
+            $scope.res.push(
+                {
+                    timestamp: new Date(),
+                    heartRate: $scope.sharedDataService.data[$scope.sharedDataService.data.length - 1][0].value,
+                    systolicBloodPressure: $scope.sharedDataService.data[$scope.sharedDataService.data.length - 1][1].value,
+                    diastolicBloodPressure: $scope.sharedDataService.data[$scope.sharedDataService.data.length - 1][2].value,
+                    oxygenPercentage: $scope.sharedDataService.data[$scope.sharedDataService.data.length - 1][3].value
+                }
+            );
+            $scope.cont = $scope.cont + 1;
+            $scope.cont = $scope.cont % 12;
+            if ($scope.cont == 0) {
+                console.log($scope.res);
+                $http.post("/individual/" + $scope.sharedDataService.username + "/data", $scope.res, config).then(function onSuccess(response) {
+                    console.log(response);
+                }).catch(function onError(response) {
+                    console.log(response);
+                });
+            }
+
+
+        }, 1000, 1000);
+    };
+
+    $scope.disconnect = function () {
+        console.log("device disconnected");
+        $scope.sharedDataService.deviceConnected = false;
+        $interval.cancel($scope.sharedDataService.intervalPromise);
+        $scope.sharedDataService.data = [];
     };
 });
 
