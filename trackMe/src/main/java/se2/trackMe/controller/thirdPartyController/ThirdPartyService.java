@@ -31,13 +31,15 @@ public class ThirdPartyService {
     @Autowired
     private IndividualDataRepository individualDataRepository;
 
-    public List<Individual> getAllIndividuals(){
+    private AnonymousRequestBuilder anonymousRequestBuilder;
+
+    public List<Individual> getAllIndividuals() {
         List<Individual> people = new ArrayList<>();
         individualRepository.findAll().forEach(people::add);
         return people;
     }
 
-    public void addThirdParty(ThirdParty thirdParty){
+    public void addThirdParty(ThirdParty thirdParty) {
         thirdPartyRepository.save(thirdParty);
     }
 
@@ -49,23 +51,28 @@ public class ThirdPartyService {
         individualNotificationRepository.save(new IndividualNotification(individualRequest));
     }
 
-    public Optional<IndividualRequest> getIndividualRequest(ThirdParty thirdParty, Individual individual){
+    public Optional<IndividualRequest> getIndividualRequest(ThirdParty thirdParty, Individual individual) {
         return individualRequestRepository.findByThirdPartyAndIndividual(thirdParty, individual);
     }
 
-    public Optional<ThirdParty> getThirdParty(String id){
+    public Optional<ThirdParty> getThirdParty(String id) {
         return thirdPartyRepository.findById(id);
     }
 
-    public List<ThirdPartyNotification> getThirdPartyNotificationList(ThirdParty thirdParty){
+    public List<ThirdPartyNotification> getThirdPartyNotificationList(ThirdParty thirdParty) {
         return thirdPartyNotificationRepository.findAllByThirdParty(thirdParty);
     }
 
-    public List<IndividualData> getIndividualData(Individual individual){
+    public List<IndividualData> getIndividualData(Individual individual) {
         return individualDataRepository.findAllByIndividual(individual);
     }
 
-    public Optional<Individual> getIndividual(String id){
+    public Optional<Individual> getIndividual(String id) {
         return individualRepository.findById(id);
+    }
+
+    public void addAnonymousRequest(ThirdParty thirdParty, AnonymousRequest anonymousRequest) {
+        anonymousRequest.setThirdParty(thirdParty);
+        anonymousRequestBuilder.calculate(anonymousRequest);
     }
 }

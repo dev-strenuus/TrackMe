@@ -60,4 +60,9 @@ public class ThirdPartyController {
         return listOfData;
     }
 
+    @JsonView(Profile.AnonymousRequestPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/anonymousRequest")
+    public void addAnonymousRequest(@RequestBody AnonymousRequest anonymousRequest) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(anonymousRequest.getThirdParty().getVat()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "ThirdParty Not Found"));
+    }
 }

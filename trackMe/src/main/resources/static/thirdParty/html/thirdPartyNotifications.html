@@ -1,0 +1,22 @@
+<div ng-show="sharedDataService.loggedIn">
+    <h1>All your requests:</h1>
+
+    <table align="center">
+        <tr><th>List of Requests you sent:</th></tr>
+        <tr>
+            <th>Individual Fiscal Code</th>
+            <th>Accepted</th>
+            <th>Past data</th>
+        </tr>
+        <tr ng-repeat="notification in notifications">
+            <td>{{notification.individualRequest.individual.fiscalCode}}</td>
+            <td>{{notification.individualRequest.accepted}}</td>
+            <td><button ng-click="requestPastData(notification.individualRequest.individual.fiscalCode)">Request</button></td> <!--TODO-->
+        </tr>
+    </table>
+
+    <div>
+        <a href="#!home"><button class="btn">Home Page</button></a>
+    </div>
+
+</div>

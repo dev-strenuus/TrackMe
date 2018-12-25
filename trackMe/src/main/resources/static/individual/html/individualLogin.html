@@ -1,0 +1,13 @@
+<div>
+    <h1>Login:</h1>
+    <form ng-submit="submitLogin()">
+        <p>Fiscal code: <input type="text" ng-model="credentials.username" pattern=".{16}"
+                               title="Field must be 16 characters long" required></p>
+        <p>Password: <input type="password" ng-model="credentials.password" title="Insert your password" required></p>
+        <input type="submit" id="submitLogin" value="Login">
+    </form>
+    <div>
+        <p>If you do not have an account, please sign up</p>
+        <a href="#!signUp"><button class="btn">Sign Up</button></a>
+    </div>
+</div>

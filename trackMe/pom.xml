@@ -38,6 +38,9 @@
         <jjwt.version>0.9.1</jjwt.version>
         <jacoco.version>0.8.1</jacoco.version>
 
+        <dbunit.version>2.5.3</dbunit.version>
+        <spring-test-dbunit.version>1.2.1</spring-test-dbunit.version>
+
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
         <findbugs.version>3.0.1</findbugs.version>
@@ -90,6 +93,17 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.springtestdbunit</groupId>
+            <artifactId>spring-test-dbunit</artifactId>
+            <version>${spring-test-dbunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit.version}</version>
         </dependency>
     </dependencies>
 
@@ -169,47 +183,7 @@
             </build>
         </profile>
 
-        <profile>
-            <id>jacoco</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco.version}</version>
-                        <executions>
-                            <execution>
-                                <id>prepare-agent</id>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>report</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>post-unit-test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                                <configuration>
-                                    <!-- Sets the path to the file which contains the execution data. -->
 
-                                    <dataFile>target/jacoco.exec</dataFile>
-                                    <!-- Sets the output directory for the code coverage report. -->
-                                    <outputDirectory>target/jacoco-ut</outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
 
 </project>

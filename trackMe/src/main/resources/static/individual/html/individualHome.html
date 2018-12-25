@@ -1,0 +1,15 @@
+<div ng-show="sharedDataService.loggedIn">
+    <h1>Choose one option:</h1>
+    <div>
+        <a href="#!notifications"><button class="btn">Notifications</button></a>
+    </div>
+    <div>
+        <a href="#!settings"><button class="btn">Settings</button></a>
+    </div>
+    <div>
+        <a href="#!dataManager"><button class="btn">Get Data From Smartwatch</button></a>
+    </div>
+    <div>
+        <button ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
+    </div>
+</div>

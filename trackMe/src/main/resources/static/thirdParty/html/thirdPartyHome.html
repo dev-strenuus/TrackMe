@@ -1,0 +1,39 @@
+<div ng-show="sharedDataService.loggedIn">
+
+    <h1>Third Party Home Page</h1>
+    <table align="center">
+        <tr><th>List of Fiscal Codes:</th></tr>
+        <tr ng-repeat="person in people">
+            <td>{{person.fiscalCode}}</td>
+        </tr>
+    </table>
+
+    <h2>Individual Request:</h2>
+    <form ng-submit="submitIndividualRequest()">
+        <p>Fiscal Code: <input type="text" ng-model="data.individual.fiscalCode" size="16" required></p>
+        <p>I want to subscribe to new data<input type="checkbox" ng-model="data.subscribedToNewData"> </p>  <!--TODO-->
+        <input type="submit" id="submitIndividualRequest" value="Submit">
+    </form>
+    <p ng-bind="indReqResult"></p>
+
+    <h2>Group Request:</h2>
+    <form ng-submit="submitGroupRequest()">
+        <p>Area: <input type="text" ng-model="data.area" size="16" required></p>
+        <p>Age: <input type="text" ng-model="data.age" size="16" required></p>
+        <input type="submit" id="submitGroupRequest" value="Submit">
+    </form>
+    <p ng-bind="GroupReqResult"></p>
+
+    <h2>Other options:</h2>
+    <div>
+        <a href="#!notifications"><button class="btn">Notifications</button></a>
+    </div>
+    <div>
+        <a href="#!settings"><button class="btn">Settings</button></a>
+    </div>
+
+    <div>
+        <button ng-controller="thirdPartyLogoutController" ng-click="logout()">Logout</button>
+    </div>
+
+</div>

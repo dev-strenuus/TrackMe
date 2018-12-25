@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import se2.trackMe.model.*;
 import se2.trackMe.storageController.*;
 
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -57,6 +59,10 @@ public class IndividualService {
     }
 
     public void saveData(List<IndividualData> individualDataList){
+        individualDataList.forEach(data -> {data.setAge(Period.between(data.getIndividual().getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),data.getTimestamp().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getYears());
+                                            data.setLatitude(data.getIndividual().getLatitude());
+                                            data.setLongitude(data.getIndividual().getLongitude());
+                                            });
         individualDataList.forEach(data -> individualDataRepository.save(data));
         List<IndividualRequest> individualRequestList = new ArrayList<>();
         individualRequestRepository.findAllByIndividual(individualDataList.get(0).getIndividual()).forEach(individualRequestList::add);

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <INDIVIDUAL fiscal_Code="1" name="andrea" surname="andrea" password="andrea"/>
+    <INDIVIDUAL fiscal_Code="1" name="andrea" surname="andrea" password="andrea"/>
+    <INDIVIDUAL fiscal_Code="1" name="andrea" surname="andrea" password="andrea"/>
+    <INDIVIDUAL_DATA id="1" timestamp="2018-12-24 14:36:37.61" heart_Rate="60" systolic_Blood_Pressure="120" diastolic_Blood_Pressure="150" oxygen_Percentage="50" individual_fiscal_code="ciao"/>
+
+</dataset>

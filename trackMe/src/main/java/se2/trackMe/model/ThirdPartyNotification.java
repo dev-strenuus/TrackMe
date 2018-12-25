@@ -3,17 +3,15 @@ package se2.trackMe.model;
 import com.fasterxml.jackson.annotation.JsonView;
 import se2.trackMe.model.profileJSON.Profile;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class ThirdPartyNotification {
 
     @Id
-    private String id;
+    @GeneratedValue
+    private Long id;
 
     @ManyToOne
     private ThirdParty thirdParty;
@@ -26,7 +24,16 @@ public class ThirdPartyNotification {
     @ManyToMany
     private List<IndividualData> individualDataList;
 
+    @JsonView(Profile.AnonymousRequestPublicView.class)
+    @ManyToOne
+    private AnonymousAnswer anonymousAnswer;
+
     public ThirdPartyNotification(){}
+
+    public ThirdPartyNotification(AnonymousAnswer anonymousAnswer, ThirdParty thirdParty){
+        this.anonymousAnswer = anonymousAnswer;
+        this.thirdParty = thirdParty;
+    }
 
     public ThirdPartyNotification(List<IndividualData> individualDataList, ThirdParty thirdParty){
         this.individualDataList = individualDataList;
@@ -36,7 +43,6 @@ public class ThirdPartyNotification {
     public ThirdPartyNotification(IndividualRequest individualRequest){
         this.individualRequest = individualRequest;
         this.thirdParty = individualRequest.getThirdParty();
-        this.id = (new Integer(individualRequest.hashCode())).toString();
     }
 
     public ThirdParty getThirdParty() {
@@ -47,11 +53,15 @@ public class ThirdPartyNotification {
         return individualRequest;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
     public List<IndividualData> getIndividualDataList() {
         return individualDataList;
+    }
+
+    public AnonymousAnswer getAnonymousAnswer() {
+        return anonymousAnswer;
     }
 }
