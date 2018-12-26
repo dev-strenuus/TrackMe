@@ -17,6 +17,31 @@
 
     <p ng-bind="pastDataReqResult"></p>
 
+    <table class="table table-striped" >
+        
+        <thead>
+        <tr>
+            <th scope="col">FiscalCode</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Heart Rate</th>
+            <th scope="col">Pression 1</th>
+            <th scope="col">Pression 2</th>
+            <th scope="col">Oxygen %</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="datum in data">
+            <th>{{datum.individual.fiscalCode}}</th>
+            <td>{{datum.timestamp}}</td>
+            <td>{{datum.heartRate}}</td>
+            <td>{{datum.systolicBloodPressure}}</td>
+            <td>{{datum.diastolicBloodPressure}}</td>
+            <td>{{datum.oxygenPercentage}}</td>
+        </tr>
+        </tbody>
+    </table>
+
     <div>
         <a href="#!home"><button class="btn">Home Page</button></a>
     </div>

@@ -36,7 +36,8 @@ app.config(function($routeProvider) {
 app.service('SharedDataService', function () {
     let sharedData = {
         loggedIn: false,
-        uername: '',
+        username: '',
+        pointedIndividual: '',
         token: ''
     };
     return sharedData;
@@ -148,7 +149,7 @@ app.controller("thirdPartySettingsController", function($scope, $http, SharedDat
     //TODO
 });
 
-app.controller("thirdPartyNotificationsController", function($scope, $http, SharedDataService) {
+app.controller("thirdPartyNotificationsController", function($scope, $http, $location, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.individualRequests = [];
     $scope.newData = [];
@@ -169,7 +170,8 @@ app.controller("thirdPartyNotificationsController", function($scope, $http, Shar
         });
 
     $scope.pastDataRequest = function (fiscalCode) {
-            $location.path("/pastDataRequest"); //TODO: passare fiscalcode
+            $location.path("/pastDataRequest");
+            $scope.sharedDataService.pointedIndividual=fiscalCode;//TODO: va bene passare così il fiscalcode? DA RIVEDERE
     };
 });
 
@@ -179,18 +181,27 @@ app.controller("thirdPartyLogoutController", function ($scope, $http, $location,
     $scope.logout = function () {
         $scope.sharedDataService.loggedIn = false;
         $location.path("/login");
+
     };
 });
 
 app.controller("thirdPartyPastDataRequestController", function($scope, $http, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
+    $scope.data = [];
     $http.defaults.headers.common.Authorization = SharedDataService.token;
 
     $scope.sendRequest = function () {
-        $http.get() //TODO
+        $http.get("/thirdParty/"+$scope.sharedDataService.username+"/"+$scope.sharedDataService.pointedIndividual+"/data") //TODO: va bene pescare così il fiscalcode? DA RIVEDERE
             .then(function (response) {
                 console.log(response);
-                $scope.pastDataReqResult = "The Past Data Request has been correctly sent.";
+                $scope.pastDataReqResult = "The Past Data Request has been correctly sent. Here follow the data requested:";
+                //$scope.data = response.data;
+                 for(let i=0; i<response.data.length; i++){
+                    let datum = response.data[i];
+                    console.log(datum)
+                    $scope.data.push(datum);
+                 }
+
             }).catch(function onError(response) {
                 console.log(response);
                 $scope.pastDataReqResult = "Something went wrong. Check the correctness of the dates!";
