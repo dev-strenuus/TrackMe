@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import se2.trackMe.model.*;
 import se2.trackMe.model.profileJSON.Profile;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -58,6 +59,24 @@ public class ThirdPartyController {
 
         List<IndividualData> listOfData = thirdPartyService.getIndividualData(individual);
         return listOfData;
+    }
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/{individual}/{startTime}/{endTime}/data")
+    public @ResponseBody
+    List<IndividualData> getIndividualDataByTimeRange(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId, @PathVariable("startTime") Date start,  @PathVariable("endTime") Date end) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+
+        // check if the thirdParty has an active subscription to receive the data of the individual
+        IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
+
+        // check if the start is before end and return data
+        if(start.after(end)){
+            return thirdPartyService.getIndividualDataInATimeRange(individual, start, end);
+        } else {
+            throw(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad time range provided"));
+        }
     }
 
     @JsonView(Profile.AnonymousRequestPublicView.class)

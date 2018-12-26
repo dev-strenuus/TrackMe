@@ -7,6 +7,7 @@ import se2.trackMe.model.*;
 import se2.trackMe.storageController.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +66,10 @@ public class ThirdPartyService {
 
     public List<IndividualData> getIndividualData(Individual individual) {
         return individualDataRepository.findAllByIndividual(individual);
+    }
+
+    public List<IndividualData> getIndividualDataInATimeRange(Individual individual, Date start, Date end){
+        return individualDataRepository.findAllByIndividualAndTimestampBetween(individual, start, end);
     }
 
     public Optional<Individual> getIndividual(String id) {

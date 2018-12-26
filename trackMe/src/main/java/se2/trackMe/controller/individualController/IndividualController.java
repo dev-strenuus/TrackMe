@@ -21,12 +21,8 @@ public class IndividualController {
     @Autowired
     private IndividualService individualService;
 
-
     @Autowired
     private UserService userService;
-
-
-
 
     public void checkUsername(String username, String token){
         if(!userService.checkUsername(username, token.substring(7)))

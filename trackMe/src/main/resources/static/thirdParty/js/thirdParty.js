@@ -107,7 +107,7 @@ app.controller("thirdPartyController", function($scope, $http, SharedDataService
     $scope.data={
         individual:{fiscalCode:""},
         thirdParty:{vat: ""}
-    }
+    };
 
     $scope.submitIndividualRequest = function () {
 
@@ -171,7 +171,7 @@ app.controller("thirdPartyNotificationsController", function($scope, $http, $loc
 
     $scope.pastDataRequest = function (fiscalCode) {
             $location.path("/pastDataRequest");
-            $scope.sharedDataService.pointedIndividual=fiscalCode;//TODO: va bene passare così il fiscalcode? DA RIVEDERE
+            $scope.sharedDataService.pointedIndividual=fiscalCode;
     };
 });
 
@@ -191,14 +191,14 @@ app.controller("thirdPartyPastDataRequestController", function($scope, $http, Sh
     $http.defaults.headers.common.Authorization = SharedDataService.token;
 
     $scope.sendRequest = function () {
-        $http.get("/thirdParty/"+$scope.sharedDataService.username+"/"+$scope.sharedDataService.pointedIndividual+"/data") //TODO: va bene pescare così il fiscalcode? DA RIVEDERE
+        $http.get("/thirdParty/"+$scope.sharedDataService.username+"/"+$scope.sharedDataService.pointedIndividual+"/data")
             .then(function (response) {
                 console.log(response);
                 $scope.pastDataReqResult = "The Past Data Request has been correctly sent. Here follow the data requested:";
                 //$scope.data = response.data;
                  for(let i=0; i<response.data.length; i++){
                     let datum = response.data[i];
-                    console.log(datum)
+                    console.log(datum);
                     $scope.data.push(datum);
                  }
 
