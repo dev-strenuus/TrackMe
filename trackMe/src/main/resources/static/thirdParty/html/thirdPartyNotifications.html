@@ -6,12 +6,12 @@
         <tr>
             <th>Individual Fiscal Code</th>
             <th>Accepted</th>
-            <th>Past data</th>
+            <th>Data</th>
         </tr>
         <tr ng-repeat="notification in individualRequests">
             <td>{{notification.individual.fiscalCode}}</td>
             <td>{{notification.accepted}}</td>
-            <td><a href="#!pastDataRequest"><button ng-click="pastDataRequest(notification.individual.fiscalCode)">Request</button></a></td>
+            <td><a href="#!watchDataRequest"><button ng-click="watchDataRequest(notification.individual.fiscalCode)">Watch</button></a></td>
         </tr>
     </table>
 

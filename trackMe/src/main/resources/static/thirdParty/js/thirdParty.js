@@ -27,9 +27,9 @@ app.config(function($routeProvider) {
         }).when("/settings", {
             templateUrl: "thirdPartySettings.html",
             controller: "thirdPartySettingsController"
-        }).when("/pastDataRequest", {
-                    templateUrl: "thirdPartyPastDataRequest.html",
-                    controller: "thirdPartyPastDataRequestController"
+        }).when("/watchDataRequest", {
+                    templateUrl: "thirdPartyWatchDataRequest.html",
+                    controller: "thirdPartyWatchDataRequestController"
         });
 });
 
@@ -162,15 +162,15 @@ app.controller("thirdPartyNotificationsController", function($scope, $http, $loc
                 let notification = response.data[i];
                 if(notification.individualRequest != null)
                     $scope.individualRequests.push(notification.individualRequest);
-                if(notification.individualDataList != null && notification.individualDataList.length > 0)
+                if(notification.individualDataList != null && notification.individualDataList.length > 0) //TODO: i nuovi dati vanno passati alla pagina successiva, sotto la get a riga 192 (eventualmente introducendo un divisorio nell'hmtl)
                     $scope.newData.push(notification.individualDataList);
             }
         }).catch(function onError(response) {
             console.log(response);
         });
 
-    $scope.pastDataRequest = function (fiscalCode) {
-            $location.path("/pastDataRequest");
+    $scope.watchDataRequest = function (fiscalCode) {
+            $location.path("/watchDataRequest");
             $scope.sharedDataService.pointedIndividual=fiscalCode;
     };
 });
@@ -185,26 +185,36 @@ app.controller("thirdPartyLogoutController", function ($scope, $http, $location,
     };
 });
 
-app.controller("thirdPartyPastDataRequestController", function($scope, $http, SharedDataService) {
+app.controller("thirdPartyWatchDataRequestController", function($scope, $http, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.data = [];
     $http.defaults.headers.common.Authorization = SharedDataService.token;
+    $http.get("/thirdParty/"+$scope.sharedDataService.username+"/"+$scope.sharedDataService.pointedIndividual+"/"+Date(Date.now())+"/data") //TODO:gli va passata non la data attuale ma quella in cui è stata fatta(o accettata) la richiesta
+        .then(function (response) {
+            console.log(response);
+            for(let i=0; i<response.data.length; i++){
+                let datum = response.data[i];
+                console.log(datum);
+                $scope.data.push(datum);
+            }
+        }).catch(function onError(response) {
+            console.log(response);
+        });
+
 
     $scope.sendRequest = function () {
-        $http.get("/thirdParty/"+$scope.sharedDataService.username+"/"+$scope.sharedDataService.pointedIndividual+"/data")
+        $http.get("/thirdParty/"+$scope.sharedDataService.username+"/"+$scope.sharedDataService.pointedIndividual+"/"+Date($scope.request.startingDate)+"/"+Date($scope.request.endingDate)+"/data") //TODO: da testare, non so se è corretto con il Date()
             .then(function (response) {
                 console.log(response);
-                $scope.pastDataReqResult = "The Past Data Request has been correctly sent. Here follow the data requested:";
-                //$scope.data = response.data;
-                 for(let i=0; i<response.data.length; i++){
+                $scope.pastDataReqResult = "The Past Data Request has been correctly sent. Here follow the data that you requested:";
+                for(let i=0; i<response.data.length; i++){
                     let datum = response.data[i];
                     console.log(datum);
                     $scope.data.push(datum);
-                 }
-
+                }
             }).catch(function onError(response) {
+                $scope.pastDataReqResult = "Something went wrong. Check the coherence of the dates!";
                 console.log(response);
-                $scope.pastDataReqResult = "Something went wrong. Check the correctness of the dates!";
             });
     };
 

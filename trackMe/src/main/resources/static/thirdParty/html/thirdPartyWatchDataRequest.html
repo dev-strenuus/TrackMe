@@ -1,9 +1,7 @@
 <div ng-show="sharedDataService.loggedIn">
 
-    <h1>Past Data Request</h1>
-
-    <p>Please fill the boxes below indicating the chosen interval of dates:</p>
-
+    <h2>If you want to filter data with respect to the period, please fill the boxes below indicating the chosen interval of dates:</h2>
+    <h3>Otherwise, the data retrieved from the device before your request date will be shown. If you asked for the subscription to the new data, you will be also able to see them.</h3>
     <table align="center">
         <tr>
             <th>Starting date</th>
@@ -11,11 +9,13 @@
         </tr>
         <td><input type="date" ng-model="request.startingDate"></td>
         <td><input type="date" ng-model="request.endingDate"></td>
-        <td><button ng-click="sendRequest()">Request</button></td> <!--TODO-->
+        <td><button ng-click="sendRequest()">Request</button></td> <!--TODO:oscurare altre notifiche già pre-esistenti nella pagina così da filtrare e mostrare solo quelle nelle date segnalate-->
         </tr>
     </table>
 
     <p ng-bind="pastDataReqResult"></p>
+
+    <h1>Individual Data </h1>
 
     <table class="table table-striped" >
         

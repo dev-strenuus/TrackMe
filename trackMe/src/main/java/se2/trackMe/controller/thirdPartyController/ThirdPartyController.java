@@ -79,6 +79,19 @@ public class ThirdPartyController {
         }
     }
 
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/{individual}/{time}/data")
+    public @ResponseBody
+    List<IndividualData> getIndividualDataBeforeTimestamp(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId,  @PathVariable("time") Date date) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+
+        // check if the thirdParty has an active subscription to receive the data of the individual
+        IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
+
+        return thirdPartyService.getIndividualDataBeforeTimestamp(individual, date);
+    }
+
     @JsonView(Profile.AnonymousRequestPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/anonymousRequest")
     public void addAnonymousRequest(@RequestBody AnonymousRequest anonymousRequest) {
