@@ -73,6 +73,6 @@ public class ThirdPartyService {
 
     public void addAnonymousRequest(ThirdParty thirdParty, AnonymousRequest anonymousRequest) {
         anonymousRequest.setThirdParty(thirdParty);
-        anonymousRequestBuilder.calculate(anonymousRequest);
+        new Thread(() -> {anonymousRequestBuilder.calculate(anonymousRequest);});
     }
 }

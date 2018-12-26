@@ -32,9 +32,13 @@ public class AnonymousRequest {
     @Column
     private Float lon1;
 
+    @Column
+    @NotNull
+    private Boolean subscribedToNewData;
 
+    public AnonymousRequest(){}
 
-    public AnonymousRequest(@NotNull ThirdParty thirdParty, Integer startAge, Integer endAge, Float lat1, Float lat2, Float lon1, Float lon2) {
+    public AnonymousRequest(@NotNull ThirdParty thirdParty, Integer startAge, Integer endAge, Float lat1, Float lat2, Float lon1, Float lon2, Boolean subscribedToNewData) {
         this.thirdParty = thirdParty;
         this.startAge = startAge;
         this.endAge = endAge;
@@ -43,6 +47,7 @@ public class AnonymousRequest {
         this.lat2 = lat2;
         this.lon2 = lon2;
         this.lon1 = lon1;
+        this.subscribedToNewData = subscribedToNewData;
     }
 
     public Long getId() {
@@ -79,5 +84,9 @@ public class AnonymousRequest {
 
     public void setThirdParty(ThirdParty thirdParty){
         this.thirdParty = thirdParty;
+    }
+
+    public Boolean getSubscribedToNewData() {
+        return subscribedToNewData;
     }
 }

@@ -64,5 +64,6 @@ public class ThirdPartyController {
     @RequestMapping("/thirdParty/{thirdParty}/anonymousRequest")
     public void addAnonymousRequest(@RequestBody AnonymousRequest anonymousRequest) {
         ThirdParty thirdParty = thirdPartyService.getThirdParty(anonymousRequest.getThirdParty().getVat()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "ThirdParty Not Found"));
+        thirdPartyService.addAnonymousRequest(thirdParty, anonymousRequest);
     }
 }

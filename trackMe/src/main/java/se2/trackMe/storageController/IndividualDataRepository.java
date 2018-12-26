@@ -16,19 +16,19 @@ public interface IndividualDataRepository extends CrudRepository<IndividualData,
     @Query("SELECT COUNT(DISTINCT individual.fiscalCode) FROM IndividualData WHERE (timestamp BETWEEN ?1 AND ?2) AND (age BETWEEN ?3 AND ?4) ")
     Integer countDistinctByIndividualByAge(Date startDate, Date endDate, Integer startAge, Integer endAge);
 
-    @Query("SELECT COUNT(DISTINCT individual.fiscalCode) FROM IndividualData WHERE (timestamp BETWEEN ?1 AND ?2) AND (lat BETWEEN ?3 AND ?4) AND (lon BETWEEN ?5 AND ?6)")
+    @Query("SELECT COUNT(DISTINCT individual.fiscalCode) FROM IndividualData WHERE (timestamp BETWEEN ?1 AND ?2) AND (latitude BETWEEN ?3 AND ?4) AND (longitude BETWEEN ?5 AND ?6)")
     Integer countDistinctByIndividualByPos(Date startDate, Date endDate, Float lat1, Float lat2, Float lon1, Float lon2);
 
-    @Query("SELECT COUNT(DISTINCT individual.fiscalCode) FROM IndividualData WHERE (timestamp BETWEEN ?1 AND ?2) AND (age BETWEEN ?3 AND ?4) AND (lat BETWEEN ?5 AND ?6) AND (lon BETWEEN ?7 AND ?8)")
+    @Query("SELECT COUNT(DISTINCT individual.fiscalCode) FROM IndividualData WHERE (timestamp BETWEEN ?1 AND ?2) AND (age BETWEEN ?3 AND ?4) AND (latitude BETWEEN ?5 AND ?6) AND (longitude BETWEEN ?7 AND ?8)")
     Integer countDistinctByIndividualByAgeAndByPos(Date startDate, Date endDate, Integer startAge, Integer endAge, Float lat1, Float lat2, Float lon1, Float lon2);
 
     @Query("SELECT i FROM IndividualData i WHERE (i.timestamp BETWEEN ?1 AND ?2) AND (i.age BETWEEN ?3 AND ?4)")
     List<IndividualData> findAllByAge(Date startDate, Date endDate, Integer startAge, Integer endAge);
 
-    @Query("SELECT i FROM IndividualData i WHERE (i.timestamp BETWEEN ?1 AND ?2) AND (lat BETWEEN ?3 AND ?4) AND (lon BETWEEN ?5 AND ?6)")
+    @Query("SELECT i FROM IndividualData i WHERE (i.timestamp BETWEEN ?1 AND ?2) AND (i.latitude BETWEEN ?3 AND ?4) AND (i.longitude BETWEEN ?5 AND ?6)")
     List<IndividualData> findAllByPos(Date startDate, Date endDate, Float lat1, Float lat2, Float lon1, Float lon2);
 
-    @Query("SELECT i FROM IndividualData i WHERE (i.timestamp BETWEEN ?1 AND ?2) AND (i.age BETWEEN ?3 AND ?4) AND (lat BETWEEN ?5 AND ?6) AND (lon BETWEEN ?7 AND ?8)")
+    @Query("SELECT i FROM IndividualData i WHERE (i.timestamp BETWEEN ?1 AND ?2) AND (i.age BETWEEN ?3 AND ?4) AND (i.latitude BETWEEN ?5 AND ?6) AND (i.longitude BETWEEN ?7 AND ?8)")
     List<IndividualData> findAllByAgeAndPos(Date startDate, Date endDate, Integer startAge, Integer endAge, Float lat1, Float lat2, Float lon1, Float lon2);
 
     @Query("SELECT MIN(timestamp) FROM IndividualData")

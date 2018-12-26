@@ -30,6 +30,8 @@ public class AnonymousAnswer {
     @NotNull
     private AnonymousRequest anonymousRequest;
 
+    public AnonymousAnswer(){}
+
     public AnonymousAnswer(@NotNull Date start, @NotNull Date end, List<IndividualData> individualDataList, @NotNull AnonymousRequest anonymousRequest) {
         this.start = start;
         this.end = end;
