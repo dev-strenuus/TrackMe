@@ -1,0 +1,49 @@
+<div ng-show="sharedDataService.loggedIn">
+
+    <h1>Past Data Request</h1>
+
+    <p>Please fill the boxes below indicating the chosen interval of dates:</p>
+
+    <table align="center">
+        <tr>
+            <th>Starting date</th>
+            <th>Ending date</th>
+        </tr>
+        <td><input type="date" ng-model="request.startingDate"></td>
+        <td><input type="date" ng-model="request.endingDate"></td>
+        <td><button ng-click="sendRequest()">Request</button></td> <!--TODO-->
+        </tr>
+    </table>
+
+    <p ng-bind="pastDataReqResult"></p>
+
+    <table class="table table-striped" >
+        
+        <thead>
+        <tr>
+            <th scope="col">FiscalCode</th>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Heart Rate</th>
+            <th scope="col">Pression 1</th>
+            <th scope="col">Pression 2</th>
+            <th scope="col">Oxygen %</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="datum in data">
+            <th>{{datum.individual.fiscalCode}}</th>
+            <td>{{datum.timestamp}}</td>
+            <td>{{datum.heartRate}}</td>
+            <td>{{datum.systolicBloodPressure}}</td>
+            <td>{{datum.diastolicBloodPressure}}</td>
+            <td>{{datum.oxygenPercentage}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <a href="#!home"><button class="btn">Home Page</button></a>
+    </div>
+
+</div>

@@ -1,7 +1,6 @@
 <div ng-show="sharedDataService.loggedIn">
 
-    <h1>Third Party Home Page</h1>
-    <table align="center">
+    <table>
         <tr><th>List of Fiscal Codes:</th></tr>
         <tr ng-repeat="person in people">
             <td>{{person.fiscalCode}}</td>
@@ -23,14 +22,6 @@
         <input type="submit" id="submitGroupRequest" value="Submit">
     </form>
     <p ng-bind="GroupReqResult"></p>
-
-    <h2>Other options:</h2>
-    <div>
-        <a href="#!notifications"><button class="btn">Notifications</button></a>
-    </div>
-    <div>
-        <a href="#!settings"><button class="btn">Settings</button></a>
-    </div>
 
     <div>
         <button ng-controller="thirdPartyLogoutController" ng-click="logout()">Logout</button>
