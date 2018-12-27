@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import se2.trackMe.model.profileJSON.Profile;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class IndividualRequest {
@@ -23,6 +24,14 @@ public class IndividualRequest {
     @JsonView(Profile.ThirdPartyPublicView.class)
     @Column
     private Boolean accepted;
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @Column
+    private Date beginningOfSubscription;
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @Column
+    private Date endOfSubscription;
 
     @JsonView(Profile.IndividualPublicView.class)
     @Column
@@ -46,6 +55,22 @@ public class IndividualRequest {
 
     public ThirdParty getThirdParty() {
         return thirdParty;
+    }
+
+    public Date getBeginningOfSubscription() {
+        return beginningOfSubscription;
+    }
+
+    public void setBeginningOfSubscription(Date beginningOfSubscription) {
+        this.beginningOfSubscription = beginningOfSubscription;
+    }
+
+    public Date getEndOfSubscription() {
+        return endOfSubscription;
+    }
+
+    public void setEndOfSubscription(Date endOfSubscription) {
+        this.endOfSubscription = endOfSubscription;
     }
 
     public Boolean getAccepted() {

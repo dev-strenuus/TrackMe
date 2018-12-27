@@ -73,7 +73,7 @@ public class ThirdPartyService {
     }
 
     public List<IndividualData> getIndividualDataBeforeTimestamp(Individual individual, Date date){
-        return individualDataRepository.findAllByIndividualAndTimestampBefore(individual, date);
+        return individualDataRepository.findAllByIndividualAndTimestampIsBefore(individual, date);
     }
 
     public Optional<Individual> getIndividual(String id) {
