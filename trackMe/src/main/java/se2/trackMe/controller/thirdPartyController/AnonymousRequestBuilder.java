@@ -8,9 +8,7 @@ import se2.trackMe.storageController.AnonymousRequestRepository;
 import se2.trackMe.storageController.IndividualDataRepository;
 import se2.trackMe.storageController.ThirdPartyNotificationRepository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * This class elaborates anonymous requests without letting the third party, who made the request, to wait for an answer.
@@ -31,6 +29,8 @@ public class AnonymousRequestBuilder {
 
     @Autowired
     private AnonymousAnswerRepository anonymousAnswerRepository;
+
+    private Map<Long, Timer> timerHashMap = new TreeMap<>();
 
 
     /**
@@ -99,6 +99,31 @@ public class AnonymousRequestBuilder {
 
     }
 
+    public void elaborate(AnonymousRequest anonymousRequest, List<IndividualData> individualDataList, Date startDate, Date endDate){
+        if(individualDataList != null){
+            AnonymousAnswer anonymousAnswer = new AnonymousAnswer(startDate, endDate, individualDataList, anonymousRequest);
+            anonymousAnswerRepository.save(anonymousAnswer);
+            thirdPartyNotificationRepository.save(new ThirdPartyNotification(anonymousAnswer, anonymousRequest.getThirdParty()));
+        }
+    }
+
+    public void runAnonymousAnswerBuilderForNewData(AnonymousRequest anonymousRequest){
+        if(anonymousRequest.getSubscribedToNewData() == true){
+            AnonymousRequestTask anonymousRequestTask = new AnonymousRequestTask(anonymousRequest);
+            Timer timer = new Timer();
+            timerHashMap.put(anonymousRequest.getId(), timer);
+            timer.schedule(anonymousRequestTask, fixedRange, fixedRange);
+        }
+    }
+
+    public void stopAnonymousAnswerBuilderForNewData(AnonymousRequest anonymousRequest) throws NullPointerException{
+        Timer timer = timerHashMap.remove(anonymousRequest.getId());
+        if(timer == null)
+            throw new NullPointerException();
+        else
+            timer.cancel();
+    }
+
     /**
      * From the timestamp of the first {@link IndividualData} in DB it will check, until now, with a fixed range of one hour, if there is a group that satisfy the anonymous request.
      * If the third party, who made the request, subscribed to new data, this operation will be done every hour from so on.
@@ -111,17 +136,14 @@ public class AnonymousRequestBuilder {
         while(iteration.before(now)){
             Date newIteration = new Date(iteration.getTime()+fixedRange);
             List<IndividualData> individualDataList = getData(iteration, newIteration, anonymousRequest.getStartAge(),anonymousRequest.getEndAge(),anonymousRequest.getLat1(),anonymousRequest.getLat2(),anonymousRequest.getLon1(),anonymousRequest.getLon2());
-            if(individualDataList != null){
-                AnonymousAnswer anonymousAnswer = new AnonymousAnswer(iteration, newIteration, individualDataList, anonymousRequest);
-                anonymousAnswerRepository.save(anonymousAnswer);
-                thirdPartyNotificationRepository.save(new ThirdPartyNotification(anonymousAnswer, anonymousRequest.getThirdParty()));
-            }
+            elaborate(anonymousRequest, individualDataList, iteration, newIteration);
             iteration = newIteration;
         }
-        if(anonymousRequest.getSubscribedToNewData() == true){
-            //TODO
-        }
+        runAnonymousAnswerBuilderForNewData(anonymousRequest);
+
     }
+
+
 
 
 }

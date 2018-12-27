@@ -87,6 +87,24 @@ public class AnonymousRequestBuilderTest {
         AnonymousRequest anonymousRequest = new AnonymousRequest(thirdParty, new Integer(22), new Integer(23), new Float(-10), new Float(10), new Float(-10), new Float(10), false);
         anonymousRequestBuilder.calculate(anonymousRequest);
         assertThat(thirdPartyNotificationRepository.findAllByThirdParty(thirdParty), hasSize(3));
+        try{
+            anonymousRequestBuilder.stopAnonymousAnswerBuilderForNewData(anonymousRequest);
+            fail();
+        }catch (NullPointerException e){
+
+        }catch (Exception e){
+            fail();
+        }
+        anonymousRequest = new AnonymousRequest(thirdParty, new Integer(22), new Integer(23), new Float(-10), new Float(10), new Float(-10), new Float(10), true);
+        anonymousRequestBuilder.calculate(anonymousRequest);
+        try{
+            anonymousRequestBuilder.stopAnonymousAnswerBuilderForNewData(anonymousRequest);
+        }catch (NullPointerException e){
+            fail();
+        }catch (Exception e){
+            fail();
+        }
+
         thirdPartyNotificationRepository.deleteAll();
         anonymousAnswerRepository.deleteAll();
         anonymousRequestRepository.deleteAll();

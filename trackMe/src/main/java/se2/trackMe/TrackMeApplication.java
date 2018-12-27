@@ -23,6 +23,9 @@ public class TrackMeApplication {
         return new BCryptPasswordEncoder();
     }
 
+    //TODO
+    //if the server crashes we need to restart the threads which handle the anonymous requests
+
 
 }
 
