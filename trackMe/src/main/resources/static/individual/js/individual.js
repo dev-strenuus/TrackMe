@@ -6,7 +6,7 @@ let config = {
 
 let app = angular.module("individual", ["ngRoute"]);
 
-app.config(function($routeProvider) {
+app.config(function ($routeProvider) {
     $routeProvider
         .when("/", {
             templateUrl: "individualLogin.html",
@@ -20,18 +20,18 @@ app.config(function($routeProvider) {
             templateUrl: "individualLogin.html",
             controller: "individualLoginController"
         }).when("/signUp", {
-            templateUrl: "individualSignUp.html",
-            controller: "individualSignUpController"
-        }).when("/notifications", {
-            templateUrl: "individualNotifications.html",
-            controller: "individualNotificationsController"
-        }).when("/settings", {
-            templateUrl: "individualSettings.html",
-            controller: "individualSettingsController"
-        }).when("/dataManager", {
-            templateUrl: "individualDataManager.html",
-            controller: "graphController as graph"
-        });
+        templateUrl: "individualSignUp.html",
+        controller: "individualSignUpController"
+    }).when("/notifications", {
+        templateUrl: "individualNotifications.html",
+        controller: "individualNotificationsController"
+    }).when("/settings", {
+        templateUrl: "individualSettings.html",
+        controller: "individualSettingsController"
+    }).when("/dataManager", {
+        templateUrl: "individualDataManager.html",
+        controller: "graphController as graph"
+    });
 });
 
 app.service('SharedDataService', function () {
@@ -95,14 +95,14 @@ app.controller("individualNotificationsController", function ($scope, $http, Sha
         .then(function (response) {
             $scope.pendingRequests = response.data;
         }).catch(function onError(response) {
-            console.log(response);
+        console.log(response);
     });
 
     $http.get("/individual/" + $scope.sharedDataService.username + "/acceptedRequests")
         .then(function (response) {
             $scope.activeRequests = response.data;
         }).catch(function onError(response) {
-            console.log(response);
+        console.log(response);
     });
 
     $scope.acceptRequest = function (vatNumber) {
@@ -128,8 +128,9 @@ app.controller("individualNotificationsController", function ($scope, $http, Sha
             "thirdParty": {
                 "vat": $scope.answer.vatNumber
             },
-            "accepted": $scope.answer.status
+            "accepted": $scope.answer.status,
         };
+
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
         $http.post("/individual/individualRequest/answer", content, config).then(function onSuccess(response) {
@@ -183,20 +184,20 @@ app.controller("individualSettingsController", function ($scope, $http, SharedDa
             $scope.notifications = vatNumbers
 
         }).catch(function onError(response) {
-            console.log(response);
+        console.log(response);
     });
 });
 
 app.controller('graphController', function ($scope, $interval, SharedDataService) {
 
-    $scope.sharedDataService = SharedDataService;;
+    $scope.sharedDataService = SharedDataService;
+    ;
     $scope.width = 600;
     $scope.height = 350;
     $scope.yAxis = ['Heart Rate', 'Systolic Blood Pressure', 'Diastolic Blood Pressure', 'Oxygen Percentage'];
     $scope.xAxis = 'Time';
     $scope.data = $scope.sharedDataService.data;
     $scope.max = [90, 150, 200, 100];
-
 
 
 });

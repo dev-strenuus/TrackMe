@@ -66,7 +66,7 @@ public class IndividualService {
         individualDataList.forEach(data -> individualDataRepository.save(data));
         List<IndividualRequest> individualRequestList = new ArrayList<>();
         individualRequestRepository.findAllByIndividual(individualDataList.get(0).getIndividual()).forEach(individualRequestList::add);
-        individualRequestList.forEach(individualRequest -> {if(individualRequest.getSubscribedToNewData()) thirdPartyNotificationRepository.save(new ThirdPartyNotification(individualDataList, individualRequest.getThirdParty()));});
+        individualRequestList.forEach(individualRequest -> {if(individualRequest.getSubscribedToNewData() != null && individualRequest.getSubscribedToNewData()) thirdPartyNotificationRepository.save(new ThirdPartyNotification(individualDataList, individualRequest.getThirdParty()));});
     }
 
 

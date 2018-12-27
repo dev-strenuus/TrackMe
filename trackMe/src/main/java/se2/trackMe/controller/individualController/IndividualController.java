@@ -11,6 +11,7 @@ import se2.trackMe.controller.authenticationController.UserService;
 import se2.trackMe.model.*;
 import se2.trackMe.model.profileJSON.Profile;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -52,9 +53,13 @@ public class IndividualController {
         Individual individual = individualService.getIndividual(individualRequest.getIndividual().getFiscalCode()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
         IndividualRequest individualRequest1 = individualService.getIndividualRequest(individualRequest).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Request Not Found"));
         individualRequest1.setAccepted(individualRequest.getAccepted());
+        if(individualRequest.getAccepted()){
+            individualRequest1.setBeginningOfSubscription(new Date());
+        } else {
+            individualRequest1.setEndOfSubscription(new Date());
+        }
         individualService.setIndividualRequestAnswer(individualRequest1);
     }
-
 
     @RequestMapping(method = RequestMethod.POST, value = "/individual/{individual}/data")
     public void addData(@PathVariable("individual") String id, @RequestBody List<IndividualData> individualDataList){
