@@ -1,0 +1,141 @@
+\section{Implemented requirements}
+
+In this section we describe the implemented functionalities with reference to the requirements outlined in the RASD document.\\
+The requirement with their reference number green are the ones available in the current implementation, the others are in red.
+
+\subsection{Third Party Registration}
+\begin{itemize}
+	\item {\color{ProcessBlue}\textbf{[R.15]}} Two different users cannot have the same username.
+	\item {\color{ProcessBlue}\textbf{[R.16]}} The system must allow the third party to register to the application, by specifying its VAT registration number and a password.
+\end{itemize}
+\subsubsection*{Database}
+The database stores the User information and credentials inside the table denominated 'users'.\\
+Passwords are stored as salted hashes for security purposes.
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+The homepage of the client application for a Guest contains a registration section showing a form to fill with registration information. The client application validates the information, performs the request to the server and shows the response.
+
+\subsection{Individual Registration}
+\begin{itemize}
+	\item {\color{ProcessBlue}\textbf{[R.12]}} The individual must provide their personal data to the application during the registration process, SSN (or fiscal code) included. 
+	\item {\color{ProcessBlue}\textbf{[R.13]}} The system must allow the individual to register to the application by selecting a username and a password. 
+	\item {\color{ProcessBlue}\textbf{[R.15]}} Two different users cannot have the same username.
+\end{itemize}
+\subsubsection*{Database}
+The database stores the User information and credentials inside the table denominated 'users'.\\
+Passwords are stored as salted hashes for security purposes.
+
+\subsubsection*{Back-end} 
+
+\subsubsection*{Front-end}
+The homepage of the client application for a Guest contains a registration section showing a form to fill with registration information. The client application validates the information, performs the request to the server and shows the response.
+
+
+\subsection{Third Party Login}
+\begin{itemize}
+	\item {\color{ProcessBlue}\textbf{[R.17]}} The system must allow the third party to log in to the application by providing the combination of a VAT registration number and a password that match an account.
+\end{itemize}
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+The homepage of the application contains (if the User is not logged in) a login form. The client application validates the information, performs the request to the server and shows the response.
+
+\subsection{Individual Login}
+\begin{itemize}
+	\item {\color{ProcessBlue}\textbf{[R.14]}} The system must allow the individual to log in to the application by providing the combination of a username and a password that matches an account.
+\end{itemize}
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+The homepage of the application contains (if the User is not logged in) a login form. The client application validates the information, performs the request to the server and shows the response.
+
+\subsection{Individual Data Manager}
+
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+
+\subsection{Individual Notifications}
+
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+
+\subsection{Individual Settings Management}
+\begin{itemize}
+	\item {\color{ProcessBlue}\textbf{[R.32]}} The system must allow the individual to change his/her password.
+\end{itemize}
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+
+\subsection{Individual SOS Call}
+
+\subsubsection*{Front-end}
+
+\subsection{Third Party Notifications}
+
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+
+\subsection{Third Party Settings Management}
+\begin{itemize}
+	\item {\color{ProcessBlue}\textbf{[R.33]}} The system must allow the Third party to change its password.
+\end{itemize}
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+
+\subsection{Third Party Individual Request}
+
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+
+\subsection{Third Party Anonymous Request}
+
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+
+ 
