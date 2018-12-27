@@ -1,0 +1,57 @@
+
+.jumbotron {
+  background-image: url("../jumbotron.jpg");
+  background-size: cover;
+  height: 30%;
+  width: 100%;
+}
+
+.col-sm-6.jumbo {
+  text-align:center;
+  font-size: 60px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: #009F00;
+}
+
+.container-fluid{
+ text-align:center;
+ font-size: 25px;
+ font-family: "Comic Sans MS", cursive, sans-serif;
+ color: black;
+}
+
+input{
+ border-color:  #009F00;
+ border-radius: 5px;
+ display:inline-block;
+}
+
+.checkbox{
+  height:20px;
+  width:20px;
+}
+
+.textArea{
+  height:40px;
+  width:325px;
+}
+
+table{
+  font-size: 25px;
+}
+
+.submit{
+  background-color: #009F00;
+  color:white;
+  height:70px;
+  width:180px;
+  font-size: 30px;
+  margin:25px;
+}
+
+#conditions{
+  float:left;
+  font-size: 18px;
+}
+
+
