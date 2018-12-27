@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <title>TrackMe</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 </head>
 <body>
-<div>
-    <h1>Who are you?</h1>
-    <form action="individual/html/individual.html">
-        <input type="submit" value="Individual" />
-    </form>
-    <form action="thirdParty/html/thirdParty.html">
-        <input type="submit" value="Company" />
-    </form>
-</div>
+    <div id="container">
+        <img id="logo" src="http://stete.it/wp-content/uploads/2018/01/STETE-STATUS.png" style=' width: 20%; object-fit: contain;'>
+        <p id="title">TrackMe</p>
+        <h1 id="startingQuestion">Who are you?</h1>
+        <div class="container-fluid">
+            <form action="individual/html/individual.html">
+                <input class="submit" type="submit" value="Individual" />
+            </form>
 
+            <form action="thirdParty/html/thirdParty.html">
+                <input class="submit" type="submit" value="Company" />
+            </form>
+        </div>
+    </div>
 </body>
 </html>

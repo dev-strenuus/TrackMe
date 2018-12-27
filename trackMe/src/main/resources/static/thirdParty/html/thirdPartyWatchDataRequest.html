@@ -14,7 +14,7 @@
             <tr>
             <td><input type="date" ng-model="request.startingDate"></td>
             <td><input type="date" ng-model="request.endingDate"></td>
-            <td><button ng-click="sendRequest()">Request</button></td> <!--TODO:oscurare altre notifiche già pre-esistenti nella pagina così da filtrare e mostrare solo quelle nelle date segnalate-->
+            <td><button id="request" ng-click="sendRequest()">Request</button></td> <!--TODO:oscurare altre notifiche già pre-esistenti nella pagina così da filtrare e mostrare solo quelle nelle date segnalate-->
             </tr>
         </table>
         <h3>Otherwise, the data retrieved from the device before your request date will be shown. If you asked for the subscription to the new data, you will be also able to see them.</h3>
