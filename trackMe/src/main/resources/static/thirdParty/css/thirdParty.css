@@ -1,8 +1,15 @@
 
 .jumbotron {
-  background-image: url("../jumbotron.jpg");
+  background-image: url("../images/jumbotron.jpg");
   background-size: cover;
   height: 30%;
+  width: 100%;
+}
+
+.jumbotron.home{
+  background-image: url("../images/home.jpg");
+  background-size: cover;
+  height: 70%;
   width: 100%;
 }
 
@@ -49,9 +56,72 @@ table{
   margin:25px;
 }
 
+.title{
+  margin-top: 40px;
+}
+
 #conditions{
   float:left;
   font-size: 18px;
+}
+
+/*navbar*/
+.navbar.navbar-expand-lg{
+  background-color:#009F00;
+
+}
+
+.nav-link{
+  color: white;
+  font-size: 25px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.navbar-brand{
+  color: white;
+  font-size: 35px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+
+/*footer*/
+#footer {
+    background-color: #e6f1ff;
+}
+
+#footer .division {
+    text-align: center;
+}
+
+#footer .form-control {
+    height: 40px;
+}
+
+#footer .input-group-addon {
+    height: 40px;
+    border-radius: 5px;
+}
+
+#footer .emailaddress {
+    padding-right: 0px;
+}
+
+#footer.marked {
+    padding-left: 0px;
+}
+
+#footer ul {
+    text-align: left;
+    list-style-position: inside;
+}
+
+#footer h4 {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+#footer a {
+    color: #009F00;
 }
 
 
