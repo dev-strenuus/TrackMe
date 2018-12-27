@@ -11,7 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 import se2.trackMe.model.*;
 import se2.trackMe.model.profileJSON.Profile;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @PreAuthorize("hasRole('THIRDPARTY')")
@@ -45,19 +47,66 @@ public class ThirdPartyController {
         List<ThirdPartyNotification> thirdPartyNotificationList = thirdPartyService.getThirdPartyNotificationList(thirdParty);
         return thirdPartyNotificationList;
     }
-
+    
     @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/{individual}/data")
     public @ResponseBody
-    List<IndividualData> getIndividualData(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId) {
+    List<IndividualData> getData(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual not found"));
+
+        // check if the thirdParty has an active subscription to receive the data of the individual
+        IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
+
+        Boolean subscribed = individualRequest.getSubscribedToNewData();
+
+        if(subscribed){
+            return thirdPartyService.getIndividualData(individual);
+        } else{
+            // get the subscription date
+            Date subscriptionDate = individualRequest.getBeginningOfSubscription();
+
+            return thirdPartyService.getIndividualDataBeforeTimestamp(individual, subscriptionDate);
+        }
+    }
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/{individual}/{startTime}/{endTime}/data")
+    public @ResponseBody
+    List<IndividualData> getIndividualDataByTimeRange(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId, @PathVariable("startTime") Date start,  @PathVariable("endTime") Date end) {
         ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
         Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
 
         // check if the thirdParty has an active subscription to receive the data of the individual
         IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
 
-        List<IndividualData> listOfData = thirdPartyService.getIndividualData(individual);
-        return listOfData;
+        // check time range
+        if(start.after(end)){
+            Boolean subscribed = individualRequest.getSubscribedToNewData();
+            Date subscriptionDate = individualRequest.getBeginningOfSubscription();
+
+            // if the third party didn't ask for new data, limits the time range
+            if( !subscribed && end.after(subscriptionDate)) {
+                return thirdPartyService.getIndividualDataInATimeRange(individual, start, subscriptionDate);
+            } else {
+                return thirdPartyService.getIndividualDataInATimeRange(individual, start, end);
+            }
+        } else {
+            throw(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad time range provided"));
+        }
+    }
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/{individual}/{time}/data")
+    public @ResponseBody
+    List<IndividualData> getIndividualDataBeforeTimestamp(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId,  @PathVariable("time") Date date) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+
+        // check if the thirdParty has an active subscription to receive the data of the individual
+        IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
+
+        return thirdPartyService.getIndividualDataBeforeTimestamp(individual, date);
     }
 
     @JsonView(Profile.AnonymousRequestPublicView.class)

@@ -13,6 +13,12 @@ public interface IndividualDataRepository extends CrudRepository<IndividualData,
 
     List<IndividualData> findAllByIndividual(Individual individual);
 
+    // @Query("SELECT i FROM IndividualData AS i WHERE (i.individual.fiscalCode = ?1) AND (i.timestamp BETWEEN ?2 AND ?3)")
+    List<IndividualData> findAllByIndividualAndTimestampBetween(Individual individual, Date startDate, Date endDate);
+
+    //@Query("SELECT i FROM IndividualData AS i WHERE (i.individual.fiscalCode = ?1) AND (i.timestamp <= ?2)")
+    List<IndividualData> findAllByIndividualAndTimestampIsBefore(Individual individual, Date date);
+
     @Query("SELECT COUNT(DISTINCT individual.fiscalCode) FROM IndividualData WHERE (timestamp BETWEEN ?1 AND ?2) AND (age BETWEEN ?3 AND ?4) ")
     Integer countDistinctByIndividualByAge(Date startDate, Date endDate, Integer startAge, Integer endAge);
 
