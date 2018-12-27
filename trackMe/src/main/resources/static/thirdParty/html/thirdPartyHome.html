@@ -1,30 +1,109 @@
-<div ng-show="sharedDataService.loggedIn">
 
-    <table>
-        <tr><th>List of Fiscal Codes:</th></tr>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/thirdParty.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+
+<div class="jumbotron home">
+    <div class="container-fluid">
+
+    </div>
+</div>
+
+<div ng-show="sharedDataService.loggedIn" class="container-fluid">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 class="title" style="color:#009F00">Individual Request:</h2>
+                <form ng-submit="submitIndividualRequest()">
+                    <table align="center" cellpadding="22" >
+                        <tr>
+                            <th>Fiscal Code:</th>
+                            <td> <input class="textArea" type="text" ng-model="data.individual.fiscalCode"  required></td>
+                        </tr>
+                        <tr>
+                            <th>Subscribe to new data:</th>
+                            <td> <input class="checkbox" type="checkbox" ng-model="data.subscribedToNewData"> </td>
+                        </tr>
+                    </table>
+                    <input type="submit" class="submit" value="Send">
+                </form>
+                <p ng-bind="indReqResult"></p>
+            </div>
+            <div class="col-sm-6">
+                <h2 class="title" style="color:#009F00">Group Request:</h2>
+                <form ng-submit="submitGroupRequest()">
+                    <table align="center" cellpadding="22" >
+                        <tr>
+                            <th>Area:</th>
+                            <td> <input class="textArea" type="text" ng-model="data.area" required></td>
+                        </tr>
+                        <tr>
+                            <th>Age:</th>
+                            <td> <input class="textArea" type="text" ng-model="data.age" required> </td>
+                        </tr>
+                    </table>
+                    <input type="submit" class="submit" value="Send">
+                </form>
+                <p ng-bind="GroupReqResult"></p>
+            </div>
+        </div>
+    </div>
+
+    <table align="center" cellpadding="22">
+        <tr><th class= "title" style="color:#009F00">Here follows the list of fiscal codes of the registered Individuals:</th></tr>
         <tr ng-repeat="person in people">
             <td>{{person.fiscalCode}}</td>
         </tr>
     </table>
 
-    <h2>Individual Request:</h2>
-    <form ng-submit="submitIndividualRequest()">
-        <p>Fiscal Code: <input type="text" ng-model="data.individual.fiscalCode" size="16" required></p>
-        <p>I want to subscribe to new data<input type="checkbox" ng-model="data.subscribedToNewData"> </p>  <!--TODO-->
-        <input type="submit" id="submitIndividualRequest" value="Submit">
-    </form>
-    <p ng-bind="indReqResult"></p>
-
-    <h2>Group Request:</h2>
-    <form ng-submit="submitGroupRequest()">
-        <p>Area: <input type="text" ng-model="data.area" size="16" required></p>
-        <p>Age: <input type="text" ng-model="data.age" size="16" required></p>
-        <input type="submit" id="submitGroupRequest" value="Submit">
-    </form>
-    <p ng-bind="GroupReqResult"></p>
-
     <div>
-        <button ng-controller="thirdPartyLogoutController" ng-click="logout()">Logout</button>
+        <button ng-controller="thirdPartyLogoutController" class="submit" ng-click="logout()">Logout</button>
+    </div>
+
+    <!--footer-->
+    <div id="footer" class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 division mt-3 mb-3">
+                <img id="logo" src="../images/logo.png" style=' width: 50%; object-fit: contain;'>
+                <div class="container">
+                    <span>'We are professional in monitoring the health data of our subscribers'.</span>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 division pt-4">
+                <h4> Social Media</h4>
+                <ul>
+                    <li>Facebook:
+                        <a href="#" target="_blank"> TrackMe Health</a>
+                    </li>
+                    <li>Instagram:
+                        <a href="#" target="_blank"> Track_Me_Health</a>
+                    </li>
+                    <li>Twitter:
+                        <a href="#" target="_blank"> TrackMe</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 division pt-4">
+                <h4> Mailing List</h4>
+                <h6>Sign up for our mailing list to get the latest updates.</h6>
+                <div class="input group">
+                    <input type="text" class="form-control" placeholder="Email address">
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 division pt-4">
+                <h4>Most useful links</h4>
+                <ul>
+                    <li>About Us:
+                        <a href="#aboutUs" target="_blank"> go >> </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
 </div>
