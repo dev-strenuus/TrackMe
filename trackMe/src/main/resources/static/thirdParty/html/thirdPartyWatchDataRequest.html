@@ -1,52 +1,53 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/thirdParty.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+    <div ng-show="sharedDataService.loggedIn">
 
+        <h3>If you want to filter data with respect to the period, please fill the boxes below indicating the chosen interval of dates:</h3>
+        <table align="center">
+            <tr>
+                <th>Starting date</th>
+                <th>Ending date</th>
+            </tr>
+            <tr>
+            <td><input type="date" ng-model="request.startingDate"></td>
+            <td><input type="date" ng-model="request.endingDate"></td>
+            <td><button ng-click="sendRequest()">Request</button></td> <!--TODO:oscurare altre notifiche già pre-esistenti nella pagina così da filtrare e mostrare solo quelle nelle date segnalate-->
+            </tr>
+        </table>
+        <h3>Otherwise, the data retrieved from the device before your request date will be shown. If you asked for the subscription to the new data, you will be also able to see them.</h3>
 
-<div ng-show="sharedDataService.loggedIn">
+        <p ng-bind="pastDataReqResult"></p>
 
-    <h2>If you want to filter data with respect to the period, please fill the boxes below indicating the chosen interval of dates:</h2>
-    <h3>Otherwise, the data retrieved from the device before your request date will be shown. If you asked for the subscription to the new data, you will be also able to see them.</h3>
-    <table align="center">
-        <tr>
-            <th>Starting date</th>
-            <th>Ending date</th>
-        </tr>
-        <tr>
-        <td><input type="date" ng-model="request.startingDate"></td>
-        <td><input type="date" ng-model="request.endingDate"></td>
-        <td><button ng-click="sendRequest()">Request</button></td> <!--TODO:oscurare altre notifiche già pre-esistenti nella pagina così da filtrare e mostrare solo quelle nelle date segnalate-->
-        </tr>
-    </table>
+        <h1>Individual Data </h1>
 
-    <p ng-bind="pastDataReqResult"></p>
+        <!--<div class="table-responsive-sm">-->
+        <table class="table table-striped" >
 
-    <h1>Individual Data </h1>
+            <thead>
+            <tr>
+                <th scope="col">FiscalCode</th>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Heart Rate</th>
+                <th scope="col">Pression 1</th>
+                <th scope="col">Pression 2</th>
+                <th scope="col">Oxygen %</th>
+            </tr>
+            </thead>
 
-    <table class="table table-striped" >
-        
-        <thead>
-        <tr>
-            <th scope="col">FiscalCode</th>
-            <th scope="col">Timestamp</th>
-            <th scope="col">Heart Rate</th>
-            <th scope="col">Pression 1</th>
-            <th scope="col">Pression 2</th>
-            <th scope="col">Oxygen %</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr ng-repeat="datum in data">
-            <th>{{datum.individual.fiscalCode}}</th>
-            <td>{{datum.timestamp}}</td>
-            <td>{{datum.heartRate}}</td>
-            <td>{{datum.systolicBloodPressure}}</td>
-            <td>{{datum.diastolicBloodPressure}}</td>
-            <td>{{datum.oxygenPercentage}}</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <div>
-        <a href="#!home"><button class="btn">Home Page</button></a>
+            <tbody>
+            <tr ng-repeat="datum in data">
+                <th>{{datum.individual.fiscalCode}}</th>
+                <td>{{datum.timestamp}}</td>
+                <td>{{datum.heartRate}}</td>
+                <td>{{datum.systolicBloodPressure}}</td>
+                <td>{{datum.diastolicBloodPressure}}</td>
+                <td>{{datum.oxygenPercentage}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <!--</div>-->
     </div>
-
-</div>
+</body>

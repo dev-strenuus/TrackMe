@@ -2,42 +2,43 @@
     <link rel="stylesheet" type="text/css" href="../css/thirdParty.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 </head>
-
-<div class="jumbotron">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6 jumbo">
-                TrackMe
-            </div>
-            <div class="col-sm-6 jumbo">
-                Sign Up
+<body>
+    <div class="jumbotron signUp" style="background-image: url(https://www.shape.com/sites/shape.com/files/u470/1200-woman-running-outside.jpg)">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 jumbo">
+                    TrackMe
+                </div>
+                <div class="col-sm-6 jumbo">
+                    Sign Up
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container-fluid">
-    <p>Please fill the boxes below with the data required.</p>
-    <form ng-submit="submitSignUp()">
-        <table align="center" cellpadding="22" >
-            <tr>
-                <th>VAT:</th>
-                <td> <input class="textArea" type="text" ng-model="thirdParty.vat" required></td>
-            </tr>
-            <tr>
-                <th>Name:</th>
-                <td> <input class="textArea" type="text" ng-model="thirdParty.name" required></td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td> <input class="textArea" type="password" ng-model="thirdParty.password" required></td>
-            </tr>
-            <tr>
-                <th> Conditions:</th>
-                <td> I accept the agreement<small><sup>*</sup></small> <input class="checkbox" type="checkbox" required ></td>
-            </tr>
-        </table>
-        <input type="submit" class="submit" value="Register">
-    </form>
-    <p id="conditions"><small><sup>*</sup></small>The data retrieved by my smartwatch or similar devices will be used and treated by third parties who will request them (only with my consensus).</p>
-</div>
+    <div class="container-fluid">
+        <p>Please fill the boxes below with the data required.</p>
+        <form ng-submit="submitSignUp()">
+            <table align="center" cellpadding="22" >
+                <tr>
+                    <th>VAT:</th>
+                    <td> <input class="textArea" type="text" ng-model="thirdParty.vat" required></td>
+                </tr>
+                <tr>
+                    <th>Name:</th>
+                    <td> <input class="textArea" type="text" ng-model="thirdParty.name" required></td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td> <input class="textArea" type="password" ng-model="thirdParty.password" required></td>
+                </tr>
+                <tr>
+                    <th> Conditions:</th>
+                    <td> I accept the agreement<small><sup>*</sup></small> <input class="checkbox" type="checkbox" required ></td>
+                </tr>
+            </table>
+            <input type="submit" class="submit" value="Register">
+        </form>
+        <p id="conditions"><small><sup>*</sup></small>The data retrieved by my smartwatch or similar devices will be used and treated by third parties who will request them (only with my consensus).</p>
+    </div>
+</body>
