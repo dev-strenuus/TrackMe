@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import se2.trackMe.model.*;
 import se2.trackMe.storageController.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class ThirdPartyService {
 
@@ -32,6 +34,10 @@ public class ThirdPartyService {
     @Autowired
     private IndividualDataRepository individualDataRepository;
 
+    @Autowired
+    private AnonymousRequestRepository anonymousRequestRepository;
+
+    @Autowired
     private AnonymousRequestBuilder anonymousRequestBuilder;
 
     public List<Individual> getAllIndividuals() {
@@ -64,7 +70,8 @@ public class ThirdPartyService {
         return thirdPartyNotificationRepository.findAllByThirdParty(thirdParty);
     }
 
-    public List<IndividualData> getIndividualData(Individual individual) {
+    public List<IndividualData> getIndividualData(ThirdParty thirdParty, Individual individual) {
+        thirdPartyNotificationRepository.deleteAllByThirdPartyAndIndividual(thirdParty, individual);
         return individualDataRepository.findAllByIndividual(individual);
     }
 
@@ -82,6 +89,45 @@ public class ThirdPartyService {
 
     public void addAnonymousRequest(ThirdParty thirdParty, AnonymousRequest anonymousRequest) {
         anonymousRequest.setThirdParty(thirdParty);
-        new Thread(() -> {anonymousRequestBuilder.calculate(anonymousRequest);});
+        anonymousRequestRepository.save(anonymousRequest);
+        new Thread(()-> {anonymousRequestBuilder.calculate(anonymousRequest);}).start();
+
+    }
+
+    public List<IndividualData> getNewDataNotificationList(ThirdParty thirdParty, Individual individual){
+        List<ThirdPartyNotification> thirdPartyNotificationList = thirdPartyNotificationRepository.findAllByThirdPartyAndIndividual(thirdParty, individual);
+        List<IndividualData> individualDataList = new ArrayList<>();
+        thirdPartyNotificationList.forEach(notification -> notification.getIndividualDataList().forEach(individualData -> individualDataList.add(individualData)));
+        deleteNotifications(thirdPartyNotificationList);
+        return individualDataList;
+    }
+
+    public List<IndividualRequest> getIndividualRequestNotificationList(ThirdParty thirdParty){
+        List<ThirdPartyNotification> thirdPartyNotificationList  = thirdPartyNotificationRepository.findAllByThirdPartyAndIndividualRequestIsNotNull(thirdParty);
+        List<IndividualRequest> individualRequestList = new ArrayList<>();
+        thirdPartyNotificationList.forEach(thirdPartyNotification -> individualRequestList.add(thirdPartyNotification.getIndividualRequest()));
+        deleteNotifications(thirdPartyNotificationList);
+        return individualRequestList;
+    }
+
+    public Integer countIndividualRequestNotifications(ThirdParty thirdParty){
+        return thirdPartyNotificationRepository.countAllByThirdPartyAndIndividualRequestIsNotNull(thirdParty);
+    }
+
+    public void deleteAllNotificationsByThirdPartyAndIndividualRequestIsNotNull(ThirdParty thirdParty){
+        thirdPartyNotificationRepository.deleteAllByThirdPartyAndIndividualRequestIsNotNull(thirdParty);
+    }
+    public void deleteNotifications(List<ThirdPartyNotification> thirdPartyNotificationList){
+        thirdPartyNotificationList.forEach(notification -> {thirdPartyNotificationRepository.deleteById(notification.getId());});
+    }
+
+    public List<IndividualRequest> getAllIndividualRequestsByThirdParty(ThirdParty thirdParty){
+        deleteAllNotificationsByThirdPartyAndIndividualRequestIsNotNull(thirdParty);
+        return individualRequestRepository.findAllByThirdParty(thirdParty);
+
+    }
+
+    public List<AnonymousRequest> getAllAnonymousRequests(ThirdParty thirdParty){
+        return anonymousRequestRepository.findAllByThirdParty(thirdParty);
     }
 }

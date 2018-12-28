@@ -36,12 +36,32 @@
                     <form ng-submit="submitGroupRequest()">
                         <table align="center" cellpadding="22" >
                             <tr>
-                                <th>Area:</th>
-                                <td> <input class="textArea" type="text" ng-model="data.area" required></td>
+                                <th>Starting age:</th>
+                                <td> <input class="textArea" type="number" ng-model="groupData.startAge" required></td>
                             </tr>
                             <tr>
-                                <th>Age:</th>
-                                <td> <input class="textArea" type="text" ng-model="data.age" required> </td>
+                                <th>Ending Age:</th>
+                                <td> <input class="textArea" type="number" ng-model="groupData.endAge" required> </td>
+                            </tr>
+                            <tr>
+                                <th>Starting latitude:</th>
+                                <td> <input class="textArea" type="number" ng-model="groupData.lat1" required></td>
+                            </tr>
+                            <tr>
+                                <th>Ending latitude:</th>
+                                <td> <input class="textArea" type="number" ng-model="groupData.lat2" required> </td>
+                            </tr>
+                            <tr>
+                                <th>Starting longitude:</th>
+                                <td> <input class="textArea" type="number" ng-model="groupData.lon1" required></td>
+                            </tr>
+                            <tr>
+                                <th>Ending longitude:</th>
+                                <td> <input class="textArea" type="number" ng-model="groupData.lon2" required> </td>
+                            </tr>
+                            <tr>
+                                <th>Subscribe to new data:</th>
+                                <td> <input class="checkbox" type="checkbox" ng-model="groupData.subscribedToNewData"> </td>
                             </tr>
                         </table>
                         <input type="submit" class="submit" value="Send">
@@ -52,8 +72,8 @@
         </div>
 
         <table align="center" cellpadding="22">
-            <tr><th class= "title" style="color:#009F00">Here follows the list of fiscal codes of the registered Individuals:</th></tr>
-            <tr ng-repeat="person in people">
+            <tr><th class= "title" style="color:#009F00">Here follows the list of fiscal codes of the registered Individuals:</th> </tr>
+            <tr ng-repeat="person in people"> <button ng-controller="thirdPartyController" class="submit" ng-click="refreshPeople()">Refresh</button>
                 <td>{{person.fiscalCode}}</td>
             </tr>
         </table>

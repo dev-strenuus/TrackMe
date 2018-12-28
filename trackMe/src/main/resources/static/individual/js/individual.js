@@ -46,8 +46,20 @@ app.service('SharedDataService', function () {
     return sharedData;
 });
 
-app.controller("mainController", function ($scope, SharedDataService) {
+app.controller("mainController", function ($scope, $http, $interval, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
+    $http.defaults.headers.common.Authorization = $scope.sharedDataService.token;
+    $scope.notification = 0;
+
+    $interval(function(){$http.get("/individual/" + $scope.sharedDataService.username + "/countNotifications")
+        .then(function (response) {
+            console.log(response);
+            $scope.notification = response.data;
+
+        }).catch(function onError(response) {
+            console.log(response);
+        });}, 5000, 5000);
+
 });
 
 app.controller("individualSignUpController", function ($scope, $http, $location, SharedDataService) {
@@ -88,15 +100,19 @@ app.controller("individualController", function ($scope, $http, SharedDataServic
     console.log("home");
     $scope.sharedDataService = SharedDataService;
 
+
+
 });
 
-app.controller("individualNotificationsController", function ($scope, $http, SharedDataService) {
+app.controller("individualNotificationsController", function ($scope, $http, $interval, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.notifications = [];
+    $scope.pendingRequests = [];
+    $scope.activeRequests = [];
     $scope.answer = {};
 
     $http.defaults.headers.common.Authorization = $scope.sharedDataService.token;
-    $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
+    $http.get("/individual/" + $scope.sharedDataService.username + "/individualRequests")
         .then(function (response) {
             $scope.pendingRequests = response.data;
         }).catch(function onError(response) {
@@ -140,23 +156,46 @@ app.controller("individualNotificationsController", function ($scope, $http, Sha
         $http.defaults.headers.common.Authorization = SharedDataService.token;
         $http.post("/individual/individualRequest/answer", content, config).then(function onSuccess(response) {
 
-            $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
-                .then(function (response) {
-                    $scope.pendingRequests = response.data;
-                }).catch(function onError(response) {
-                console.log(response);
-            });
+            if(content.accepted == true) {
+                for (i = 0; i < $scope.pendingRequests.length; i++)
+                    if ($scope.pendingRequests[i].thirdParty.vat == content.thirdParty.vat) {
+                        $scope.activeRequests.push($scope.pendingRequests[i]);
+                        $scope.pendingRequests.splice(i, 1);
+                        break;
+                    }
+            }else{
+                for (i = 0; i < $scope.pendingRequests.length; i++)
+                    if ($scope.pendingRequests[i].thirdParty.vat == content.thirdParty.vat) {
+                        $scope.pendingRequests.splice(i, 1);
+                        break;
+                    }
+                for (i = 0; i < $scope.activeRequests.length; i++)
+                    if ($scope.activeRequests[i].thirdParty.vat == content.thirdParty.vat) {
+                        $scope.activeRequests.splice(i, 1);
+                        break;
+                    }
 
-            $http.get("/individual/" + $scope.sharedDataService.username + "/acceptedRequests")
-                .then(function (response) {
-                    $scope.activeRequests = response.data;
-                }).catch(function onError(response) {
-                console.log(response);
-            });
+            }
+
         }).catch(function onError(response) {
             console.log(response);
         });
     };
+
+    let notificationsPromise = $interval(function(){$http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
+        .then(function (response) {
+            console.log(response);
+            for(i=0; i<response.data.length; i++)
+                $scope.pendingRequests.push(response.data[i]);
+
+        }).catch(function onError(response) {
+            console.log(response);
+        });}, 5000, 5000);
+
+    $scope.$on('$destroy',function(){
+        if(notificationsPromise)
+            $interval.cancel(notificationsPromise);
+    });
 });
 
 app.controller("individualSettingsController", function ($scope, $http, SharedDataService) {

@@ -30,6 +30,9 @@ app.config(function ($routeProvider) {
     }).when("/watchDataRequest", {
         templateUrl: "thirdPartyWatchDataRequest.html",
         controller: "thirdPartyWatchDataRequestController"
+    }).when("/watchDataGroupAnswer", {
+        templateUrl: "thirdPartyWatchGroupAnswer.html",
+        controller: "thirdPartyWatchGroupAnswerController"
     });
 });
 
@@ -38,6 +41,7 @@ app.service('SharedDataService', function () {
         loggedIn: false,
         username: '',
         pointedIndividual: '',
+        pointedGroup: '',
         token: ''
     };
     return sharedData;
@@ -56,8 +60,21 @@ app.service('SavedNewDataService', function () {
     };
 });
 
-app.controller("mainController", function ($scope, SharedDataService) {
+app.controller("mainController", function ($scope, $http, $interval, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
+    $http.defaults.headers.common.Authorization = SharedDataService.token;
+    $scope.notification = 0;
+
+
+    $interval(function(){$http.get("/thirdParty/" + $scope.sharedDataService.username + "/notifications/countIndividualRequests")
+        .then(function (response) {
+            console.log(response);
+            $scope.notification = response.data;
+
+        }).catch(function onError(response) {
+            console.log(response);
+        });}, 5000, 5000);
+
 });
 
 app.controller("thirdPartySignUpController", function ($scope, $http, $location, SharedDataService) {
@@ -103,13 +120,15 @@ app.controller("thirdPartyController", function ($scope, $http, SharedDataServic
 
 
     $http.defaults.headers.common.Authorization = SharedDataService.token;
-    $http.get("/people")
+    $scope.refreshPeople = function () {$http.get("/people")
         .then(function (response) {
             console.log(response);
             $scope.people = response.data;
         }).catch(function onError(response) {
         console.log(response);
-    });
+    });}
+
+    $scope.refreshPeople();
 
     $scope.data = {
         individual: {
@@ -133,11 +152,23 @@ app.controller("thirdPartyController", function ($scope, $http, SharedDataServic
         });
     }
 
-    //GROUP REQUEST
-    /*$scope.submitGroupRequest = function () {
+    $scope.groupData = {
+        thirdParty: {
+            vat: ""
+        },
+        startAge: null,
+        endAge: null,
+        lat1: null,
+        lat2: null,
+        lon1: null,
+        lon2: null
+    };
+
+    $scope.submitGroupRequest = function () {
 
           $http.defaults.headers.common.Authorization = SharedDataService.token;
-          $http.post('/thirdParty/groupRequest', $scope.data, config).
+          $scope.groupData.thirdParty.vat = SharedDataService.username;
+          $http.post('/thirdParty/anonymousRequest', $scope.groupData, config).
           then(function onSuccess(response) {
               console.log(response);
               $scope.indReqResult = "The Group Request has been correctly sent.";
@@ -146,7 +177,7 @@ app.controller("thirdPartyController", function ($scope, $http, SharedDataServic
               console.log(response);
               $scope.indReqResult = "The Group Request has not been sent. Check the parameters and retry.";
           });
-      }*/
+      }
 
 });
 
@@ -158,31 +189,60 @@ app.controller("thirdPartySettingsController", function ($scope, $http, SharedDa
     //TODO
 });
 
-app.controller("thirdPartyNotificationsController", function ($scope, $http, $location, SharedDataService, SavedNewDataService) {
+app.controller("thirdPartyNotificationsController", function ($scope, $http, $location, $interval, SharedDataService, SavedNewDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.individualRequests = [];
+    $scope.groupRequest = [];
     $scope.savedNewData = SavedNewDataService;
 
     $http.defaults.headers.common.Authorization = SharedDataService.token;
-    $http.get("/thirdParty/" + $scope.sharedDataService.username + "/notifications")
+    $http.get("/thirdParty/" + $scope.sharedDataService.username + "/individualRequests")
         .then(function (response) {
             console.log(response);
             for (let i = 0; i < response.data.length; i++) {
-                let notification = response.data[i];
-                if (notification.individualRequest != null)
-                    $scope.individualRequests.push(notification.individualRequest);
-                if (notification.individualDataList != null && notification.individualDataList.length > 0) //TODO: i nuovi dati vanno passati alla pagina successiva, sotto la get a riga 192 (eventualmente introducendo un divisorio nell'hmtl)
-                // TODO: i nuovi dati sono salvati e accessibili tramite il metodo getData() del servizio SavedNewDataService
-                    $scope.savedNewData.addDatum(notification.individualDataList);
+                    $scope.individualRequests.push(response.data[i]);
             }
         }).catch(function onError(response) {
         console.log(response);
     });
 
+    $http.get("/thirdParty/" + $scope.sharedDataService.username + "/anonymousRequests")
+        .then(function (response) {
+            console.log(response);
+            for (let i = 0; i < response.data.length; i++) {
+                $scope.groupRequest.push(response.data[i]);
+            }
+        }).catch(function onError(response) {
+        console.log(response);
+    });
+
+    let notificationsPromise = $interval(function(){$http.get("/thirdParty/" + $scope.sharedDataService.username + "/notifications/individualRequests")
+        .then(function (response) {
+            console.log(response);
+            for(i=0; i<response.data.length; i++)
+                for(j=0; j<$scope.individualRequests.length; j++)
+                    if(response.data[i].individual.fiscalCode == $scope.individualRequests[j].individual.fiscalCode)
+                        $scope.individualRequests[j].accepted = response.data[i].accepted;
+
+        }).catch(function onError(response) {
+            console.log(response);
+        });}, 5000, 5000);
+
+    $scope.$on('$destroy',function(){
+        if(notificationsPromise)
+            $interval.cancel(notificationsPromise);
+    });
+
+    $scope.watchDataGroupAnswer = function (id) {
+        $location.path("/watchDataGroupAnswer");
+        $scope.sharedDataService.pointedGroup = id;
+    };
+
     $scope.watchDataRequest = function (fiscalCode) {
         $location.path("/watchDataRequest");
         $scope.sharedDataService.pointedIndividual = fiscalCode;
     };
+
 });
 
 app.controller("thirdPartyLogoutController", function ($scope, $http, $location, SharedDataService) {
@@ -195,9 +255,11 @@ app.controller("thirdPartyLogoutController", function ($scope, $http, $location,
     };
 });
 
-app.controller("thirdPartyWatchDataRequestController", function ($scope, $http, SharedDataService) {
+app.controller("thirdPartyWatchDataRequestController", function ($scope, $http, $interval, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.data = [];
+    $scope.newData = [];
+    $scope.isThereNewData = false;
 
     $http.defaults.headers.common.Authorization = SharedDataService.token;
 
@@ -207,29 +269,41 @@ app.controller("thirdPartyWatchDataRequestController", function ($scope, $http, 
             for (let i = 0; i < response.data.length; i++) {
                 let datum = response.data[i];
                 console.log(datum);
-                $scope.data.push(datum);
+                $scope.data.unshift(datum);
             }
         }).catch(function onError(response) {
         console.log(response);
     });
 
 
-    $scope.sendRequest = function () {
-        // get data generated between the two dates
-        $http.get("/thirdParty/" + $scope.sharedDataService.username + "/" + $scope.sharedDataService.pointedIndividual + "/" + Date($scope.request.startingDate) + "/" + Date($scope.request.endingDate) + "/data") //TODO: da testare, non so se è corretto con il Date()
+    let promise = $interval(function(){
+        $http.get("/thirdParty/"+$scope.sharedDataService.username+"/notifications/"+$scope.sharedDataService.pointedIndividual)
             .then(function (response) {
+                console.log("inside");
+                $scope.isThereNewData = true;
                 console.log(response);
-                $scope.pastDataReqResult = "The Past Data Request has been correctly sent. Here follow the data that you requested:";
-                for (let i = 0; i < response.data.length; i++) {
-                    let datum = response.data[i];
-                    console.log(datum);
-                    $scope.data.push(datum);
+                for(i=0; i<response.data.length; i++){
+                    $scope.newData.unshift(response.data[i]);
                 }
             }).catch(function onError(response) {
-            $scope.pastDataReqResult = "Something went wrong. Check the coherence of the dates!";
             console.log(response);
         });
-    };
+    }, 5000, 5000);
+
+    $scope.$on('$destroy',function(){
+        if(promise)
+            $interval.cancel(promise);
+    });
+});
+
+app.controller("thirdPartyWatchGroupAnswerController", function ($scope, $http, $interval, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+    $scope.newData = [];
+    $scope.isThereNewData = false;
+
+    $http.defaults.headers.common.Authorization = SharedDataService.token;
+
+    //TODO
 
 });
 

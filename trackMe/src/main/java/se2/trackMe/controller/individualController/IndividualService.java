@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import se2.trackMe.model.*;
 import se2.trackMe.storageController.*;
 
+import javax.transaction.Transactional;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.*;
 
+@Transactional
 @Service
 public class IndividualService {
 
@@ -41,12 +43,12 @@ public class IndividualService {
         return individualRepository.findById(id);
     }
 
-    public List<IndividualNotification> getIndvidualPendingNotificationList(Individual individual, Boolean value){
-        return individualNotificationRepository.findAllByIndividualAndIndividualRequest_Accepted(individual, value);
+    public List<IndividualRequest> getIndvidualPendingRequestList(Individual individual){
+        return individualRequestRepository.findAllByIndividualAndAccepted(individual, null);
     }
 
-    public List<IndividualNotification> getIndividualAcceptedNotificationList(Individual individual, Boolean value){
-        return individualNotificationRepository.findAllByIndividualAndIndividualRequest_Accepted(individual, value);
+    public List<IndividualRequest> getIndividualAcceptedRequestList(Individual individual){
+        return individualRequestRepository.findAllByIndividualAndAccepted(individual, true);
     }
 
     public Optional<IndividualRequest> getIndividualRequest(IndividualRequest individualRequest){
@@ -68,6 +70,28 @@ public class IndividualService {
         individualRequestRepository.findAllByIndividual(individualDataList.get(0).getIndividual()).forEach(individualRequestList::add);
         individualRequestList.forEach(individualRequest -> {if(individualRequest.getSubscribedToNewData() != null && individualRequest.getSubscribedToNewData()) thirdPartyNotificationRepository.save(new ThirdPartyNotification(individualDataList, individualRequest.getThirdParty()));});
     }
+
+    public Integer countNotifications(Individual individual){
+        return individualNotificationRepository.countAllByIndividual(individual);
+    }
+
+    public void deleteNotifications(List<IndividualNotification> individualNotificationList){
+        individualNotificationList.forEach(individualNotification -> individualNotificationRepository.deleteById(individualNotification.getId()));
+    }
+
+    public void deleteAllNotifications(Individual individual){
+        individualNotificationRepository.deleteAllByIndividual(individual);
+    }
+
+    public List<IndividualRequest> getIndvidualPendingNotificationList(Individual individual){
+        List<IndividualNotification> individualNotificationList = individualNotificationRepository.findAllByIndividualAndIndividualRequest_Accepted(individual, null);
+        List<IndividualRequest> individualRequestList = new ArrayList<>();
+        individualNotificationList.forEach(individualNotification -> individualRequestList.add(individualNotification.getIndividualRequest()));
+        deleteNotifications(individualNotificationList);
+        return individualRequestList;
+    }
+
+
 
 
 }

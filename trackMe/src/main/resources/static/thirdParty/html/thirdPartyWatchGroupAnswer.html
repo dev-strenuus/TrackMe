@@ -1,0 +1,35 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/thirdParty.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+<div ng-show="sharedDataService.loggedIn">
+    <div>
+        <h1>Group Data </h1>
+
+        <!--<div class="table-responsive-sm">-->
+        <table class="table table-striped" >
+
+            <thead>
+            <tr>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Heart Rate</th>
+                <th scope="col">Pression 1</th>
+                <th scope="col">Pression 2</th>
+                <th scope="col">Oxygen %</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr ng-repeat="datum in newData">
+                <td>{{datum.timestamp}}</td>
+                <td>{{datum.heartRate}}</td>
+                <td>{{datum.systolicBloodPressure}}</td>
+                <td>{{datum.diastolicBloodPressure}}</td>
+                <td>{{datum.oxygenPercentage}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>

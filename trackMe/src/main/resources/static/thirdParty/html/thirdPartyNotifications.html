@@ -15,7 +15,18 @@
             <tr ng-repeat="notification in individualRequests">
                 <td>{{notification.individual.fiscalCode}}</td>
                 <td>{{notification.accepted}}</td>
-                <td><a href="#!watchDataRequest"><button id="watch" ng-click="watchDataRequest(notification.individual.fiscalCode)">Watch</button></a></td>
+                <td><a href="#!watchDataRequest"><button id="watch" ng-click="watchDataRequest(notification.individual.fiscalCode)" ng-show="notification.accepted">Watch</button></a></td>
+            </tr>
+        </table>
+
+        <table align="center" cellpadding="22">
+            <tr><th>List of Anonymous Requests you sent:</th></tr>
+            <tr>
+                <th>Id</th>
+            </tr>
+            <tr ng-repeat="notification in groupRequest">
+                <td>{{notification.id}}</td>
+                <td><a href="#!watchDataGroupAnswer"><button id="watchGroup" ng-click="watchDataGroupAnswer(notification.id)">Watch</button></a></td>
             </tr>
         </table>
     </div>

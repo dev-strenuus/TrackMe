@@ -130,7 +130,6 @@ public class AnonymousRequestBuilder {
      * @param anonymousRequest
      */
     public void calculate(AnonymousRequest anonymousRequest){
-        anonymousRequestRepository.save(anonymousRequest);
         Date now = new Date();
         Date iteration = getDateFromFirstData();
         while(iteration.before(now)){

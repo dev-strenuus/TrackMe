@@ -11,11 +11,11 @@
                 <th>Company VAT Number</th>
                 <th>Actions</th>
             </tr>
-            <tr ng-repeat="notification in pendingRequests">
-                <td>{{notification.individualRequest.thirdParty.vat}}</td>
+            <tr ng-repeat="individualRequest in pendingRequests">
+                <td>{{individualRequest.thirdParty.vat}}</td>
                 <td>
-                    <button class="action" ng-click="acceptRequest(notification.individualRequest.thirdParty.vat)">Accept</button>
-                    <button class="action" ng-click="refuseRequest(notification.individualRequest.thirdParty.vat)">Refuse</button>
+                    <button class="action" ng-click="acceptRequest(individualRequest.thirdParty.vat)">Accept</button>
+                    <button class="action" ng-click="refuseRequest(individualRequest.thirdParty.vat)">Refuse</button>
                 </td>
             </tr>
         </table>
@@ -26,10 +26,10 @@
                 <th>Company VAT Number</th>
                 <th>Action</th>
             </tr>
-            <tr ng-repeat="notification in activeRequests">
-                <td>{{notification.individualRequest.thirdParty.vat}}</td>
+            <tr ng-repeat="individualRequest in activeRequests">
+                <td>{{individualRequest.thirdParty.vat}}</td>
                 <td>
-                    <button class="action" ng-click="refuseRequest(notification.individualRequest.thirdParty.vat)">Refuse</button>
+                    <button class="action" ng-click="refuseRequest(individualRequest.thirdParty.vat)">Refuse</button>
                 </td>
             </tr>
         </table>

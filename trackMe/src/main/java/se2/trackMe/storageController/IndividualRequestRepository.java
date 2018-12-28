@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface IndividualRequestRepository extends CrudRepository<IndividualRequest, Long> {
     Optional<IndividualRequest> findByThirdPartyAndIndividual(ThirdParty thirdParty, Individual individual);
     List<IndividualRequest> findAllByIndividual(Individual individual);
+    List<IndividualRequest> findAllByIndividualAndAccepted(Individual individual, Boolean accepted);
+    List<IndividualRequest> findAllByThirdParty(ThirdParty thirdParty);
 }

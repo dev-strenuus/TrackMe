@@ -31,20 +31,21 @@ public class IndividualController {
     }
 
     @JsonView(Profile.IndividualPublicView.class)
-    @RequestMapping("/individual/{individual}/notifications")
-    public @ResponseBody List<IndividualNotification> getIndividualNotificationList(@PathVariable("individual") String id){
+    @RequestMapping("/individual/{individual}/individualRequests")
+    public @ResponseBody List<IndividualRequest> getIndividualRequestList(@PathVariable("individual") String id){
         //if(!userService.checkUsername())
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
-        List<IndividualNotification> individualNotificationList = individualService.getIndvidualPendingNotificationList(individual, null);
-        return individualNotificationList;
+        List<IndividualRequest> individualRequestList = individualService.getIndvidualPendingRequestList(individual);
+        individualService.deleteAllNotifications(individual);
+        return individualRequestList;
     }
 
     @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping("/individual/{individual}/acceptedRequests")
-    public @ResponseBody List<IndividualNotification> getIndividualAcceptedNotificationList(@PathVariable("individual") String id){
+    public @ResponseBody List<IndividualRequest> getIndividualAcceptedRequestList(@PathVariable("individual") String id){
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
-        List<IndividualNotification> individualAcceptedNotificationList = individualService.getIndividualAcceptedNotificationList(individual, true);
-        return individualAcceptedNotificationList;
+        List<IndividualRequest> individualAcceptedRequestList = individualService.getIndividualAcceptedRequestList(individual);
+        return individualAcceptedRequestList;
     }
 
     //better with third party as parameter and individual in the url
@@ -64,8 +65,32 @@ public class IndividualController {
     @RequestMapping(method = RequestMethod.POST, value = "/individual/{individual}/data")
     public void addData(@PathVariable("individual") String id, @RequestBody List<IndividualData> individualDataList){
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        if(individualDataList == null || individualDataList.size() == 0)
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "There is no data");
         individualDataList.forEach(data -> data.setIndividual(individual));
         individualService.saveData(individualDataList);
+    }
+
+    @RequestMapping("/individual/{individual}/countNotifications")
+    public @ResponseBody Integer getCountNotifications(@PathVariable("individual") String id){
+        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        return individualService.countNotifications(individual);
+    }
+
+   /* @RequestMapping(method = RequestMethod.DELETE, value="/individual/{individual}/allNotifications")
+    public void deleteNotifications(@PathVariable("individual") String id, @RequestBody  List<String> listId){
+        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        //TODO da controllare se effetivamente sono le notifications di quell'individuo
+        individualService.deleteNotifications(listId);
+    }*/
+
+    @JsonView(Profile.IndividualPublicView.class)
+    @RequestMapping("/individual/{individual}/notifications")
+    public @ResponseBody List<IndividualRequest> getIndividualNotificationRequestList(@PathVariable("individual") String id){
+        //if(!userService.checkUsername())
+        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        List<IndividualRequest> individualRequestList = individualService.getIndvidualPendingNotificationList(individual);
+        return individualRequestList;
     }
 
 }

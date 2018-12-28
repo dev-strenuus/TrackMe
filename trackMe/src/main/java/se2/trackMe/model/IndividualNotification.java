@@ -8,14 +8,15 @@ import javax.persistence.*;
 @Entity
 public class IndividualNotification {
 
+    @JsonView(Profile.IndividualPublicView.class)
     @Id
     private String id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private Individual individual;
 
     @JsonView(Profile.IndividualPublicView.class)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private IndividualRequest individualRequest;
 
     public IndividualNotification(){}

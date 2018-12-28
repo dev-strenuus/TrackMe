@@ -47,6 +47,46 @@ public class ThirdPartyController {
         List<ThirdPartyNotification> thirdPartyNotificationList = thirdPartyService.getThirdPartyNotificationList(thirdParty);
         return thirdPartyNotificationList;
     }
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/individualRequests")
+    public @ResponseBody
+    List<IndividualRequest> getThirdPartyIndividualRequest(@PathVariable("thirdParty") String id) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
+        List<IndividualRequest> individualRequestList = thirdPartyService.getAllIndividualRequestsByThirdParty(thirdParty);
+        return individualRequestList;
+    }
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/notifications/individualRequests")
+    public @ResponseBody
+    List<IndividualRequest> getThirdPartyIndividualRequestNotifications(@PathVariable("thirdParty") String id) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
+        List<IndividualRequest> thirdPartyNotificationList = thirdPartyService.getIndividualRequestNotificationList(thirdParty);
+        return thirdPartyNotificationList;
+    }
+
+    @RequestMapping("/thirdParty/{thirdParty}/notifications/countIndividualRequests")
+    public @ResponseBody
+    Integer getThirdPartyCountIndividualRequestNotifications(@PathVariable("thirdParty") String id) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
+        return thirdPartyService.countIndividualRequestNotifications(thirdParty);
+    }
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/notifications/{individual}")
+    public @ResponseBody
+    List<IndividualData> getThirdPartyNewDataNotificationList(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual not found"));
+        List<IndividualData> thirdPartyIndividualDataList = thirdPartyService.getNewDataNotificationList(thirdParty, individual);
+        IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
+
+        if(individualRequest.getAccepted() == false)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't access this data");
+
+        return thirdPartyIndividualDataList;
+    }
     
     @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/{individual}/data")
@@ -58,19 +98,13 @@ public class ThirdPartyController {
         // check if the thirdParty has an active subscription to receive the data of the individual
         IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
 
-        Boolean subscribed = individualRequest.getSubscribedToNewData();
+        if(individualRequest.getAccepted() == false)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't access this data");
 
-        if(subscribed){
-            return thirdPartyService.getIndividualData(individual);
-        } else{
-            // get the subscription date
-            Date subscriptionDate = individualRequest.getBeginningOfSubscription();
-
-            return thirdPartyService.getIndividualDataBeforeTimestamp(individual, subscriptionDate);
-        }
+        return thirdPartyService.getIndividualData(thirdParty, individual);
     }
 
-    @JsonView(Profile.ThirdPartyPublicView.class)
+   /* @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/{individual}/{startTime}/{endTime}/data")
     public @ResponseBody
     List<IndividualData> getIndividualDataByTimeRange(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId, @PathVariable("startTime") Date start,  @PathVariable("endTime") Date end) {
@@ -94,9 +128,9 @@ public class ThirdPartyController {
         } else {
             throw(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad time range provided"));
         }
-    }
+    }*/
 
-    @JsonView(Profile.ThirdPartyPublicView.class)
+    /*@JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/{individual}/{time}/data")
     public @ResponseBody
     List<IndividualData> getIndividualDataBeforeTimestamp(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId,  @PathVariable("time") Date date) {
@@ -107,12 +141,17 @@ public class ThirdPartyController {
         IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
 
         return thirdPartyService.getIndividualDataBeforeTimestamp(individual, date);
-    }
+    }*/
 
-    @JsonView(Profile.AnonymousRequestPublicView.class)
-    @RequestMapping("/thirdParty/{thirdParty}/anonymousRequest")
+    @RequestMapping(method = RequestMethod.POST, value ="/thirdParty/anonymousRequest")
     public void addAnonymousRequest(@RequestBody AnonymousRequest anonymousRequest) {
         ThirdParty thirdParty = thirdPartyService.getThirdParty(anonymousRequest.getThirdParty().getVat()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "ThirdParty Not Found"));
         thirdPartyService.addAnonymousRequest(thirdParty, anonymousRequest);
+    }
+
+    @RequestMapping("/thirdParty/{thirdParty}/anonymousRequests")
+    public @ResponseBody List<AnonymousRequest> getAllAnonymousRequets(@PathVariable("thirdParty") String id) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
+        return thirdPartyService.getAllAnonymousRequests(thirdParty);
     }
 }

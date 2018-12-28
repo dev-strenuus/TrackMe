@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 public class ThirdPartyNotification {
 
+    @JsonView(Profile.ThirdPartyPublicView.class)
     @Id
     @GeneratedValue
     private Long id;
@@ -28,6 +29,9 @@ public class ThirdPartyNotification {
     @ManyToOne
     private AnonymousAnswer anonymousAnswer;
 
+    @ManyToOne
+    private Individual individual;
+
     public ThirdPartyNotification(){}
 
     public ThirdPartyNotification(AnonymousAnswer anonymousAnswer, ThirdParty thirdParty){
@@ -38,6 +42,7 @@ public class ThirdPartyNotification {
     public ThirdPartyNotification(List<IndividualData> individualDataList, ThirdParty thirdParty){
         this.individualDataList = individualDataList;
         this.thirdParty = thirdParty;
+        this.individual = individualDataList.get(0).getIndividual();
     }
 
     public ThirdPartyNotification(IndividualRequest individualRequest){
@@ -63,5 +68,9 @@ public class ThirdPartyNotification {
 
     public AnonymousAnswer getAnonymousAnswer() {
         return anonymousAnswer;
+    }
+
+    public Individual getIndividual() {
+        return individual;
     }
 }

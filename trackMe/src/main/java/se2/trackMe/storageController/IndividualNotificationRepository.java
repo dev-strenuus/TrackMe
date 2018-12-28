@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface IndividualNotificationRepository extends CrudRepository<IndividualNotification, String> {
 
+    Integer countAllByIndividual(Individual individual);
+    void deleteAllByIndividual(Individual individual);
     List<IndividualNotification> findAllByIndividualAndIndividualRequest_Accepted(Individual individual, Boolean value);
 }
