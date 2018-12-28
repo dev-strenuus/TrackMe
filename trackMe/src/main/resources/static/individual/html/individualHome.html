@@ -1,19 +1,19 @@
-<div ng-show="sharedDataService.loggedIn">
-    <h1>Choose one option:</h1>
-    <div>
-        <a href="#!notifications"><button class="btn">Notifications</button></a>
-    </div>
-    <div>
-        <a href="#!settings"><button class="btn">Settings</button></a>
-    </div>
-    <div>
-        <a href="#!dataManager"><button class="btn">Watch graphs</button></a>
-    </div>
-    <div>
-        <button ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
-    </div>
-    <div>
-        <button ng-controller="individualDataRetriever" ng-click="connect()" ng-hide="sharedDataService.deviceConnected">Connect a device</button>
-        <button ng-controller="individualDataRetriever" ng-click="disconnect()" ng-show="sharedDataService.deviceConnected">Disconnect device</button>
-    </div>
-</div>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/individual.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+
+<body>
+        <div class="container-fluid" ng-show="sharedDataService.loggedIn">
+            <h1>Choose one option:</h1>
+            <div>
+                <button class="submit" ng-controller="individualDataRetriever" ng-click="connect()" ng-hide="sharedDataService.deviceConnected">Connect a device</button>
+            </div>
+            <div>
+                <button class="submit" ng-controller="individualDataRetriever" ng-click="disconnect()" ng-show="sharedDataService.deviceConnected">Disconnect device</button>
+            </div>
+            <div>
+                <button class="submit" ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
+            </div>
+        </div>
+</body>

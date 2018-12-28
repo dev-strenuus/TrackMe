@@ -68,7 +68,6 @@ body, body *{
   background-position: -50px 0px;
 }
 
-
 .jumbotron.home{
   background-size: cover;
   height: 100%;
@@ -101,7 +100,7 @@ input{
 
 .textArea{
   height:40px;
-  width:325px;
+  width:80%;
 }
 
 table{
@@ -111,7 +110,7 @@ table{
 .submit{
   background-color: #009F00;
   color:white;
-  height:70px;
+  height:90px;
   width:180px;
   font-size: 30px;
   margin:25px;
@@ -120,4 +119,31 @@ table{
 #conditions{
   float:left;
   font-size: 18px;
+}
+
+.action{
+  background-color: #009F00;
+  color:white;
+  height:50px;
+  width:120px;
+  font-size: 25px;
+}
+
+table{
+  margin-bottom: 50px;
+  margin-top:50px;
+}
+
+/*navbar*/
+.navbar.navbar-expand-lg{
+  background-color:#009F00;
+
+}
+
+.nav-link{
+  font-size: 25px;
+}
+
+.navbar-brand{
+  font-size: 35px;
 }

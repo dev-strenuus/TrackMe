@@ -1,34 +1,23 @@
-<div ng-show="sharedDataService.loggedIn">
-    <h1>Settings</h1>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/individual.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
 
-    <h3>Personal data</h3>
-    <p>Name: </p>
-    <p>Surname: </p>
-    <p>...</p>
+<body>
 
-    <h3>Change your password:</h3>
-    <p>Old password: <input type="password" ng-model="settings.oldPassword" title="Insert your current password"
-                            required></p>
-    <p>New password: <input type="password" ng-model="settings.newPassword" title="Insert your new password"
-                            minlength="6" required></p>
+    <div ng-show="sharedDataService.loggedIn">
+        <h1>Settings</h1>
 
-    <h3>Your accepted requests:</h3>
-    <table>
-        <tr>
-            <th>Id</th>
-            <th>Company VAT Number</th>
-            <th>Company name</th>
-        </tr>
-        <tr ng-repeat="notification in notifications">
-            <td>{{$index}}</td>
-            <td>{{notification.individualRequest.thirdParty.vat}}</td>
-            <td>name</td>
-        </tr>
-    </table>
-    <div>
-        <button ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
+        <h3>Personal data</h3>
+        <p>Name: </p>
+        <p>Surname: </p>
+        <p>...</p>
+
+        <h3>Change your password:</h3>
+        <p>Old password: <input type="password" ng-model="settings.oldPassword" title="Insert your current password"
+                                required></p>
+        <p>New password: <input type="password" ng-model="settings.newPassword" title="Insert your new password"
+                                minlength="6" required></p>
     </div>
-    <div>
-        <a href="#!home"><button class="btn">Home Page</button></a>
-    </div>
-</div>
+
+</body>

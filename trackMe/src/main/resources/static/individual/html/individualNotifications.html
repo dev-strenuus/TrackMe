@@ -1,37 +1,39 @@
-<div ng-show="sharedDataService.loggedIn">
-    <h1>All your new requests, accept or refuse them:</h1>
-    <table>
-        <tr>
-            <th>Company VAT Number</th>
-            <th>Actions</th>
-        </tr>
-        <tr ng-repeat="notification in pendingRequests">
-            <td>{{notification.individualRequest.thirdParty.vat}}</td>
-            <td>
-                <button ng-click="acceptRequest(notification.individualRequest.thirdParty.vat)">Accept</button>
-                <button ng-click="refuseRequest(notification.individualRequest.thirdParty.vat)">Refuse</button>
-            </td>
-        </tr>
-    </table>
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/individual.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
 
-    <h1>All your accepted requests, you can refuse them if you want:</h1>
-    <table>
-        <tr>
-            <th>Company VAT Number</th>
-            <th>Action</th>
-        </tr>
-        <tr ng-repeat="notification in activeRequests">
-            <td>{{notification.individualRequest.thirdParty.vat}}</td>
-            <td>
-                <button ng-click="refuseRequest(notification.individualRequest.thirdParty.vat)">Refuse</button>
-            </td>
-        </tr>
-    </table>
+<body>
+    <div class="container-fluid" ng-show="sharedDataService.loggedIn">
+        <table align="center" cellpadding="22">
+            <tr><th>All your new requests, accept or refuse them:</th></tr>
+            <tr>
+                <th>Company VAT Number</th>
+                <th>Actions</th>
+            </tr>
+            <tr ng-repeat="notification in pendingRequests">
+                <td>{{notification.individualRequest.thirdParty.vat}}</td>
+                <td>
+                    <button class="action" ng-click="acceptRequest(notification.individualRequest.thirdParty.vat)">Accept</button>
+                    <button class="action" ng-click="refuseRequest(notification.individualRequest.thirdParty.vat)">Refuse</button>
+                </td>
+            </tr>
+        </table>
 
-    <div>
-        <button ng-controller="individualLogoutController" ng-click="logout()">Logout</button>
+        <table align="center" cellpadding="22">
+            <tr><th>All your accepted requests, you can refuse them if you want:</th></tr>
+            <tr>
+                <th>Company VAT Number</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="notification in activeRequests">
+                <td>{{notification.individualRequest.thirdParty.vat}}</td>
+                <td>
+                    <button class="action" ng-click="refuseRequest(notification.individualRequest.thirdParty.vat)">Refuse</button>
+                </td>
+            </tr>
+        </table>
+
     </div>
-    <div>
-        <a href="#!home"><button class="btn">Home Page</button></a>
-    </div>
-</div>
+
+</body>

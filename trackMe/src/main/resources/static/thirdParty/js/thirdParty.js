@@ -91,7 +91,7 @@ app.controller("thirdPartyLoginController", function ($scope, $http, $location, 
             console.log($scope.sharedDataService.token);
         }).catch(function onError(response) {
             console.log(response);
-            $scope.loginResult = "Wrong password or VAT";
+            $scope.loginResult = "Wrong Password or VAT";
         });
     }
 });

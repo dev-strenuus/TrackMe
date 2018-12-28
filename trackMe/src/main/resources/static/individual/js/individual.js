@@ -46,6 +46,10 @@ app.service('SharedDataService', function () {
     return sharedData;
 });
 
+app.controller("mainController", function ($scope, SharedDataService) {
+    $scope.sharedDataService = SharedDataService;
+});
+
 app.controller("individualSignUpController", function ($scope, $http, $location, SharedDataService) {
     $scope.individual = {};
     $scope.sharedDataService = SharedDataService;
@@ -75,6 +79,7 @@ app.controller("individualLoginController", function ($scope, $http, $location, 
             $location.path("/home");
         }).catch(function onError(response) {
             console.log(response);
+            $scope.loginResult = "Wrong Password or Fiscal code";
         });
     };
 });

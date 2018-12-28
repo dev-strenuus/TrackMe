@@ -49,7 +49,7 @@ input{
 
 .textArea{
   height:40px;
-  width:325px;
+  width:80%;
 }
 
 table{
@@ -63,6 +63,7 @@ table{
   width:180px;
   font-size: 30px;
   margin:25px;
+  border-radius: 5px;
 }
 
 #watch{
@@ -98,15 +99,11 @@ table{
 }
 
 .nav-link{
-  color: white;
   font-size: 25px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 .navbar-brand{
-  color: white;
   font-size: 35px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 
@@ -149,5 +146,7 @@ table{
 #footer a {
     color: #009F00;
 }
+
+
 
 
