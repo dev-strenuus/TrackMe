@@ -73,7 +73,8 @@
 
         <table align="center" cellpadding="22">
             <tr><th class= "title" style="color:#009F00">Here follows the list of fiscal codes of the registered Individuals:</th> </tr>
-            <tr ng-repeat="person in people"> <button ng-controller="thirdPartyController" class="submit" ng-click="refreshPeople()">Refresh</button>
+            <button ng-controller="thirdPartyController" class="submit" ng-click="refreshPeople()">Refresh</button>
+            <tr ng-repeat="person in people">
                 <td>{{person.fiscalCode}}</td>
             </tr>
         </table>

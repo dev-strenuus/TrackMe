@@ -75,6 +75,10 @@ table{
   margin-left:-25px;
 }
 
+#watch:disabled {
+  background-color: red;
+}
+
 #request{
   background-color: #009F00;
   color:white;

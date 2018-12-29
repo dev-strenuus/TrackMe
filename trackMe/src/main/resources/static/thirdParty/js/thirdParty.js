@@ -114,21 +114,23 @@ app.controller("thirdPartyLoginController", function ($scope, $http, $location, 
 });
 
 
-app.controller("thirdPartyController", function ($scope, $http, SharedDataService) {
+app.controller("thirdPartyController", function ($scope, $http, $route,  SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.people = [];
 
 
     $http.defaults.headers.common.Authorization = SharedDataService.token;
-    $scope.refreshPeople = function () {$http.get("/people")
-        .then(function (response) {
+    $http.get("/people")
+            .then(function (response) {
+                console.log(response);
+                $scope.people = response.data;
+            }).catch(function onError(response) {
             console.log(response);
-            $scope.people = response.data;
-        }).catch(function onError(response) {
-        console.log(response);
-    });}
+            });
 
-    $scope.refreshPeople();
+    $scope.refreshPeople = function () {
+        $route.reload();
+    };
 
     $scope.data = {
         individual: {
@@ -171,11 +173,11 @@ app.controller("thirdPartyController", function ($scope, $http, SharedDataServic
           $http.post('/thirdParty/anonymousRequest', $scope.groupData, config).
           then(function onSuccess(response) {
               console.log(response);
-              $scope.indReqResult = "The Group Request has been correctly sent.";
+              $scope.groupReqResult = "The Group Request has been correctly sent.";
           }).
           catch(function onError(response) {
               console.log(response);
-              $scope.indReqResult = "The Group Request has not been sent. Check the parameters and retry.";
+              $scope.groupReqResult = "The Group Request has not been sent. Check the parameters and retry.";
           });
       }
 
