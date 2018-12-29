@@ -299,11 +299,40 @@ app.controller("thirdPartyWatchDataRequestController", function ($scope, $http, 
 app.controller("thirdPartyWatchGroupAnswerController", function ($scope, $http, $interval, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.newData = [];
-    $scope.isThereNewData = false;
+
 
     $http.defaults.headers.common.Authorization = SharedDataService.token;
+    $http.get("/thirdParty/" + $scope.sharedDataService.username + "/anonymousAnswer/"+ $scope.sharedDataService.pointedGroup)
+        .then(function (response) {
+            console.log(response);
+            for (let i = 0; i < response.data.length; i++) {
+                let answer = response.data[i];
+                for(let j=0; j< answer.individualDataList.length; j++)
+                    $scope.newData.unshift(answer.individualDataList[j]);
+            }
+        }).catch(function onError(response) {
+        console.log(response);
+    });
 
-    //TODO
+    let promise = $interval(function(){
+        $http.get("/thirdParty/" + $scope.sharedDataService.username + "/anonymousAnswer/notifications/"+ $scope.sharedDataService.pointedGroup)
+            .then(function (response) {
+                console.log("inside");
+                console.log(response);
+                for (let i = 0; i < response.data.length; i++) {
+                    let answer = response.data[i];
+                    for(let j=0; j< answer.individualDataList.length; j++)
+                        $scope.newData.unshift(answer.individualDataList[j]);
+                }
+            }).catch(function onError(response) {
+            console.log(response);
+        });
+    }, 5000, 5000);
+
+    $scope.$on('$destroy',function(){
+        if(promise)
+            $interval.cancel(promise);
+    });
 
 });
 

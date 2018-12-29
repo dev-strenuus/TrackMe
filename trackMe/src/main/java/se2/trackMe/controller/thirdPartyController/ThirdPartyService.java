@@ -38,6 +38,9 @@ public class ThirdPartyService {
     private AnonymousRequestRepository anonymousRequestRepository;
 
     @Autowired
+    private AnonymousAnswerRepository anonymousAnswerRepository;
+
+    @Autowired
     private AnonymousRequestBuilder anonymousRequestBuilder;
 
     public List<Individual> getAllIndividuals() {
@@ -129,5 +132,22 @@ public class ThirdPartyService {
 
     public List<AnonymousRequest> getAllAnonymousRequests(ThirdParty thirdParty){
         return anonymousRequestRepository.findAllByThirdParty(thirdParty);
+    }
+
+    public List<AnonymousAnswer> getAllAnonymousAnswers(AnonymousRequest anonymousRequest){
+        thirdPartyNotificationRepository.deleteAllByAnonymousAnswer_AnonymousRequest(anonymousRequest);
+        return anonymousAnswerRepository.findAllByAnonymousRequest(anonymousRequest);
+    }
+
+    public Optional<AnonymousRequest> getAnonymousRequest(Long id){
+        return anonymousRequestRepository.findById(id);
+    }
+
+    public List<AnonymousAnswer> getNewAnswersNotificationList(AnonymousRequest anonymousRequest){
+        List<ThirdPartyNotification> thirdPartyNotificationList = thirdPartyNotificationRepository.findAllByAnonymousAnswer_AnonymousRequest(anonymousRequest);
+        List<AnonymousAnswer> anonymousAnswerList = new ArrayList<>();
+        thirdPartyNotificationList.forEach(notification -> anonymousAnswerList.add(notification.getAnonymousAnswer()));
+        deleteNotifications(thirdPartyNotificationList);
+        return anonymousAnswerList;
     }
 }

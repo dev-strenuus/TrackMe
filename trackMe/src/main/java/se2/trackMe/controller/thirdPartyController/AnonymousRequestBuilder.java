@@ -36,12 +36,12 @@ public class AnonymousRequestBuilder {
     /**
      * Minimum number of individuals requested to be in the group in order to guarantee anonymity.
      */
-    private final int threshold = 4;
+    private final int threshold = 1; //4;
 
     /**
      * The check of anonymity and the retrieval of data are done every this quantity of time.
      */
-    private final int fixedRange = 1000*60*60; //one hour in milliseconds
+    private final int fixedRange = 10000; //1000*60*60; //one hour in milliseconds
 
     /**
      * @return the timestamp of the first {@link IndividualData} inserted in DB (this could be improved by checking only the group)
@@ -109,7 +109,7 @@ public class AnonymousRequestBuilder {
 
     public void runAnonymousAnswerBuilderForNewData(AnonymousRequest anonymousRequest){
         if(anonymousRequest.getSubscribedToNewData() == true){
-            AnonymousRequestTask anonymousRequestTask = new AnonymousRequestTask(anonymousRequest);
+            AnonymousRequestTask anonymousRequestTask = new AnonymousRequestTask(anonymousRequest, this);
             Timer timer = new Timer();
             timerHashMap.put(anonymousRequest.getId(), timer);
             timer.schedule(anonymousRequestTask, fixedRange, fixedRange);

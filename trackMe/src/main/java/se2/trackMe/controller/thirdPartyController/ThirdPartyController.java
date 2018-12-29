@@ -154,4 +154,26 @@ public class ThirdPartyController {
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
         return thirdPartyService.getAllAnonymousRequests(thirdParty);
     }
+
+    @JsonView(Profile.AnonymousRequestPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/anonymousAnswer/{anonymousRequest}")
+    public @ResponseBody
+    List<AnonymousAnswer> getAnonymousData(@PathVariable("thirdParty") String tPId, @PathVariable("anonymousRequest") Long aRId) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        AnonymousRequest anonymousRequest = thirdPartyService.getAnonymousRequest(aRId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anonymous Request not found"));
+        if(!anonymousRequest.getThirdParty().getVat().equals(anonymousRequest.getThirdParty().getVat()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not your request");
+        return thirdPartyService.getAllAnonymousAnswers(anonymousRequest);
+    }
+
+    @JsonView(Profile.AnonymousRequestPublicView.class)
+    @RequestMapping("/thirdParty/{thirdParty}/anonymousAnswer/notifications/{anonymousRequest}")
+    public @ResponseBody
+    List<AnonymousAnswer> getAnonymousDataNotifications(@PathVariable("thirdParty") String tPId, @PathVariable("anonymousRequest") Long aRId) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        AnonymousRequest anonymousRequest = thirdPartyService.getAnonymousRequest(aRId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anonymous Request not found"));
+        if(!anonymousRequest.getThirdParty().getVat().equals(anonymousRequest.getThirdParty().getVat()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not your request");
+        return thirdPartyService.getNewAnswersNotificationList(anonymousRequest);
+    }
 }

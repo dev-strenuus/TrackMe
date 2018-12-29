@@ -1,5 +1,8 @@
 package se2.trackMe.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import se2.trackMe.model.profileJSON.Profile;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -23,6 +26,7 @@ public class AnonymousAnswer {
     @NotNull
     private Date end;
 
+    @JsonView(Profile.AnonymousRequestPublicView.class)
     @ManyToMany
     private List<IndividualData> individualDataList;
 
