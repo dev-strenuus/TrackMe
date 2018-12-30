@@ -188,7 +188,11 @@ app.controller("thirdPartySettingsController", function ($scope, $http, SharedDa
 
     $scope.settings = {};
 
-    //TODO
+    $scope.vat = $scope.sharedDataService.username;
+
+    $scope.updatePassword = function () {
+            //PUT
+        };
 });
 
 app.controller("thirdPartyNotificationsController", function ($scope, $http, $location, $interval, SharedDataService, SavedNewDataService) {

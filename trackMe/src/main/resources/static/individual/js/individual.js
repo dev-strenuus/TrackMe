@@ -200,36 +200,19 @@ app.controller("individualNotificationsController", function ($scope, $http, $in
 
 app.controller("individualSettingsController", function ($scope, $http, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
-    $scope.notifications = [];
 
     $scope.settings = {};
 
-    // TODO: completare in base a cosa vogliamo mostrare
+    $scope.fiscalCode = $scope.sharedDataService.username;
 
-    // get personal data
+    $scope.updatePassword = function () {
+        //PUT
+    };
 
-    // post change of password
+    $scope.updateCoordinates = function () {
+        //PUT
+    };
 
-    // get the accepted requests
-    $http.defaults.headers.common.Authorization = SharedDataService.token;
-    $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
-        .then(function (response) {
-            console.log(response);
-
-            // filtering data
-            let thirdParties = response.data.map(function (request) {
-                return request.thirdParty
-            });
-
-            let vatNumbers = thirdParties.map(function (thirdParty) {
-                return thirdParty.vat
-            });
-
-            $scope.notifications = vatNumbers
-
-        }).catch(function onError(response) {
-        console.log(response);
-    });
 });
 
 app.controller('graphController', function ($scope, $interval, SharedDataService) {
