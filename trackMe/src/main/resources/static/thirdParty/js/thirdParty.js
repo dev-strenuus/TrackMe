@@ -66,7 +66,10 @@ app.controller("mainController", function ($scope, $http, $interval, SharedDataS
     $scope.notification = 0;
 
 
-    $interval(function(){$http.get("/thirdParty/" + $scope.sharedDataService.username + "/notifications/countIndividualRequests")
+    $interval(function(){
+        if($scope.sharedDataService.loggedIn == false)
+            return;
+        $http.get("/thirdParty/" + $scope.sharedDataService.username + "/notifications/countIndividualRequests")
         .then(function (response) {
             console.log(response);
             $scope.notification = response.data;
@@ -101,9 +104,9 @@ app.controller("thirdPartyLoginController", function ($scope, $http, $location, 
         console.log($scope.credentials);
         $http.post('/auth', $scope.credentials, config).then(function onSuccess(response) {
             console.log(response);
-            $scope.sharedDataService.loggedIn = true;
             $scope.sharedDataService.token = 'Bearer ' + response.data.token;
             $scope.sharedDataService.username = $scope.credentials.username;
+            $scope.sharedDataService.loggedIn = true;
             $location.path("/home");
             console.log($scope.sharedDataService.token);
         }).catch(function onError(response) {

@@ -2,6 +2,8 @@ package se2.trackMe.controller.thirdPartyController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import se2.trackMe.model.*;
 import se2.trackMe.storageController.AnonymousAnswerRepository;
 import se2.trackMe.storageController.AnonymousRequestRepository;
@@ -15,6 +17,7 @@ import java.util.*;
  * This is possible because, as soon as some data is ready to be delivered, these data will be added as a {@link AnonymousAnswer} inside a {@link ThirdPartyNotification}.
  * The anonymity is guaranteed by checking every <tt>fixedRange</tt> of time if there are at least <tt>threshold</tt> individuals who sent, at least one time, one {@link IndividualData}, in that range of time.
  */
+@Transactional
 @Service
 public class AnonymousRequestBuilder {
 
@@ -41,7 +44,7 @@ public class AnonymousRequestBuilder {
     /**
      * The check of anonymity and the retrieval of data are done every this quantity of time.
      */
-    private final int fixedRange = 10000; //1000*60*60; //one hour in milliseconds
+    private final int fixedRange = 30000; //1000*60*60; //one hour in milliseconds
 
     /**
      * @return the timestamp of the first {@link IndividualData} inserted in DB (this could be improved by checking only the group)
@@ -107,12 +110,12 @@ public class AnonymousRequestBuilder {
         }
     }
 
-    public void runAnonymousAnswerBuilderForNewData(AnonymousRequest anonymousRequest){
+    public void runAnonymousAnswerBuilderForNewData(AnonymousRequest anonymousRequest, Date iteration){
         if(anonymousRequest.getSubscribedToNewData() == true){
-            AnonymousRequestTask anonymousRequestTask = new AnonymousRequestTask(anonymousRequest, this);
+            AnonymousRequestTask anonymousRequestTask = new AnonymousRequestTask(anonymousRequest, this, iteration);
             Timer timer = new Timer();
             timerHashMap.put(anonymousRequest.getId(), timer);
-            timer.schedule(anonymousRequestTask, fixedRange, fixedRange);
+            timer.scheduleAtFixedRate(anonymousRequestTask, 2*fixedRange, fixedRange);
         }
     }
 
@@ -132,13 +135,15 @@ public class AnonymousRequestBuilder {
     public void calculate(AnonymousRequest anonymousRequest){
         Date now = new Date();
         Date iteration = getDateFromFirstData();
+        if(getDateFromFirstData() == null)
+            iteration = now;
         while(iteration.before(now)){
             Date newIteration = new Date(iteration.getTime()+fixedRange);
             List<IndividualData> individualDataList = getData(iteration, newIteration, anonymousRequest.getStartAge(),anonymousRequest.getEndAge(),anonymousRequest.getLat1(),anonymousRequest.getLat2(),anonymousRequest.getLon1(),anonymousRequest.getLon2());
             elaborate(anonymousRequest, individualDataList, iteration, newIteration);
             iteration = newIteration;
         }
-        runAnonymousAnswerBuilderForNewData(anonymousRequest);
+        runAnonymousAnswerBuilderForNewData(anonymousRequest, iteration);
 
     }
 

@@ -3,16 +3,18 @@ package se2.trackMe.controller.thirdPartyController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import se2.trackMe.model.*;
 import se2.trackMe.storageController.*;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 @Service
 public class ThirdPartyService {
 
