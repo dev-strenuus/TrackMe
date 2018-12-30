@@ -51,14 +51,18 @@ app.controller("mainController", function ($scope, $http, $interval, SharedDataS
     $http.defaults.headers.common.Authorization = $scope.sharedDataService.token;
     $scope.notification = 0;
 
-    $interval(function(){$http.get("/individual/" + $scope.sharedDataService.username + "/countNotifications")
-        .then(function (response) {
-            console.log(response);
-            $scope.notification = response.data;
+    $interval(function(){
+        console.log($scope.sharedDataService.loggedIn);
+        if($scope.sharedDataService.loggedIn == true){
+            $http.get("/individual/" + $scope.sharedDataService.username + "/countNotifications")
+            .then(function (response) {
+                console.log(response);
+                $scope.notification = response.data;
 
-        }).catch(function onError(response) {
-            console.log(response);
-        });}, 5000, 5000);
+            }).catch(function onError(response) {
+                console.log(response);
+
+        });}}, 5000, 5000);
 
 });
 
@@ -84,9 +88,9 @@ app.controller("individualLoginController", function ($scope, $http, $location, 
     $scope.submitLogin = function () {
         console.log($scope.credentials);
         $http.post('/auth', $scope.credentials, config).then(function onSuccess(response) {
-            $scope.sharedDataService.loggedIn = true;
             $scope.sharedDataService.username = $scope.credentials.username;
             $scope.sharedDataService.token = 'Bearer ' + response.data.token;
+            $scope.sharedDataService.loggedIn = true;
             console.log($scope.sharedDataService.token);
             $location.path("/home");
         }).catch(function onError(response) {

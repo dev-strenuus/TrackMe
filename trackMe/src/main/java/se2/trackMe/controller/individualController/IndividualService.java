@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se2.trackMe.model.*;
 import se2.trackMe.storageController.*;
 
-import javax.transaction.Transactional;
+
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.*;
