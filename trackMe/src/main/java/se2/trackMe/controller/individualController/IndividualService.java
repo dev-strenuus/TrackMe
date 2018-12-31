@@ -92,7 +92,8 @@ public class IndividualService {
         return individualRequestList;
     }
 
-
-
+    public void updateIndividual(Individual individual){
+        individualRepository.save(individual);
+    }
 
 }

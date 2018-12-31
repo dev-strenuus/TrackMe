@@ -4,25 +4,28 @@
 
 </head>
 <body>
-    <div ng-show="sharedDataService.loggedIn" class="container-fluid">
-        <table align="center" cellpadding="22" >
-            <tr>
+<div ng-show="sharedDataService.loggedIn" class="container-fluid">
+    <table align="center" cellpadding="22">
+        <tr>
 
-                <th>Your VAT:</th>
-                <th><p ng-bind="vat"></p></th>
-            </tr>
-            <tr><th>Change password</th></tr>
-            <tr>
-                <th>Old password:</th>
-                <td> <input type="password" ng-model="settings.oldPassword" required></td>
-            </tr>
+            <th>Your VAT:</th>
+            <th><p ng-bind="vat"></p></th>
+        </tr>
+        <tr>
+            <th>Change password</th>
+        </tr>
+        <tr>
+            <th>Old password:</th>
+            <td><input title="Insert your current password." type="password" ng-model="oldPassword" required></td>
+        </tr>
 
-            <tr>
-                <th>New password:</th>
-                <td> <input type="password" ng-model="settings.newPassword" minlength="6" required></td>
-            </tr>
-        </table>
-        <button class="submit" ng-click="updatePassword()">Update</button>
-        <p ng-bind="passReqResult"></p>
-    </div>
-<body>
+        <tr>
+            <th>New password:</th>
+            <td><input title="Insert your new password. At least 6 characters." type="password" ng-model="newPassword"
+                       minlength="6" required></td>
+        </tr>
+    </table>
+    <button class="submit" ng-click="updatePassword()">Update</button>
+    <p ng-bind="passReqResult"></p>
+</div>
+</body>
