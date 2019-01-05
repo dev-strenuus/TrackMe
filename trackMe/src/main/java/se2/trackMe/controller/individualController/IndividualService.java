@@ -1,11 +1,7 @@
 package se2.trackMe.controller.individualController;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import io.jsonwebtoken.Clock;
-import io.jsonwebtoken.impl.DefaultClock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se2.trackMe.model.*;

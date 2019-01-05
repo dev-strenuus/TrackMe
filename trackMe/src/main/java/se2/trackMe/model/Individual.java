@@ -92,4 +92,24 @@ public class Individual {
     public void setLongitude(Float longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        String separator = ",";
+        builder.append(fiscalCode);
+        builder.append(separator);
+        builder.append(name);
+        builder.append(separator);
+        builder.append(surname);
+        builder.append(separator);
+        builder.append(password);
+        builder.append(separator);
+        builder.append(birthDate);
+        builder.append(separator);
+        builder.append(latitude);
+        builder.append(separator);
+        builder.append(longitude);
+        return builder.toString();
+    }
 }
