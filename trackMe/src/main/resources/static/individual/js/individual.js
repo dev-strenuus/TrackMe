@@ -270,7 +270,7 @@ app.controller("individualDataRetriever", function ($scope, $http, $interval, Sh
         console.log("device connected");
         $scope.sharedDataService.deviceConnected = true;
         $scope.sharedDataService.intervalPromise = $interval(function () {
-            if ($scope.sharedDataService.data.length > 12) {
+            if ($scope.sharedDataService.data.length >= 12) {
                 $scope.sharedDataService.data.shift();
                 $scope.res.shift();
 

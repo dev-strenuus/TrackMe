@@ -1,6 +1,7 @@
 package se2.trackMe.controller.thirdPartyController;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,10 @@ import se2.trackMe.storageController.IndividualDataRepository;
 import se2.trackMe.storageController.ThirdPartyNotificationRepository;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class elaborates anonymous requests without letting the third party, who made the request, to wait for an answer.
@@ -33,7 +38,9 @@ public class AnonymousRequestBuilder {
     @Autowired
     private AnonymousAnswerRepository anonymousAnswerRepository;
 
-    private Map<Long, Timer> timerHashMap = new TreeMap<>();
+    ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+
+    private Map<Long, ScheduledFuture<?>> tasksMap = new TreeMap<>();
 
 
     /**
@@ -44,7 +51,7 @@ public class AnonymousRequestBuilder {
     /**
      * The check of anonymity and the retrieval of data are done every this quantity of time.
      */
-    private final int fixedRange = 30000; //1000*60*60; //one hour in milliseconds
+    private final int fixedRange = 10000; //1000*60*60; //one hour in milliseconds
 
     /**
      * @return the timestamp of the first {@link IndividualData} inserted in DB (this could be improved by checking only the group)
@@ -112,19 +119,18 @@ public class AnonymousRequestBuilder {
 
     public void runAnonymousAnswerBuilderForNewData(AnonymousRequest anonymousRequest, Date iteration){
         if(anonymousRequest.getSubscribedToNewData() == true){
-            AnonymousRequestTask anonymousRequestTask = new AnonymousRequestTask(anonymousRequest, this, iteration);
-            Timer timer = new Timer();
-            timerHashMap.put(anonymousRequest.getId(), timer);
-            timer.scheduleAtFixedRate(anonymousRequestTask, 2*fixedRange, fixedRange);
+            AnonymousRequestTask anonymousRequestTask = new AnonymousRequestTask(anonymousRequest, this, iteration, fixedRange);
+            ScheduledFuture<?> task = scheduledExecutorService.scheduleAtFixedRate(anonymousRequestTask, 3*fixedRange, fixedRange, TimeUnit.MILLISECONDS);
+            tasksMap.put(anonymousRequest.getId(), task);
         }
     }
 
     public void stopAnonymousAnswerBuilderForNewData(AnonymousRequest anonymousRequest) throws NullPointerException{
-        Timer timer = timerHashMap.remove(anonymousRequest.getId());
-        if(timer == null)
+        ScheduledFuture<?> task = tasksMap.remove(anonymousRequest.getId());
+        if(task == null)
             throw new NullPointerException();
         else
-            timer.cancel();
+            task.cancel(true);
     }
 
     /**
@@ -132,6 +138,7 @@ public class AnonymousRequestBuilder {
      * If the third party, who made the request, subscribed to new data, this operation will be done every hour from so on.
      * @param anonymousRequest
      */
+    @Async
     public void calculate(AnonymousRequest anonymousRequest){
         Date now = new Date();
         Date iteration = getDateFromFirstData();
@@ -139,16 +146,17 @@ public class AnonymousRequestBuilder {
             iteration = now;
         while(iteration.before(now)){
             Date newIteration = new Date(iteration.getTime()+fixedRange);
+            if(!newIteration.before(now))
+                break;
             List<IndividualData> individualDataList = getData(iteration, newIteration, anonymousRequest.getStartAge(),anonymousRequest.getEndAge(),anonymousRequest.getLat1(),anonymousRequest.getLat2(),anonymousRequest.getLon1(),anonymousRequest.getLon2());
             elaborate(anonymousRequest, individualDataList, iteration, newIteration);
             iteration = newIteration;
         }
         runAnonymousAnswerBuilderForNewData(anonymousRequest, iteration);
-
     }
 
-
-
-
+    public void restart(){
+        anonymousRequestRepository.findAllBySubscribedToNewDataTrue().forEach(anonymousRequest -> runAnonymousAnswerBuilderForNewData(anonymousRequest, new Date()));
+    }
 }
 

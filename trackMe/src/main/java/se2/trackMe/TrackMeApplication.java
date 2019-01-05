@@ -1,5 +1,7 @@
 package se2.trackMe;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,23 +11,36 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import se2.trackMe.controller.thirdPartyController.AnonymousRequestBuilder;
 
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 @SpringBootApplication
+
 public class TrackMeApplication {
+    @Autowired
+    private AnonymousRequestBuilder anonymousRequestBuilder;
 
     public static void main(String[] args) {
         SpringApplication.run(TrackMeApplication.class, args);
     }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    //TODO
-    //if the server crashes we need to restart the threads which handle the anonymous requests
-
+    /**
+     * If the server crashes we need to restart the threads which handle the anonymous requests
+     * @return
+     */
+    @Bean
+    CommandLineRunner restartAnonymousRequests(){
+        return args -> {
+        anonymousRequestBuilder.restart();};
+    }
+    
 
 }
 

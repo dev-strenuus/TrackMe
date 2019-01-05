@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface AnonymousRequestRepository extends CrudRepository<AnonymousRequest, Long> {
     List<AnonymousRequest> findAllByThirdParty(ThirdParty thirdParty);
+    List<AnonymousRequest> findAllBySubscribedToNewDataTrue();
 }

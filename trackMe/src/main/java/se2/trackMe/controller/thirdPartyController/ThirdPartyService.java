@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional(propagation = Propagation.REQUIRED)
+@Transactional
 @Service
 public class ThirdPartyService {
 
@@ -95,7 +95,7 @@ public class ThirdPartyService {
     public void addAnonymousRequest(ThirdParty thirdParty, AnonymousRequest anonymousRequest) {
         anonymousRequest.setThirdParty(thirdParty);
         anonymousRequestRepository.save(anonymousRequest);
-        new Thread(()-> {anonymousRequestBuilder.calculate(anonymousRequest);}).start();
+        anonymousRequestBuilder.calculate(anonymousRequest);
 
     }
 
