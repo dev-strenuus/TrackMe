@@ -35,8 +35,8 @@ public class IndividualController {
     @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping("/individual/{individual}/individualRequests")
     public @ResponseBody
-    List<IndividualRequest> getIndividualRequestList(@PathVariable("individual") String id) {
-        //if(!userService.checkUsername())
+    List<IndividualRequest> getIndividualRequestList(@PathVariable("individual") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
         List<IndividualRequest> individualRequestList = individualService.getIndvidualPendingRequestList(individual);
         individualService.deleteAllNotifications(individual);
@@ -46,7 +46,8 @@ public class IndividualController {
     @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping("/individual/{individual}/acceptedRequests")
     public @ResponseBody
-    List<IndividualRequest> getIndividualAcceptedRequestList(@PathVariable("individual") String id) {
+    List<IndividualRequest> getIndividualAcceptedRequestList(@PathVariable("individual") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
         List<IndividualRequest> individualAcceptedRequestList = individualService.getIndividualAcceptedRequestList(individual);
         return individualAcceptedRequestList;
@@ -54,8 +55,9 @@ public class IndividualController {
 
     //better with third party as parameter and individual in the url
     @RequestMapping(method = RequestMethod.POST, value = "/individual/individualRequest/answer")
-    public void answerToIndividualRequest(@RequestBody IndividualRequest individualRequest) {
+    public void answerToIndividualRequest(@RequestBody IndividualRequest individualRequest, @RequestHeader("Authorization") String token) {
         Individual individual = individualService.getIndividual(individualRequest.getIndividual().getFiscalCode()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        checkUsername(individual.getFiscalCode(), token);
         IndividualRequest individualRequest1 = individualService.getIndividualRequest(individualRequest).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Request Not Found"));
         individualRequest1.setAccepted(individualRequest.getAccepted());
         if (individualRequest.getAccepted()) {
@@ -67,7 +69,8 @@ public class IndividualController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/individual/{individual}/data")
-    public void addData(@PathVariable("individual") String id, @RequestBody List<IndividualData> individualDataList) {
+    public void addData(@PathVariable("individual") String id, @RequestBody List<IndividualData> individualDataList, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
         if (individualDataList == null || individualDataList.size() == 0)
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "There is no data");
@@ -77,7 +80,8 @@ public class IndividualController {
 
     @RequestMapping("/individual/{individual}/countNotifications")
     public @ResponseBody
-    Integer getCountNotifications(@PathVariable("individual") String id) {
+    Integer getCountNotifications(@PathVariable("individual") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
         return individualService.countNotifications(individual);
     }
@@ -92,8 +96,8 @@ public class IndividualController {
     @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping("/individual/{individual}/notifications")
     public @ResponseBody
-    List<IndividualRequest> getIndividualNotificationRequestList(@PathVariable("individual") String id) {
-        //if(!userService.checkUsername())
+    List<IndividualRequest> getIndividualNotificationRequestList(@PathVariable("individual") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
         List<IndividualRequest> individualRequestList = individualService.getIndvidualPendingNotificationList(individual);
         return individualRequestList;
@@ -101,7 +105,8 @@ public class IndividualController {
 
     @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping(method = RequestMethod.PUT, value = "/individual/{username}/changePassword")
-    public void updatePassword(@PathVariable("username") String id, @RequestBody List<String> passwords) {
+    public void updatePassword(@PathVariable("username") String id, @RequestBody List<String> passwords, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
 
         String oldPassword = passwords.get(0);
@@ -121,7 +126,8 @@ public class IndividualController {
 
     @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping(method = RequestMethod.PUT, value = "/individual/{username}/changeLocation")
-    public void updateLocation(@PathVariable("username") String id, @RequestBody List<Float> coordinates) {
+    public void updateLocation(@PathVariable("username") String id, @RequestBody List<Float> coordinates, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
 
         Float newLatitude = coordinates.get(0);

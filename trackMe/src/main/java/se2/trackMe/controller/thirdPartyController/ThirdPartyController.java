@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import se2.trackMe.controller.authenticationController.UserService;
 import se2.trackMe.model.*;
 import se2.trackMe.model.profileJSON.Profile;
 
@@ -23,6 +24,14 @@ public class ThirdPartyController {
     @Autowired
     private ThirdPartyService thirdPartyService;
 
+    @Autowired
+    private UserService userService;
+
+    public void checkUsername(String username, String token) {
+        if (!userService.checkUsername(username, token.substring(7)))
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Trying to be another user");
+    }
+
     @RequestMapping("/people")
     public @ResponseBody
     List<Individual> getPeople() {
@@ -30,8 +39,9 @@ public class ThirdPartyController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/thirdParty/individualRequest")
-    public void addIndividualRequest(@RequestBody IndividualRequest individualRequest) {
+    public void addIndividualRequest(@RequestBody IndividualRequest individualRequest, @RequestHeader("Authorization") String token) {
         ThirdParty thirdParty = thirdPartyService.getThirdParty(individualRequest.getThirdParty().getVat()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "ThirdParty Not Found"));
+        checkUsername(thirdParty.getVat(), token);
         Individual individual = thirdPartyService.getIndividual(individualRequest.getIndividual().getFiscalCode()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "Individual Not Found"));
         thirdPartyService.getIndividualRequest(thirdParty, individual).ifPresent(iR -> {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This request has been already done");
@@ -42,7 +52,8 @@ public class ThirdPartyController {
     @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/notifications")
     public @ResponseBody
-    List<ThirdPartyNotification> getThirdPartyNotificationList(@PathVariable("thirdParty") String id) {
+    List<ThirdPartyNotification> getThirdPartyNotificationList(@PathVariable("thirdParty") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
         List<ThirdPartyNotification> thirdPartyNotificationList = thirdPartyService.getThirdPartyNotificationList(thirdParty);
         return thirdPartyNotificationList;
@@ -51,7 +62,8 @@ public class ThirdPartyController {
     @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/individualRequests")
     public @ResponseBody
-    List<IndividualRequest> getThirdPartyIndividualRequest(@PathVariable("thirdParty") String id) {
+    List<IndividualRequest> getThirdPartyIndividualRequest(@PathVariable("thirdParty") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
         List<IndividualRequest> individualRequestList = thirdPartyService.getAllIndividualRequestsByThirdParty(thirdParty);
         return individualRequestList;
@@ -60,7 +72,8 @@ public class ThirdPartyController {
     @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/notifications/individualRequests")
     public @ResponseBody
-    List<IndividualRequest> getThirdPartyIndividualRequestNotifications(@PathVariable("thirdParty") String id) {
+    List<IndividualRequest> getThirdPartyIndividualRequestNotifications(@PathVariable("thirdParty") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
         List<IndividualRequest> thirdPartyNotificationList = thirdPartyService.getIndividualRequestNotificationList(thirdParty);
         return thirdPartyNotificationList;
@@ -68,7 +81,8 @@ public class ThirdPartyController {
 
     @RequestMapping("/thirdParty/{thirdParty}/notifications/countIndividualRequests")
     public @ResponseBody
-    Integer getThirdPartyCountIndividualRequestNotifications(@PathVariable("thirdParty") String id) {
+    Integer getThirdPartyCountIndividualRequestNotifications(@PathVariable("thirdParty") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
         return thirdPartyService.countIndividualRequestNotifications(thirdParty);
     }
@@ -76,7 +90,8 @@ public class ThirdPartyController {
     @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/notifications/{individual}")
     public @ResponseBody
-    List<IndividualData> getThirdPartyNewDataNotificationList(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId) {
+    List<IndividualData> getThirdPartyNewDataNotificationList(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId, @RequestHeader("Authorization") String token) {
+        checkUsername(tPId, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
         Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual not found"));
         List<IndividualData> thirdPartyIndividualDataList = thirdPartyService.getNewDataNotificationList(thirdParty, individual);
@@ -91,7 +106,8 @@ public class ThirdPartyController {
     @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/{individual}/data")
     public @ResponseBody
-    List<IndividualData> getData(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId) {
+    List<IndividualData> getData(@PathVariable("thirdParty") String tPId, @PathVariable("individual") String iId, @RequestHeader("Authorization") String token) {
+        checkUsername(tPId, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
         Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual not found"));
 
@@ -144,13 +160,15 @@ public class ThirdPartyController {
     }*/
 
     @RequestMapping(method = RequestMethod.POST, value ="/thirdParty/anonymousRequest")
-    public void addAnonymousRequest(@RequestBody AnonymousRequest anonymousRequest) {
+    public void addAnonymousRequest(@RequestBody AnonymousRequest anonymousRequest, @RequestHeader("Authorization") String token) {
         ThirdParty thirdParty = thirdPartyService.getThirdParty(anonymousRequest.getThirdParty().getVat()).orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT, "ThirdParty Not Found"));
+        checkUsername(thirdParty.getVat(), token);
         thirdPartyService.addAnonymousRequest(thirdParty, anonymousRequest);
     }
 
     @RequestMapping("/thirdParty/{thirdParty}/anonymousRequests")
-    public @ResponseBody List<AnonymousRequest> getAllAnonymousRequets(@PathVariable("thirdParty") String id) {
+    public @ResponseBody List<AnonymousRequest> getAllAnonymousRequets(@PathVariable("thirdParty") String id, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty Not Found"));
         return thirdPartyService.getAllAnonymousRequests(thirdParty);
     }
@@ -158,7 +176,8 @@ public class ThirdPartyController {
     @JsonView(Profile.AnonymousRequestPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/anonymousAnswer/{anonymousRequest}")
     public @ResponseBody
-    List<AnonymousAnswer> getAnonymousData(@PathVariable("thirdParty") String tPId, @PathVariable("anonymousRequest") Long aRId) {
+    List<AnonymousAnswer> getAnonymousData(@PathVariable("thirdParty") String tPId, @PathVariable("anonymousRequest") Long aRId, @RequestHeader("Authorization") String token) {
+        checkUsername(tPId, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
         AnonymousRequest anonymousRequest = thirdPartyService.getAnonymousRequest(aRId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anonymous Request not found"));
         if(!anonymousRequest.getThirdParty().getVat().equals(anonymousRequest.getThirdParty().getVat()))
@@ -169,7 +188,8 @@ public class ThirdPartyController {
     @JsonView(Profile.AnonymousRequestPublicView.class)
     @RequestMapping("/thirdParty/{thirdParty}/anonymousAnswer/notifications/{anonymousRequest}")
     public @ResponseBody
-    List<AnonymousAnswer> getAnonymousDataNotifications(@PathVariable("thirdParty") String tPId, @PathVariable("anonymousRequest") Long aRId) {
+    List<AnonymousAnswer> getAnonymousDataNotifications(@PathVariable("thirdParty") String tPId, @PathVariable("anonymousRequest") Long aRId, @RequestHeader("Authorization") String token) {
+        checkUsername(tPId, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
         AnonymousRequest anonymousRequest = thirdPartyService.getAnonymousRequest(aRId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anonymous Request not found"));
         if(!anonymousRequest.getThirdParty().getVat().equals(anonymousRequest.getThirdParty().getVat()))
@@ -179,7 +199,8 @@ public class ThirdPartyController {
 
     @JsonView(Profile.ThirdPartyPublicView.class)
     @RequestMapping(method = RequestMethod.PUT, value = "/thirdParty/{username}/changePassword")
-    public void updatePassword(@PathVariable("username") String id, @RequestBody List<String> passwords) {
+    public void updatePassword(@PathVariable("username") String id, @RequestBody List<String> passwords, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
         ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Third party Not Found"));
 
         String oldPassword = passwords.get(0);
