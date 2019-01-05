@@ -22,7 +22,7 @@ public class Individual {
 
     @Column
     @NotNull
-    private  String surname;
+    private String surname;
 
     @Column
     @NotNull
@@ -40,7 +40,8 @@ public class Individual {
     @NotNull
     private Float longitude;
 
-    public Individual(){}
+    public Individual() {
+    }
 
     public Individual(@NotNull String fiscalCode, @NotNull String name, @NotNull String surname, @NotNull String password, @NotNull Date birthDate, @NotNull Float latitude, @NotNull Float longitude) {
         this.fiscalCode = fiscalCode;
@@ -82,5 +83,33 @@ public class Individual {
 
     public Float getLongitude() {
         return longitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        String separator = ",";
+        builder.append(fiscalCode);
+        builder.append(separator);
+        builder.append(name);
+        builder.append(separator);
+        builder.append(surname);
+        builder.append(separator);
+        builder.append(password);
+        builder.append(separator);
+        builder.append(birthDate);
+        builder.append(separator);
+        builder.append(latitude);
+        builder.append(separator);
+        builder.append(longitude);
+        return builder.toString();
     }
 }

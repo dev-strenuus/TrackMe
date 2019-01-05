@@ -155,7 +155,7 @@ app.controller("thirdPartyController", function ($scope, $http, $route,  SharedD
             console.log(response);
             $scope.indReqResult = "The Individual Request has not been sent. Check the Fiscal Code and retry.";
         });
-    }
+    };
 
     $scope.groupData = {
         thirdParty: {
@@ -186,12 +186,23 @@ app.controller("thirdPartyController", function ($scope, $http, $route,  SharedD
 
 });
 
-app.controller("thirdPartySettingsController", function ($scope, $http, SharedDataService) {
+app.controller("thirdPartySettingsController", function ($scope, $http, $location, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
 
     $scope.settings = {};
 
-    //TODO
+    $scope.vat = $scope.sharedDataService.username;
+
+    $scope.updatePassword = function () {
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.put("/thirdParty/" + $scope.sharedDataService.username + "/changePassword", [$scope.oldPassword, $scope.newPassword], config).then(function onSuccess(response) {
+            $scope.passReqResult = "Password changed successfully!";
+            $location.path("/login");
+        }).catch(function onError(response) {
+            $scope.passReqResult = "Password not changed!";
+            console.log(response);
+        })
+    };
 });
 
 app.controller("thirdPartyNotificationsController", function ($scope, $http, $location, $interval, SharedDataService, SavedNewDataService) {

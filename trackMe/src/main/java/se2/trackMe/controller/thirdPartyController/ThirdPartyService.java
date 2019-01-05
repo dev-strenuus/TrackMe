@@ -55,6 +55,10 @@ public class ThirdPartyService {
         thirdPartyRepository.save(thirdParty);
     }
 
+    public void updateThirdParty(ThirdParty thirdParty) {
+        thirdPartyRepository.save(thirdParty);
+        System.out.println("_____________________________________________________________________________________________________");
+    }
 
     public void addIndividualRequest(ThirdParty thirdParty, Individual individual, Boolean subscribedToNewData) throws DataAccessException {
 

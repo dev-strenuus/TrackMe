@@ -176,4 +176,24 @@ public class ThirdPartyController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not your request");
         return thirdPartyService.getNewAnswersNotificationList(anonymousRequest);
     }
+
+    @JsonView(Profile.ThirdPartyPublicView.class)
+    @RequestMapping(method = RequestMethod.PUT, value = "/thirdParty/{username}/changePassword")
+    public void updatePassword(@PathVariable("username") String id, @RequestBody List<String> passwords) {
+        ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Third party Not Found"));
+
+        String oldPassword = passwords.get(0);
+        String newPassword = passwords.get(1);
+
+        if (oldPassword != null && newPassword != null) {
+            if (oldPassword.equals(thirdParty.getPassword())) {
+                thirdParty.setPassword(newPassword);
+                thirdPartyService.updateThirdParty(thirdParty);
+            } else {
+                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is incorrect");
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Data are not well formed");
+        }
+    }
 }

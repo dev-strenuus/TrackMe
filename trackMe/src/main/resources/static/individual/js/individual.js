@@ -51,18 +51,20 @@ app.controller("mainController", function ($scope, $http, $interval, SharedDataS
     $http.defaults.headers.common.Authorization = $scope.sharedDataService.token;
     $scope.notification = 0;
 
-    $interval(function(){
+    $interval(function () {
         console.log($scope.sharedDataService.loggedIn);
-        if($scope.sharedDataService.loggedIn == true){
+        if ($scope.sharedDataService.loggedIn == true) {
             $http.get("/individual/" + $scope.sharedDataService.username + "/countNotifications")
-            .then(function (response) {
-                console.log(response);
-                $scope.notification = response.data;
+                .then(function (response) {
+                    console.log(response);
+                    $scope.notification = response.data;
 
-            }).catch(function onError(response) {
+                }).catch(function onError(response) {
                 console.log(response);
 
-        });}}, 5000, 5000);
+            });
+        }
+    }, 5000, 5000);
 
 });
 
@@ -103,7 +105,6 @@ app.controller("individualLoginController", function ($scope, $http, $location, 
 app.controller("individualController", function ($scope, $http, SharedDataService) {
     console.log("home");
     $scope.sharedDataService = SharedDataService;
-
 
 
 });
@@ -153,21 +154,21 @@ app.controller("individualNotificationsController", function ($scope, $http, $in
             "thirdParty": {
                 "vat": $scope.answer.vatNumber
             },
-            "accepted": $scope.answer.status,
+            "accepted": $scope.answer.status
         };
 
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
         $http.post("/individual/individualRequest/answer", content, config).then(function onSuccess(response) {
 
-            if(content.accepted == true) {
+            if (content.accepted == true) {
                 for (i = 0; i < $scope.pendingRequests.length; i++)
                     if ($scope.pendingRequests[i].thirdParty.vat == content.thirdParty.vat) {
                         $scope.activeRequests.push($scope.pendingRequests[i]);
                         $scope.pendingRequests.splice(i, 1);
                         break;
                     }
-            }else{
+            } else {
                 for (i = 0; i < $scope.pendingRequests.length; i++)
                     if ($scope.pendingRequests[i].thirdParty.vat == content.thirdParty.vat) {
                         $scope.pendingRequests.splice(i, 1);
@@ -186,60 +187,55 @@ app.controller("individualNotificationsController", function ($scope, $http, $in
         });
     };
 
-    let notificationsPromise = $interval(function(){$http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
-        .then(function (response) {
-            console.log(response);
-            for(i=0; i<response.data.length; i++)
-                $scope.pendingRequests.push(response.data[i]);
+    let notificationsPromise = $interval(function () {
+        $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
+            .then(function (response) {
+                console.log(response);
+                for (i = 0; i < response.data.length; i++)
+                    $scope.pendingRequests.push(response.data[i]);
 
-        }).catch(function onError(response) {
+            }).catch(function onError(response) {
             console.log(response);
-        });}, 5000, 5000);
+        });
+    }, 5000, 5000);
 
-    $scope.$on('$destroy',function(){
-        if(notificationsPromise)
+    $scope.$on('$destroy', function () {
+        if (notificationsPromise)
             $interval.cancel(notificationsPromise);
     });
 });
 
-app.controller("individualSettingsController", function ($scope, $http, SharedDataService) {
+app.controller("individualSettingsController", function ($scope, $http, $location, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
-    $scope.notifications = [];
 
-    $scope.settings = {};
+    $scope.fiscalCode = $scope.sharedDataService.username;
 
-    // TODO: completare in base a cosa vogliamo mostrare
-
-    // get personal data
-
-    // post change of password
-
-    // get the accepted requests
-    $http.defaults.headers.common.Authorization = SharedDataService.token;
-    $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
-        .then(function (response) {
-            console.log(response);
-
-            // filtering data
-            let thirdParties = response.data.map(function (request) {
-                return request.thirdParty
-            });
-
-            let vatNumbers = thirdParties.map(function (thirdParty) {
-                return thirdParty.vat
-            });
-
-            $scope.notifications = vatNumbers
-
+    $scope.updatePassword = function () {
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.put("/individual/" + $scope.sharedDataService.username + "/changePassword", [$scope.oldPassword, $scope.newPassword], config).then(function onSuccess(response) {
+            $scope.passReqResult = "Password changed successfully!";
+            $location.path("/login");
         }).catch(function onError(response) {
-        console.log(response);
-    });
+            $scope.passReqResult = "Password not changed!";
+            console.log(response);
+        })
+    };
+
+    $scope.updateCoordinates = function () {
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.put("/individual/" + $scope.sharedDataService.username + "/changeLocation", [$scope.newLatitude, $scope.newLongitude], config).then(function onSuccess(response) {
+            $scope.passReqResult = "Coordinates changed successfully!";
+        }).catch(function onError(response) {
+            $scope.passReqResult = "Coordinates not changed!";
+            console.log(response);
+        })
+    };
+
 });
 
 app.controller('graphController', function ($scope, $interval, SharedDataService) {
 
     $scope.sharedDataService = SharedDataService;
-    ;
     $scope.width = 600;
     $scope.height = 350;
     $scope.yAxis = ['Heart Rate', 'Systolic Blood Pressure', 'Diastolic Blood Pressure', 'Oxygen Percentage'];
