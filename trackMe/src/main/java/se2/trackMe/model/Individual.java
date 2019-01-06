@@ -24,8 +24,6 @@ public class Individual {
     @NotNull
     private String surname;
 
-    @Column
-    @NotNull
     private String password;
 
     @Column
@@ -43,7 +41,7 @@ public class Individual {
     public Individual() {
     }
 
-    public Individual(@NotNull String fiscalCode, @NotNull String name, @NotNull String surname, @NotNull String password, @NotNull Date birthDate, @NotNull Float latitude, @NotNull Float longitude) {
+    public Individual(@NotNull String fiscalCode, @NotNull String name, @NotNull String surname, String password, @NotNull Date birthDate, @NotNull Float latitude, @NotNull Float longitude) {
         this.fiscalCode = fiscalCode;
         this.name = name;
         this.surname = surname;

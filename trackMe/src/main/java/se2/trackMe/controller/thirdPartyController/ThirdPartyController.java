@@ -207,13 +207,13 @@ public class ThirdPartyController {
         String newPassword = passwords.get(1);
 
         if (oldPassword != null && newPassword != null) {
-            if (oldPassword.equals(thirdParty.getPassword())) {
-                thirdParty.setPassword(newPassword);
-                thirdPartyService.updateThirdParty(thirdParty);
-            } else {
-                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is incorrect");
+            try {
+                userService.updatePassword(id, newPassword, oldPassword);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Bad Credentials");
             }
-        } else {
+        }
+        else{
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Data are not well formed");
         }
     }

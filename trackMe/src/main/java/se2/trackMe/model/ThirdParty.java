@@ -18,7 +18,6 @@ public class ThirdParty {
     @Column
     private String name;
 
-    @Column
     private String password;
 
     public ThirdParty() {
