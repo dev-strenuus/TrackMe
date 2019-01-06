@@ -55,6 +55,7 @@ public class UserController {
         if(userService.getUser(individual.getFiscalCode())!=null)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This user already exists");
         userService.addUser(individual.getFiscalCode(), individual.getPassword(), AuthorityName.ROLE_INDIVIDUAL);
+        individual.setPassword(null);
         individualService.addIndividual(individual);
     }
 
@@ -63,6 +64,7 @@ public class UserController {
         if(userService.getUser(thirdParty.getVat())!=null)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This user already exists");
         userService.addUser(thirdParty.getVat(), thirdParty.getPassword(), AuthorityName.ROLE_THIRDPARTY);
+        thirdParty.setPassword(null);
         thirdPartyService.addThirdParty(thirdParty);
     }
 

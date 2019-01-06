@@ -197,6 +197,7 @@ app.controller("thirdPartySettingsController", function ($scope, $http, $locatio
         $http.defaults.headers.common.Authorization = SharedDataService.token;
         $http.put("/thirdParty/" + $scope.sharedDataService.username + "/changePassword", [$scope.oldPassword, $scope.newPassword], config).then(function onSuccess(response) {
             $scope.passReqResult = "Password changed successfully!";
+            $scope.sharedDataService.loggedIn = false;
             $location.path("/login");
         }).catch(function onError(response) {
             $scope.passReqResult = "Password not changed!";

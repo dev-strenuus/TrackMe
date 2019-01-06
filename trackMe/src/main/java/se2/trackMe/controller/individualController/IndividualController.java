@@ -113,13 +113,13 @@ public class IndividualController {
         String newPassword = passwords.get(1);
 
         if (oldPassword != null && newPassword != null) {
-            if (oldPassword.equals(individual.getPassword())) {
-                individual.setPassword(newPassword);
-                individualService.updateIndividual(individual);
-            } else {
-                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Password is incorrect");
+            try {
+                userService.updatePassword(id, newPassword, oldPassword);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Bad Credentials");
             }
-        } else {
+        }
+        else{
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Data are not well formed");
         }
     }
