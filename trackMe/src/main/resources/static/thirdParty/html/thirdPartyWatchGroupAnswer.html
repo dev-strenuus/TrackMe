@@ -5,6 +5,40 @@
 <body>
 <div ng-show="sharedDataService.loggedIn">
     <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">HearRate</th>
+                <th scope="col">Systolic</th>
+                <th scope="col">Diastolic</th>
+                <th scope="col">Oxygen %</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>Min</th>
+                <td>{{heartRateMin}}</td>
+                <td>{{systolicBloodPressureMin}}</td>
+                <td>{{diastolicBloodPressureMin}}</td>
+                <td>{{oxygenPercentageMin}}</td>
+            </tr>
+            <tr>
+                <th>Max</th>
+                <td>{{heartRateMax}}</td>
+                <td>{{systolicBloodPressureMax}}</td>
+                <td>{{diastolicBloodPressureMax}}</td>
+                <td>{{oxygenPercentageMax}}</td>
+            </tr>
+            <tr>
+                <th>Avg</th>
+                <td>{{heartRateAvg}}</td>
+                <td>{{systolicBloodPressureAvg}}</td>
+                <td>{{diastolicBloodPressureAvg}}</td>
+                <td>{{oxygenPercentageAvg}}</td>
+            </tr>
+            </tbody>
+        </table>
         <h1>Group Data </h1>
 
         <!--<div class="table-responsive-sm">-->
@@ -14,8 +48,8 @@
             <tr>
                 <th scope="col">Timestamp</th>
                 <th scope="col">Heart Rate</th>
-                <th scope="col">Pression 1</th>
-                <th scope="col">Pression 2</th>
+                <th scope="col">Systolic</th>
+                <th scope="col">Diastolic</th>
                 <th scope="col">Oxygen %</th>
             </tr>
             </thead>

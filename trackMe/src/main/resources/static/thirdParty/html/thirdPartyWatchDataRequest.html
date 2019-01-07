@@ -4,21 +4,8 @@
 </head>
 <body>
     <div ng-show="sharedDataService.loggedIn">
-
-        <!--<h3>If you want to filter data with respect to the period, please fill the boxes below indicating the chosen interval of dates:</h3>
-        <table align="center">
-            <tr>
-                <th>Starting date</th>
-                <th>Ending date</th>
-            </tr>
-            <tr>
-            <td><input type="date" ng-model="request.startingDate"></td>
-            <td><input type="date" ng-model="request.endingDate"></td>
-            <td><button id="request" ng-click="sendRequest()">Request</button></td>
-            </tr>
-        </table>
-        <h3>Otherwise, the data retrieved from the device before your request date will be shown. If you asked for the subscription to the new data, you will be also able to see them.</h3>-->
-
+        <button class="action" ng-click="showNewData()" ng-hide="isThereNewData">Show New Data</button>
+        <button class="action" ng-click="hideNewData()" ng-show="isThereNewData">Hide New Data</button>
         <div ng-show="isThereNewData">
             <h1>Individual New Data </h1>
 
@@ -49,6 +36,18 @@
             </table>
         </div>
 
+        <h3>If you want to filter data with respect to the period, please fill the boxes below indicating the chosen interval of dates:</h3>
+        <table align="center">
+            <tr>
+                <th>Starting date</th>
+                <th>Ending date</th>
+            </tr>
+            <tr>
+                <td><input type="date" ng-model="startingDate"></td>
+                <td><input type="date" ng-model="endingDate"></td>
+            </tr>
+        </table>
+
         <div>
             <h1>Individual Past Data </h1>
 
@@ -67,7 +66,7 @@
                 </thead>
 
                 <tbody>
-                <tr ng-repeat="datum in data">
+                <tr ng-repeat="datum in data | filter: myFilter">
                     <th>{{datum.individual.fiscalCode}}</th>
                     <td>{{datum.timestamp}}</td>
                     <td>{{datum.heartRate}}</td>

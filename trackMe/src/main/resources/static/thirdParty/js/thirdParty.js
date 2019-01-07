@@ -166,7 +166,8 @@ app.controller("thirdPartyController", function ($scope, $http, $route,  SharedD
         lat1: null,
         lat2: null,
         lon1: null,
-        lon2: null
+        lon2: null,
+        subscribedToNewData: false
     };
 
     $scope.submitGroupRequest = function () {
@@ -277,6 +278,29 @@ app.controller("thirdPartyWatchDataRequestController", function ($scope, $http, 
     $scope.data = [];
     $scope.newData = [];
     $scope.isThereNewData = false;
+    $scope.startingDate = null;
+    $scope.endingDate = null;
+
+    $scope.showNewData = function(){
+        $scope.isThereNewData = true;
+    };
+
+    $scope.hideNewData = function(){
+        $scope.isThereNewData = false;
+    };
+
+    $scope.myFilter = function (data) {
+        data.timestamp = new Date(data.timestamp);
+        if($scope.startingDate == null && $scope.endingDate == null)
+            return true;
+        if($scope.startingDate == null && data.timestamp <= $scope.endingDate)
+            return true;
+        if($scope.endingDate == null && data.timestamp >= $scope.startingDate)
+            return true;
+        if(data.timestamp >= $scope.startingDate && data.timestamp <= $scope.endingDate)
+            return true;
+        return false;
+    };
 
     $http.defaults.headers.common.Authorization = SharedDataService.token;
 
@@ -296,8 +320,6 @@ app.controller("thirdPartyWatchDataRequestController", function ($scope, $http, 
     let promise = $interval(function(){
         $http.get("/thirdParty/"+$scope.sharedDataService.username+"/notifications/"+$scope.sharedDataService.pointedIndividual)
             .then(function (response) {
-                console.log("inside");
-                $scope.isThereNewData = true;
                 console.log(response);
                 for(i=0; i<response.data.length; i++){
                     $scope.newData.unshift(response.data[i]);
@@ -316,6 +338,52 @@ app.controller("thirdPartyWatchDataRequestController", function ($scope, $http, 
 app.controller("thirdPartyWatchGroupAnswerController", function ($scope, $http, $interval, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.newData = [];
+    $scope.diastolicBloodPressureMin = null;
+    $scope.diastolicBloodPressureMax = null;
+    $scope.diastolicBloodPressureAvg = null;
+    $scope.systolicBloodPressureMin = null;
+    $scope.systolicBloodPressureMax = null;
+    $scope.systolicBloodPressureAvg = null;
+    $scope.oxygenPercentageMin = null;
+    $scope.oxygenPercentageMax = null;
+    $scope.oxygenPercentageAvg = null;
+    $scope.heartRateMin = null;
+    $scope.heartRateMax = null;
+    $scope.heartRateAvg = null;
+
+
+    updateStatistics = function(data){
+        if($scope.newData.length == 1){
+            $scope.diastolicBloodPressureMin = data.diastolicBloodPressure;
+            $scope.diastolicBloodPressureMax = data.diastolicBloodPressure;
+            $scope.diastolicBloodPressureAvg = data.diastolicBloodPressure;
+            $scope.systolicBloodPressureMin = data.systolicBloodPressure;
+            $scope.systolicBloodPressureMax = data.systolicBloodPressure;
+            $scope.systolicBloodPressureAvg = data.systolicBloodPressure;
+            $scope.oxygenPercentageMin = data.oxygenPercentage;
+            $scope.oxygenPercentageMax = data.oxygenPercentage;
+            $scope.oxygenPercentageAvg = data.oxygenPercentage;
+            $scope.heartRateMin = data.heartRate;
+            $scope.heartRateMax = data.heartRate;
+            $scope.heartRateAvg = data.heartRate;
+        }
+        else{
+            $scope.diastolicBloodPressureMin = Math.min(data.diastolicBloodPressure, $scope.diastolicBloodPressureMin);
+            $scope.diastolicBloodPressureMax = Math.max(data.diastolicBloodPressure, $scope.diastolicBloodPressureMax);
+            $scope.diastolicBloodPressureAvg = ($scope.diastolicBloodPressureAvg*($scope.newData.length-1)+data.diastolicBloodPressure)/$scope.newData.length;
+            $scope.systolicBloodPressureMin = Math.min(data.systolicBloodPressure, $scope.systolicBloodPressureMin);
+            $scope.systolicBloodPressureMax = Math.max(data.systolicBloodPressure, $scope.systolicBloodPressureMax);
+            $scope.systolicBloodPressureAvg = ($scope.systolicBloodPressureAvg*($scope.newData.length-1)+data.systolicBloodPressure)/$scope.newData.length;
+            $scope.oxygenPercentageMin = Math.min(data.oxygenPercentage, $scope.oxygenPercentageMin);
+            $scope.oxygenPercentageMax = Math.max(data.oxygenPercentage, $scope.oxygenPercentageMax);
+            $scope.oxygenPercentageAvg = ($scope.oxygenPercentageAvg*($scope.newData.length-1)+data.oxygenPercentage)/$scope.newData.length;
+            $scope.heartRateMin = Math.min(data.heartRate, $scope.heartRateMin);
+            $scope.heartRateMax = Math.max(data.heartRate, $scope.heartRateMax);
+            $scope.heartRateAvg = ($scope.heartRateAvg*($scope.newData.length-1)+data.heartRate)/$scope.newData.length;
+        }
+    };
+
+
 
 
     $http.defaults.headers.common.Authorization = SharedDataService.token;
@@ -324,8 +392,10 @@ app.controller("thirdPartyWatchGroupAnswerController", function ($scope, $http, 
             console.log(response);
             for (let i = 0; i < response.data.length; i++) {
                 let answer = response.data[i];
-                for(let j=0; j< answer.individualDataList.length; j++)
+                for(let j=0; j< answer.individualDataList.length; j++) {
                     $scope.newData.unshift(answer.individualDataList[j]);
+                    updateStatistics(answer.individualDataList[j]);
+                }
             }
         }).catch(function onError(response) {
         console.log(response);
@@ -338,8 +408,10 @@ app.controller("thirdPartyWatchGroupAnswerController", function ($scope, $http, 
                 console.log(response);
                 for (let i = 0; i < response.data.length; i++) {
                     let answer = response.data[i];
-                    for(let j=0; j< answer.individualDataList.length; j++)
+                    for(let j=0; j< answer.individualDataList.length; j++) {
                         $scope.newData.unshift(answer.individualDataList[j]);
+                        updateStatistics(answer.individualDataList[j]);
+                    }
                 }
             }).catch(function onError(response) {
             console.log(response);
