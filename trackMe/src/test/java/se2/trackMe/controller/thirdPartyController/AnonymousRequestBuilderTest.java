@@ -25,8 +25,7 @@ import se2.trackMe.storageController.*;
 
 import java.text.SimpleDateFormat;
 
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
-    TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class})
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TrackMeApplication.class)
 @DatabaseSetup(value = AnonymousRequestBuilderTest.DATASET)

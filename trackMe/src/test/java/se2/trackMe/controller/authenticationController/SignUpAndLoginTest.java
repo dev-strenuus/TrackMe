@@ -4,10 +4,17 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseTearDown;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,6 +32,7 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
+
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TrackMeApplication.class)
@@ -34,8 +42,26 @@ import static org.junit.Assert.*;
 public class SignUpAndLoginTest {
     static final String DATASET = "/registrationData.xml";
 
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     @Autowired
     private UserController userController;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AuthenticationRestController authenticationRestController;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private IndividualService individualService;
@@ -46,11 +72,12 @@ public class SignUpAndLoginTest {
     @Test
     public void individualSignUpAndLogin() {
 
-        // insert and individual into the database
+        // insert an individual into the database
         Date birthDate = new Date(190000000);
         String fiscalCode = "ciaociaociaociao";
+        String password = "password";
 
-        Individual firstIndividual = new Individual(fiscalCode, "Paolo", "Romeo", "password", birthDate, 40.5f, 10.0f);
+        Individual firstIndividual = new Individual(fiscalCode, "Paolo", "Romeo", password, birthDate, 40.5f, 10.0f);
         userController.addIndividual(firstIndividual);
 
         if (individualService.getIndividual(fiscalCode).isPresent()) {
@@ -69,7 +96,7 @@ public class SignUpAndLoginTest {
         //assertEquals(firstIndividual.toString(), individualService.getIndividual(fiscalCode).get().toString());
 
         // try to register another individual with the same fiscal code
-        Individual secondIndividual = new Individual(fiscalCode, "Giorgio", "Polla", "password", birthDate, 13.f, 33.8f);
+        Individual secondIndividual = new Individual(fiscalCode, "Giorgio", "Polla", password, birthDate, 13.f, 33.8f);
         try {
             userController.addIndividual(secondIndividual);
         } catch (Exception e) {
@@ -77,7 +104,7 @@ public class SignUpAndLoginTest {
         }
 
         // insert another individual into the database
-        Individual thirdIndividual = new Individual("melamelamela2019", "Giorgio", "Romeo", "password", birthDate, 40.5f, 10.0f);
+        Individual thirdIndividual = new Individual("melamelamela2019", "Giorgio", "Romeo", password, birthDate, 40.5f, 10.0f);
         userController.addIndividual(thirdIndividual);
 
         if (individualService.getIndividual("melamelamela2019").isPresent()) {
@@ -92,10 +119,21 @@ public class SignUpAndLoginTest {
         } else {
             fail("Individual not found");
         }
+
         // login of a registered user
 
-        // login of an unregistered user
+        //JwtAuthenticationRequest jwtAuthenticationRequest= new JwtAuthenticationRequest(fiscalCode,password);
+        //authenticationRestController.createAuthenticationToken(jwtAuthenticationRequest);
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(fiscalCode,password));
+        final UserDetails userDetailsRegistered = userDetailsService.loadUserByUsername(fiscalCode);
+        final String tokenRegistered = jwtTokenUtil.generateToken(userDetailsRegistered);
+        assertEquals(userService.checkUsername(fiscalCode,tokenRegistered),true);
 
+        // login of a registered user with wrong password
+        exception.expect(BadCredentialsException.class);
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(fiscalCode,"wrongpassword"));
+        // login of a unregistered user
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("notregistered",password));
     }
 
 
@@ -104,7 +142,8 @@ public class SignUpAndLoginTest {
 
         // insert a third party into the database
         String vatNumber = "12345678901";
-        ThirdParty firstThirdParty = new ThirdParty(vatNumber, "TrackMe", "password");
+        String password ="password";
+        ThirdParty firstThirdParty = new ThirdParty(vatNumber, "TrackMe", password);
         userController.addThirdParty(firstThirdParty);
 
         if (thirdPartyService.getThirdParty(vatNumber).isPresent()) {
@@ -138,7 +177,16 @@ public class SignUpAndLoginTest {
         }
 
         // login of a registered third party
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(vatNumber,password));
+        final UserDetails userDetailsRegistered = userDetailsService.loadUserByUsername(vatNumber);
+        final String tokenRegistered = jwtTokenUtil.generateToken(userDetailsRegistered);
+        assertEquals(userService.checkUsername(vatNumber,tokenRegistered),true);
 
+        // login of a registered third party with wrong password
+        exception.expect(BadCredentialsException.class);
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(vatNumber,"wrongpassword"));
         // login of an unregistered third party
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("notregistered",password));
+
     }
 }
