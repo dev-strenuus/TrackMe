@@ -25,12 +25,12 @@ body {
     padding: 5px;
 }
 .bar {
-    background: blue;
+    background: greenyellow;
     position: absolute;
     bottom: 0;
 }
 .bar:nth-of-type(even) {
-    background: red;
+    background: lightgreen;
 }
 .bar span {
     position: absolute;

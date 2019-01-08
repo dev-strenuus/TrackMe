@@ -2,8 +2,6 @@
 <!doctype html>
 <html>
 <title>TrackMe</title>
-<script src="../js/libs/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
 <script src="../js/angular/angular.min.js"></script>
 <script src="../js/angular/angular-route.min.js"></script>
 <script src="../js/individual.js"></script>
@@ -17,11 +15,11 @@
     <div ng-controller="mainController">
         <nav class="navbar navbar-expand-lg navbar-dark" ng-show="sharedDataService.loggedIn">
             <a class="navbar-brand" href="#!home">TRACKME</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse_target">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="collapse_target">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#!home">Home</a>
@@ -40,5 +38,8 @@
         </nav>
     </div>
     <div ng-view></div>
+    <script src="../js/jquery-3.2.1.slim.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/popper.min.js"></script>
 </body>
 </html>

@@ -61,3 +61,20 @@ Ionic Framework is designed to work and display beautifully out-of-the-box acros
 \item It has a lot of tools and services.
 \item Ionic integrates easily with native functionalities.
 \end{itemize}
+
+\subsection{Drawbacks}
+Since the drawing up of the Design Document, we have been asking ourself if a hybrid client (with no local storage) for the third party could be a good choice or not. Now we can say that this choice requires few effort from the client point of view but it really reduces the performances of the server because it doesn't allow the server to exploit the caching capability of the client.
+For simplicity, since we are developing a prototype, we have decided to continues with this choice but we have structured the third party front end code, in such a way to easily move this web browser app in a native desktop app, for Windows, MacOs, Linux. Of course this operation will require a change in the Design Document and in this document.
+By choosing AngularJs as a front-end framework it will be much easier to do this transformation. Also the back-end will require just few changes, in particular the Storage Controller needs to retrieve data with timestamp greater than the timestamp of the last cached data on the client, and the ThirdParty Controller needs to be able to retrieve the timestamp of the last cached data on the client with REST API, call the proper method on the Storage Controller and then send the new data to the client.\\
+
+\textbf{Electron}\\
+
+Electron is a framework for creating desktop applications with all the emerging technologies including JavaScript, HTML and CSS. Basically, Electron framework takes care of the hard parts so that you can focus on the core of the application and revolutionize its design.
+Designed as an open-source framework, Electron combines the best web technologies and is a cross-platform – meaning that it is easily compatible with Mac, Windows and Linux.\\
+
+\textbf{Why Electron?}
+\begin{itemize}
+\item HTML, CSS, JS: Of course this is the most important point. It is amazing that you can now build Desktop Apps using these languages as it is very easy to learn and use them.
+\item Electron Apps Are Similar To Web Apps: Part of what makes Electron Apps a good alternative to a native desktop app is the fact that Electron apps behave like Web Apps. What sets them apart is that Web Apps can only download files to the computer’s file system but Electron Apps can access the file system and can also read and write data.
+\item Chromium: Electron uses Chromium engine for rendering UI. This means that you can get several benefits from this like Developer Tools, Storage Access, etc.
+\end{itemize}

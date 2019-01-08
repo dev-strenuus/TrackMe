@@ -234,11 +234,11 @@ app.controller("individualSettingsController", function ($scope, $http, $locatio
 
 });
 
-app.controller('graphController', function ($scope, $interval, SharedDataService) {
+app.controller('graphController', function ($scope, $interval, SharedDataService, $window) {
 
     $scope.sharedDataService = SharedDataService;
-    $scope.width = 600;
-    $scope.height = 350;
+    $scope.width = $window.innerWidth*0.8;
+    $scope.height = $window.innerHeight*0.8;
     $scope.yAxis = ['Heart Rate', 'Systolic Blood Pressure', 'Diastolic Blood Pressure', 'Oxygen Percentage'];
     $scope.xAxis = 'Time';
     $scope.data = $scope.sharedDataService.data;
