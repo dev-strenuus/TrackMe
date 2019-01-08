@@ -64,7 +64,7 @@ Ionic Framework is designed to work and display beautifully out-of-the-box acros
 
 \subsection{Drawbacks}
 Since the drawing up of the Design Document, we have been asking ourself if a hybrid client (with no local storage) for the third party could be a good choice or not. Now we can say that this choice requires few effort from the client point of view but it really reduces the performances of the server because it doesn't allow the server to exploit the caching capability of the client.
-For simplicity, since we are developing a prototype, we have decided to continues with this choice but we have structured the third party front end code, in such a way to easily move this web browser app in a native desktop app, for Windows, MacOs, Linux. Of course this operation will require a change in the Design Document and in this document.
+For simplicity, since we are developing a prototype, we have decided to continue with this choice but we have structured the third party front end code, in such a way to easily move this web browser app in a native desktop app, for Windows, MacOs, Linux. Of course this operation will require a change in the Design Document and in this document.
 By choosing AngularJs as a front-end framework it will be much easier to do this transformation. Also the back-end will require just few changes, in particular the Storage Controller needs to retrieve data with timestamp greater than the timestamp of the last cached data on the client, and the ThirdParty Controller needs to be able to retrieve the timestamp of the last cached data on the client with REST API, call the proper method on the Storage Controller and then send the new data to the client.\\
 
 \textbf{Electron}\\
