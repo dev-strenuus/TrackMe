@@ -1,6 +1,6 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/individual.css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/individual.css">
 </head>
 
 <body>
@@ -8,17 +8,17 @@
 <div ng-show="sharedDataService.loggedIn" class="container-fluid">
     <table align="center" cellpadding="22">
         <tr>
-            <th>Your Fiscal code:</th>
-            <th><p ng-bind="fiscalCode"></p></th>
+            <th><h4>Your Fiscal code:</h4></th>
+            <th><h4 ng-bind="fiscalCode"></h4></th>
         </tr>
         <tr>
-            <th>Old password:</th>
-            <td><input type="password" ng-model="oldPassword"></td>
+            <th><h4>Old password:</h4></th>
+            <td><input class="textArea" type="password" ng-model="oldPassword"></td>
         </tr>
 
         <tr>
-            <th>New password:</th>
-            <td><input type="password" ng-model="newPassword" minlength="6"></td>
+            <th><h4>New password:</h4></th>
+            <td><input class="textArea" type="password" ng-model="newPassword" minlength="6"></td>
         </tr>
     </table>
 
@@ -27,13 +27,13 @@
 
     <table align="center" cellpadding="22">
         <tr>
-            <th>New latitude:</th>
-            <td><input type="number" ng-model="newLatitude"></td>
+            <th><h4>New latitude:</h4></th>
+            <td><input class="textArea" type="number" ng-model="newLatitude"></td>
         </tr>
 
         <tr>
-            <th>New longitude:</th>
-            <td><input type="number" ng-model="newLongitude"></td>
+            <th><h4>New longitude:</h4></th>
+            <td><input class="textArea" type="number" ng-model="newLongitude"></td>
         </tr>
     </table>
     <button class="submit" ng-click="updateCoordinates()">Update</button>
