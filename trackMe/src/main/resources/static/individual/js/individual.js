@@ -1,3 +1,5 @@
+let url = "";
+
 let config = {
     headers: {
         'Content-Type': 'application/json;charset=utf-8;'
@@ -54,7 +56,7 @@ app.controller("mainController", function ($scope, $http, $interval, SharedDataS
     $interval(function () {
         console.log($scope.sharedDataService.loggedIn);
         if ($scope.sharedDataService.loggedIn == true) {
-            $http.get("/individual/" + $scope.sharedDataService.username + "/countNotifications")
+            $http.get(url+"/individual/" + $scope.sharedDataService.username + "/countNotifications")
                 .then(function (response) {
                     console.log(response);
                     $scope.notification = response.data;
@@ -74,7 +76,7 @@ app.controller("individualSignUpController", function ($scope, $http, $location,
 
     $scope.submitSignUp = function () {
         console.log($scope.individual);
-        $http.post('/auth/individual/signUp', $scope.individual, config).then(function onSuccess(response) {
+        $http.post(url+'/auth/individual/signUp', $scope.individual, config).then(function onSuccess(response) {
             console.log(response);
             $location.path("/login");
         }).catch(function onError(response) {
@@ -86,10 +88,16 @@ app.controller("individualSignUpController", function ($scope, $http, $location,
 app.controller("individualLoginController", function ($scope, $http, $location, SharedDataService) {
     console.log("login");
     $scope.credentials = {};
+    $scope.ipAddress = "";
+    $scope.port = "";
     $scope.sharedDataService = SharedDataService;
+    $scope.submitAddress = function () {
+        url="http://"+$scope.ipAddress+":"+$scope.port;
+        $scope.ipResult = "IP inserted";
+    };
     $scope.submitLogin = function () {
         console.log($scope.credentials);
-        $http.post('/auth', $scope.credentials, config).then(function onSuccess(response) {
+        $http.post(url+'/auth', $scope.credentials, config).then(function onSuccess(response) {
             $scope.sharedDataService.username = $scope.credentials.username;
             $scope.sharedDataService.token = 'Bearer ' + response.data.token;
             $scope.sharedDataService.loggedIn = true;
@@ -117,14 +125,14 @@ app.controller("individualNotificationsController", function ($scope, $http, $in
     $scope.answer = {};
 
     $http.defaults.headers.common.Authorization = $scope.sharedDataService.token;
-    $http.get("/individual/" + $scope.sharedDataService.username + "/individualRequests")
+    $http.get(url+"/individual/" + $scope.sharedDataService.username + "/individualRequests")
         .then(function (response) {
             $scope.pendingRequests = response.data;
         }).catch(function onError(response) {
         console.log(response);
     });
 
-    $http.get("/individual/" + $scope.sharedDataService.username + "/acceptedRequests")
+    $http.get(url+"/individual/" + $scope.sharedDataService.username + "/acceptedRequests")
         .then(function (response) {
             $scope.activeRequests = response.data;
         }).catch(function onError(response) {
@@ -159,7 +167,7 @@ app.controller("individualNotificationsController", function ($scope, $http, $in
 
 
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        $http.post("/individual/individualRequest/answer", content, config).then(function onSuccess(response) {
+        $http.post(url+"/individual/individualRequest/answer", content, config).then(function onSuccess(response) {
 
             if (content.accepted == true) {
                 for (i = 0; i < $scope.pendingRequests.length; i++)
@@ -188,7 +196,7 @@ app.controller("individualNotificationsController", function ($scope, $http, $in
     };
 
     let notificationsPromise = $interval(function () {
-        $http.get("/individual/" + $scope.sharedDataService.username + "/notifications")
+        $http.get(url+"/individual/" + $scope.sharedDataService.username + "/notifications")
             .then(function (response) {
                 console.log(response);
                 for (i = 0; i < response.data.length; i++)
@@ -212,7 +220,7 @@ app.controller("individualSettingsController", function ($scope, $http, $locatio
 
     $scope.updatePassword = function () {
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        $http.put("/individual/" + $scope.sharedDataService.username + "/changePassword", [$scope.oldPassword, $scope.newPassword], config).then(function onSuccess(response) {
+        $http.put(url+"/individual/" + $scope.sharedDataService.username + "/changePassword", [$scope.oldPassword, $scope.newPassword], config).then(function onSuccess(response) {
             $scope.passReqResult = "Password changed successfully!";
             $scope.sharedDataService.loggedIn = false;
             $location.path("/login");
@@ -224,7 +232,7 @@ app.controller("individualSettingsController", function ($scope, $http, $locatio
 
     $scope.updateCoordinates = function () {
         $http.defaults.headers.common.Authorization = SharedDataService.token;
-        $http.put("/individual/" + $scope.sharedDataService.username + "/changeLocation", [$scope.newLatitude, $scope.newLongitude], config).then(function onSuccess(response) {
+        $http.put(url+"/individual/" + $scope.sharedDataService.username + "/changeLocation", [$scope.newLatitude, $scope.newLongitude], config).then(function onSuccess(response) {
             $scope.passReqResult = "Coordinates changed successfully!";
         }).catch(function onError(response) {
             $scope.passReqResult = "Coordinates not changed!";
@@ -300,7 +308,7 @@ app.controller("individualDataRetriever", function ($scope, $http, $interval, Sh
             $scope.cont = $scope.cont % 12;
             if ($scope.cont == 0) {
                 console.log($scope.res);
-                $http.post("/individual/" + $scope.sharedDataService.username + "/data", $scope.res, config).then(function onSuccess(response) {
+                $http.post(url+"/individual/" + $scope.sharedDataService.username + "/data", $scope.res, config).then(function onSuccess(response) {
                     console.log(response);
                 }).catch(function onError(response) {
                     console.log(response);
