@@ -1,3 +1,12 @@
+// definition of the thresholds for AutomatedSOS
+const minimumSystolicPressure = 60; // Normal value 120
+const maximumSystolicPressure = 180;
+const minimumDiastolicPressure = 20; // Normal value 80
+const maximumDiastolicPressure = 140;
+const minimumOxygenPercentage = 50; // Normal value > 75
+const minimumHearthRate = 30;
+const maximumHeartRate = 200;
+
 let config = {
     headers: {
         'Content-Type': 'application/json;charset=utf-8;'
@@ -11,26 +20,24 @@ app.config(function ($routeProvider) {
         .when("/", {
             templateUrl: "individualLogin.html",
             controller: "individualLoginController"
-        })
-        .when("/home", {
+        }).when("/home", {
             templateUrl: "individualHome.html",
             controller: "individualController"
-        })
-        .when("/login", {
+        }).when("/login", {
             templateUrl: "individualLogin.html",
             controller: "individualLoginController"
         }).when("/signUp", {
-        templateUrl: "individualSignUp.html",
-        controller: "individualSignUpController"
-    }).when("/notifications", {
-        templateUrl: "individualNotifications.html",
-        controller: "individualNotificationsController"
-    }).when("/settings", {
-        templateUrl: "individualSettings.html",
-        controller: "individualSettingsController"
-    }).when("/dataManager", {
-        templateUrl: "individualDataManager.html",
-        controller: "graphController as graph"
+            templateUrl: "individualSignUp.html",
+            controller: "individualSignUpController"
+        }).when("/notifications", {
+            templateUrl: "individualNotifications.html",
+            controller: "individualNotificationsController"
+        }).when("/settings", {
+            templateUrl: "individualSettings.html",
+            controller: "individualSettingsController"
+        }).when("/dataManager", {
+            templateUrl: "individualDataManager.html",
+            controller: "graphController as graph"
     });
 });
 
@@ -41,7 +48,9 @@ app.service('SharedDataService', function () {
         intervalPromise: null,
         data: [],
         username: '',
-        token: ''
+        token: '',
+        automatedSOS: false,
+        inDanger: null
     };
     return sharedData;
 });
@@ -66,6 +75,73 @@ app.controller("mainController", function ($scope, $http, $interval, SharedDataS
         }
     }, 5000, 5000);
 
+
+    var heartRate = null;
+    var systolicBloodPressure = null;
+    var diastolicBloodPressure = null;
+    var oxygenPercentage = null;
+
+    // return true if the user is in danger
+    function checkDisease(healthData){
+        console.log(healthData);
+
+        // data check makes sense only if data are actually generated
+        if(healthData.length > 2) {
+            heartRate = [healthData[0][0].value, healthData[1][0].value, healthData[2][0].value];
+            systolicBloodPressure = [healthData[0][1].value, healthData[1][1].value, healthData[2][1].value];
+            diastolicBloodPressure = [healthData[0][2].value, healthData[1][2].value, healthData[2][2].value];
+            oxygenPercentage = [healthData[0][3].value, healthData[1][3].value, healthData[2][3].value];
+
+            return (heartRate.every(checkHeartRate) ||
+                systolicBloodPressure.every(checkSystolicPressure) ||
+                diastolicBloodPressure.every(checkDiastolicPressure) ||
+                oxygenPercentage.every(checkOxygenPercentage));
+        } else {
+            return false
+        }
+    }
+
+    // return true if the value is out of safety bounds
+    function checkSystolicPressure(value){
+        return value > maximumSystolicPressure || value < minimumSystolicPressure;
+    }
+
+    // return true if the value is out of safety bounds
+    function checkDiastolicPressure(value){
+        return value > maximumDiastolicPressure || value < minimumDiastolicPressure;
+    }
+
+    // return true if the value is out of safety bounds
+    function checkHeartRate(value){
+        return value > maximumHeartRate || value < minimumHearthRate;
+    }
+    // return true if the value is out of safety bounds
+    function checkOxygenPercentage(value){
+        return value < minimumOxygenPercentage;
+    }
+
+    $interval(function () {
+        if($scope.sharedDataService.automatedSOS === true && $scope.sharedDataService.deviceConnected){
+            if(checkDisease($scope.sharedDataService.data.slice(-3))){
+                $scope.sharedDataService.inDanger = true;
+                $scope.sharedDataService.automatedSOS = false;
+                // todo mostrare qualcosa nella schermata
+            }
+        }
+    }, 1000, 1000);
+
+    $scope.toggleAutomatedSOS = function () {
+        $scope.sharedDataService.automatedSOS ? disableAutomatedSOS() : enableAutomatedSOS();
+    };
+
+    function disableAutomatedSOS() {
+        $scope.sharedDataService.automatedSOS = false;
+    }
+
+    function enableAutomatedSOS() {
+        $scope.sharedDataService.automatedSOS = true;
+        $scope.sharedDataService.inDanger = false;
+    }
 });
 
 app.controller("individualSignUpController", function ($scope, $http, $location, SharedDataService) {
@@ -237,8 +313,8 @@ app.controller("individualSettingsController", function ($scope, $http, $locatio
 app.controller('graphController', function ($scope, $interval, SharedDataService, $window) {
 
     $scope.sharedDataService = SharedDataService;
-    $scope.width = $window.innerWidth*0.8;
-    $scope.height = $window.innerHeight*0.8;
+    $scope.width = $window.innerWidth * 0.8;
+    $scope.height = $window.innerHeight * 0.8;
     $scope.yAxis = ['Heart Rate', 'Systolic Blood Pressure', 'Diastolic Blood Pressure', 'Oxygen Percentage'];
     $scope.xAxis = 'Time';
     $scope.data = $scope.sharedDataService.data;
@@ -275,16 +351,16 @@ app.controller("individualDataRetriever", function ($scope, $http, $interval, Sh
 
             $scope.sharedDataService.data.push([
                 {
-                    value: Math.floor((Math.random() * 40) + 50)
+                    value: Math.floor((Math.random() * 200) + 20)
                 },
                 {
-                    value: Math.floor((Math.random() * 100) + 50)
+                    value: Math.floor((Math.random() * 150) + 50)
                 },
                 {
-                    value: Math.floor((Math.random() * 100) + 100)
+                    value: Math.floor((Math.random() * 150) + 10)
                 },
                 {
-                    value: Math.floor((Math.random() * 50) + 50)
+                    value: Math.floor((Math.random() * 50) + 45)
                 }
             ]);
             $scope.res.push(

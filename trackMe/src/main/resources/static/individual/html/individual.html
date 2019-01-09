@@ -33,7 +33,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#!dataManager">Watch Graphs</a>
                     </li>
+                    <!--    AutomatedSOS                          -->
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li class="nav-item">
+                        <button type="button" ng-click="toggleAutomatedSOS()" class="btn nav-btn" >{{ sharedDataService.automatedSOS ? 'Disable AutomatedSOS' : 'Enable AutomatedSOS' }}</button>
+                    </li>
+                    <!--                                          -->
                 </ul>
+            </div>
+
+            <div>
+
             </div>
         </nav>
     </div>

@@ -147,3 +147,7 @@ table{
 .navbar-brand{
   font-size: 35px;
 }
+
+.nav-btn{
+    padding-top: 20px;
+}
