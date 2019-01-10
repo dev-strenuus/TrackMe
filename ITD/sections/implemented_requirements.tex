@@ -1,12 +1,13 @@
 \section{Implemented requirements}
 
 In this section we describe the implemented functionalities with reference to the requirements outlined in the RASD document.\\
-The requirement with their reference number green are the ones available in the current implementation, the others are in red.
+The requirements with their reference number green are the ones fully available in the current implementation. 
+Requirements in red are not fully implemented but the base for a further complete development is present.
 
+%%
 \subsection{Third Party Registration}
 \begin{itemize}
-	\item {\color{ProcessBlue}\textbf{[R.15]}} Two different users cannot have the same username.
-	\item {\color{ProcessBlue}\textbf{[R.16]}} The system must allow the third party to register to the application, by specifying its VAT registration number and a password.
+	\item {\color{Green}\textbf{R16)}} The system must allow the third party to register to the application, by specifying its VAT registration number, name and password.
 \end{itemize}
 \subsubsection*{Database}
 The database stores the User information and credentials inside the table denominated 'users'.\\
@@ -18,11 +19,10 @@ Passwords are stored as salted hashes for security purposes.
 \subsubsection*{Front-end}
 The homepage of the client application for a Guest contains a registration section showing a form to fill with registration information. The client application validates the information, performs the request to the server and shows the response.
 
+%%
 \subsection{Individual Registration}
 \begin{itemize}
-	\item {\color{ProcessBlue}\textbf{[R.12]}} The individual must provide their personal data to the application during the registration process, SSN (or fiscal code) included. 
-	\item {\color{ProcessBlue}\textbf{[R.13]}} The system must allow the individual to register to the application by selecting a username and a password. 
-	\item {\color{ProcessBlue}\textbf{[R.15]}} Two different users cannot have the same username.
+	\item {\color{Green}\textbf{R13)}} The system must allow the individual to register to the application by selecting a password and providing his/her data, fiscal code included;
 \end{itemize}
 \subsubsection*{Database}
 The database stores the User information and credentials inside the table denominated 'users'.\\
@@ -33,10 +33,10 @@ Passwords are stored as salted hashes for security purposes.
 \subsubsection*{Front-end}
 The homepage of the client application for a Guest contains a registration section showing a form to fill with registration information. The client application validates the information, performs the request to the server and shows the response.
 
-
+%%
 \subsection{Third Party Login}
 \begin{itemize}
-	\item {\color{ProcessBlue}\textbf{[R.17]}} The system must allow the third party to log in to the application by providing the combination of a VAT registration number and a password that match an account.
+	\item {\color{Green}\textbf{R17)}} The system must allow the third party to log in to the application by providing the combination of a VAT registration number and a password that match an account.
 \end{itemize}
 \subsubsection*{Database}
 
@@ -47,9 +47,10 @@ The homepage of the client application for a Guest contains a registration secti
 \subsubsection*{Front-end}
 The homepage of the application contains (if the User is not logged in) a login form. The client application validates the information, performs the request to the server and shows the response.
 
+%%
 \subsection{Individual Login}
 \begin{itemize}
-	\item {\color{ProcessBlue}\textbf{[R.14]}} The system must allow the individual to log in to the application by providing the combination of a username and a password that matches an account.
+	\item {\color{ProcessBlue}\textbf{R14)}} The system must allow the individual to log in to the application by providing the combination of a fiscal code and a password that matches an account.
 \end{itemize}
 \subsubsection*{Database}
 
@@ -60,55 +61,11 @@ The homepage of the application contains (if the User is not logged in) a login 
 \subsubsection*{Front-end}
 The homepage of the application contains (if the User is not logged in) a login form. The client application validates the information, performs the request to the server and shows the response.
 
-\subsection{Individual Data Manager}
 
-\subsubsection*{Database}
-
-
-\subsubsection*{Back-end}
-
-
-\subsubsection*{Front-end}
-
-\subsection{Individual Notifications}
-
-\subsubsection*{Database}
-
-
-\subsubsection*{Back-end}
-
-
-\subsubsection*{Front-end}
-
-\subsection{Individual Settings Management}
-\begin{itemize}
-	\item {\color{ProcessBlue}\textbf{[R.32]}} The system must allow the individual to change his/her password.
-\end{itemize}
-\subsubsection*{Database}
-
-
-\subsubsection*{Back-end}
-
-
-\subsubsection*{Front-end}
-
-\subsection{Individual SOS Call}
-
-\subsubsection*{Front-end}
-
-\subsection{Third Party Notifications}
-
-\subsubsection*{Database}
-
-
-\subsubsection*{Back-end}
-
-
-\subsubsection*{Front-end}
-
+%%
 \subsection{Third Party Settings Management}
 \begin{itemize}
-	\item {\color{ProcessBlue}\textbf{[R.33]}} The system must allow the Third party to change its password.
+	\item {\color{Green}\textbf{R33)}} The system must allow the Third party to change its password.
 \end{itemize}
 \subsubsection*{Database}
 
@@ -118,7 +75,32 @@ The homepage of the application contains (if the User is not logged in) a login 
 
 \subsubsection*{Front-end}
 
-\subsection{Third Party Individual Request}
+%%
+\subsection{Individual Settings Management}
+\begin{itemize}	
+	\item {\color{Red}\textbf{R31)}} The system must allow the user to change his/her personal info.
+	\item {\color{Green}\textbf{R32)}} The system must allow the individual to change his/her password.
+	\item {\color{Red}\textbf{R34)}} The system must allow the user to connect a smartwatch or a similar device to its smartphone.
+\end{itemize}
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}
+
+
+%%
+\subsection{Data Management}
+begin{itemize}	
+	\item {\color{Green}\textbf{R11)}} The system is optimized to send the data received from the mobile application to the third parties as soon as possible.
+	\item {\color{Green}\textbf{R9)}} The third party is not allowed to access the users data until he/she accepts the request.
+	\item {\color{Green}\textbf{R27)}} The system must be able to store data retrieved from registered users.
+	\item {\color{Red}\textbf{R3)}} The system must be able to retrieve data from the smartwatches and similar devices;
+	\item {\color{Green}\textbf{R2)}} The system must be able to provide to the third party the location and the health status of individuals;
+	\item {\color{Green}\textbf{R1)}} The users must have given the consensus to the treatment of their information to the third party;
+\end{itemize}
 
 \subsubsection*{Database}
 
@@ -128,7 +110,27 @@ The homepage of the application contains (if the User is not logged in) a login 
 
 \subsubsection*{Front-end}
 
-\subsection{Third Party Anonymous Request}
+
+%%
+\subsection{AutomatedSOS service}
+begin{itemize}	
+	\item {\color{Green}\textbf{R25)}} The AutomatedSOS service must be enabled.
+	\item {\color{Green}\textbf{R18)}} When the health status values go below the threshold, the system must send an SOS within 5 seconds;
+	\item {\color{Green}\textbf{R26)}}	 The system must allow the user to enable/disable the AutomatedSOS service at any time.
+\end{itemize}
+
+\subsubsection*{Front-end}
+
+
+%%
+\subsection{Individual Requests}
+begin{itemize}	
+	\item {\color{Green}\textbf{R28)}} The user must have an active subscription to stop it;
+	\item {\color{Green}\textbf{R29)}} The system must be able to allow the user to unsubscribe to the third party and to stop the transmission of his/her data.
+	\item {\color{Green}\textbf{R7)}} The system must be able to forward the requests from the third party to the user;
+	\item {\color{Green}\textbf{R8)}} The system must save the preference of the user;
+	
+\end{itemize}
 
 \subsubsection*{Database}
 
@@ -138,4 +140,17 @@ The homepage of the application contains (if the User is not logged in) a login 
 
 \subsubsection*{Front-end}
 
- 
+%%
+\subsection{Anonymous Requests}	
+	\item {\color{Green}\textbf{R5)}} The system must be able to provide to the third party the health status of individuals
+in an anonymous way;
+	\item {\color{Green}\textbf{R4)}} The groups must be composed at least by 1000 individuals;
+	\item {\color{Green}\textbf{R6)}} The system must be able to aggregate the data of the individuals, as requested by the
+third party;
+\subsubsection*{Database}
+
+
+\subsubsection*{Back-end}
+
+
+\subsubsection*{Front-end}

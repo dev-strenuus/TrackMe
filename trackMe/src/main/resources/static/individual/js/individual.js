@@ -77,73 +77,6 @@ app.controller("mainController", function ($scope, $http, $interval, SharedDataS
         }
     }, 5000, 5000);
 
-
-    var heartRate = null;
-    var systolicBloodPressure = null;
-    var diastolicBloodPressure = null;
-    var oxygenPercentage = null;
-
-    // return true if the user is in danger
-    function checkDisease(healthData){
-        console.log(healthData);
-
-        // data check makes sense only if data are actually generated
-        if(healthData.length > 2) {
-            heartRate = [healthData[0][0].value, healthData[1][0].value, healthData[2][0].value];
-            systolicBloodPressure = [healthData[0][1].value, healthData[1][1].value, healthData[2][1].value];
-            diastolicBloodPressure = [healthData[0][2].value, healthData[1][2].value, healthData[2][2].value];
-            oxygenPercentage = [healthData[0][3].value, healthData[1][3].value, healthData[2][3].value];
-
-            return (heartRate.every(checkHeartRate) ||
-                systolicBloodPressure.every(checkSystolicPressure) ||
-                diastolicBloodPressure.every(checkDiastolicPressure) ||
-                oxygenPercentage.every(checkOxygenPercentage));
-        } else {
-            return false
-        }
-    }
-
-    // return true if the value is out of safety bounds
-    function checkSystolicPressure(value){
-        return value > maximumSystolicPressure || value < minimumSystolicPressure;
-    }
-
-    // return true if the value is out of safety bounds
-    function checkDiastolicPressure(value){
-        return value > maximumDiastolicPressure || value < minimumDiastolicPressure;
-    }
-
-    // return true if the value is out of safety bounds
-    function checkHeartRate(value){
-        return value > maximumHeartRate || value < minimumHearthRate;
-    }
-    // return true if the value is out of safety bounds
-    function checkOxygenPercentage(value){
-        return value < minimumOxygenPercentage;
-    }
-
-    $interval(function () {
-        if($scope.sharedDataService.automatedSOS === true && $scope.sharedDataService.deviceConnected){
-            if(checkDisease($scope.sharedDataService.data.slice(-3))){
-                $scope.sharedDataService.inDanger = true;
-                $scope.sharedDataService.automatedSOS = false;
-                // todo mostrare qualcosa nella schermata
-            }
-        }
-    }, 1000, 1000);
-
-    $scope.toggleAutomatedSOS = function () {
-        $scope.sharedDataService.automatedSOS ? disableAutomatedSOS() : enableAutomatedSOS();
-    };
-
-    function disableAutomatedSOS() {
-        $scope.sharedDataService.automatedSOS = false;
-    }
-
-    function enableAutomatedSOS() {
-        $scope.sharedDataService.automatedSOS = true;
-        $scope.sharedDataService.inDanger = false;
-    }
 });
 
 app.controller("individualSignUpController", function ($scope, $http, $location, SharedDataService) {
@@ -289,10 +222,77 @@ app.controller("individualNotificationsController", function ($scope, $http, $in
     });
 });
 
-app.controller("individualSettingsController", function ($scope, $http, $location, SharedDataService) {
+app.controller("individualSettingsController", function ($scope, $http, $location, $interval, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
-
     $scope.fiscalCode = $scope.sharedDataService.username;
+
+    var heartRate = null;
+    var systolicBloodPressure = null;
+    var diastolicBloodPressure = null;
+    var oxygenPercentage = null;
+
+    // return true if the user is in danger
+    function checkDisease(healthData){
+        console.log(healthData);
+
+        // data check makes sense only if data are actually generated
+        if(healthData.length > 2) {
+            heartRate = [healthData[0][0].value, healthData[1][0].value, healthData[2][0].value];
+            systolicBloodPressure = [healthData[0][1].value, healthData[1][1].value, healthData[2][1].value];
+            diastolicBloodPressure = [healthData[0][2].value, healthData[1][2].value, healthData[2][2].value];
+            oxygenPercentage = [healthData[0][3].value, healthData[1][3].value, healthData[2][3].value];
+
+            return (heartRate.every(checkHeartRate) ||
+                systolicBloodPressure.every(checkSystolicPressure) ||
+                diastolicBloodPressure.every(checkDiastolicPressure) ||
+                oxygenPercentage.every(checkOxygenPercentage));
+        } else {
+            return false
+        }
+    }
+
+    // return true if the value is out of safety bounds
+    function checkSystolicPressure(value){
+        return value > maximumSystolicPressure || value < minimumSystolicPressure;
+    }
+
+    // return true if the value is out of safety bounds
+    function checkDiastolicPressure(value){
+        return value > maximumDiastolicPressure || value < minimumDiastolicPressure;
+    }
+
+    // return true if the value is out of safety bounds
+    function checkHeartRate(value){
+        return value > maximumHeartRate || value < minimumHearthRate;
+    }
+    // return true if the value is out of safety bounds
+    function checkOxygenPercentage(value){
+        return value < minimumOxygenPercentage;
+    }
+
+    $interval(function () {
+        if($scope.sharedDataService.automatedSOS === true && $scope.sharedDataService.deviceConnected){
+            if(checkDisease($scope.sharedDataService.data.slice(-3))){
+                $scope.sharedDataService.inDanger = true;
+                $scope.sharedDataService.automatedSOS = false;
+                $scope.resultSOS = "An SOS has been sent. Enable the service as soon as you are fine."
+            }
+        }
+    }, 1000, 1000);
+
+    $scope.toggleAutomatedSOS = function () {
+        $scope.sharedDataService.automatedSOS ? disableAutomatedSOS() : enableAutomatedSOS();
+    };
+
+    function disableAutomatedSOS() {
+        $scope.sharedDataService.automatedSOS = false;
+    }
+
+    function enableAutomatedSOS() {
+        $scope.sharedDataService.automatedSOS = true;
+        $scope.sharedDataService.inDanger = false;
+        $scope.resultSOS = null;
+    }
 
     $scope.updatePassword = function () {
         $http.defaults.headers.common.Authorization = SharedDataService.token;

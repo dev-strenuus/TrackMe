@@ -21,9 +21,19 @@
             <td><input class="textArea" type="password" ng-model="newPassword" minlength="6"></td>
         </tr>
     </table>
-
     <button class="submit" ng-click="updatePassword()">Update</button>
     <p ng-bind="passReqResult"></p>
+
+    <hr>
+
+    <div align="center" >
+        <h3>Automated SOS</h3>
+        <p>You can enable or disable the service at any time.</p>
+        <button type="button" ng-click="toggleAutomatedSOS()" >{{ sharedDataService.automatedSOS ? 'Disable' : 'Enable' }}</button>
+        <p ng-bind="resultSOS"></p>
+    </div>
+
+    <hr>
 
     <table align="center" cellpadding="22">
         <tr>
