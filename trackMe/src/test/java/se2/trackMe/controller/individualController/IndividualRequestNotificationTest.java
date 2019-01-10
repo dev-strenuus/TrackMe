@@ -1,4 +1,4 @@
-package se2.trackMe.controller.thirdPartyController;
+package se2.trackMe.controller.individualController;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import org.junit.Test;
@@ -14,6 +14,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import se2.trackMe.TrackMeApplication;
 import se2.trackMe.controller.authenticationController.UserController;
+import se2.trackMe.controller.thirdPartyController.ThirdPartyService;
 import se2.trackMe.model.Individual;
 import se2.trackMe.model.ThirdParty;
 
@@ -25,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TrackMeApplication.class)
 @DirtiesContext
-public class IndividualRequestTest {
+public class IndividualRequestNotificationTest {
 
     @Autowired
     private UserController userController;
@@ -34,13 +35,16 @@ public class IndividualRequestTest {
     private ThirdPartyService thirdPartyService;
 
     @Autowired
+    private IndividualService individualService;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     /***
-     * This test verifies the correct insertion of the Individual Request into the database.
+     * This test verifies the correct insertion of the Notification of the Individual Request into the database.
      */
     @Test
-    public void IndividualRequestTest() {
+    public void IndividualRequestNotificationTest() {
         String vatNumber = "vatNumber";
         Date birthDate = new Date(000000000);
         String fiscalCode = "fiscalCodeTest00";
@@ -51,7 +55,9 @@ public class IndividualRequestTest {
         userController.addThirdParty(thirdParty);
         thirdPartyService.addIndividualRequest(thirdParty, individual, true);
 
-        assertEquals(thirdPartyService.getIndividualRequest(thirdParty, individual).isPresent(), true);
+        assertEquals(individualService.getIndvidualPendingRequestList(individual).size(), 1);
+
+        assertEquals(individualService.getIndvidualPendingNotificationList(individual).size(), 1);
     }
 }
 

@@ -17,10 +17,7 @@ import static org.junit.Assert.*;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.*;
-import org.springframework.transaction.annotation.Transactional;
 import se2.trackMe.TrackMeApplication;
-import se2.trackMe.model.AnonymousRequest;
-import se2.trackMe.model.ThirdParty;
 import se2.trackMe.storageController.*;
 
 import java.text.SimpleDateFormat;
