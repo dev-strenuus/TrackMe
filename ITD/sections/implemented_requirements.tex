@@ -5,90 +5,113 @@ The requirements with their reference number green are the ones fully available 
 Requirements in red are not fully implemented but the base for a further complete development is present.
 
 %%
-\subsection{Third Party Registration}
+\subsection{Third Party - Registration}
 \begin{itemize}
+	\item {\color{Green}\textbf{R15)}} Two different users cannot have the same username.
 	\item {\color{Green}\textbf{R16)}} The system must allow the third party to register to the application, by specifying its VAT registration number, name and password.
 \end{itemize}
+
 \subsubsection*{Database}
-The database stores the User information and credentials inside the table denominated 'users'.\\
-Passwords are stored as salted hashes for security purposes.
+The database stores the Third party information and credentials inside the table denominated "THIRD\_PARTY". It also saves the VAT number and password in another table called `USERS` with an attribute that specifies the role of the user (in this case the role is Third party) to determine which requests can be accepted and performed in future.\\
 
 \subsubsection*{Back-end}
-
+The Third party registration API handles the registration process for the Third party and the communication with the database. It performs a check on the presence of an already registered Third party with the same VAT number.
 
 \subsubsection*{Front-end}
-The homepage of the client application for a Guest contains a registration section showing a form to fill with registration information. The client application validates the information, performs the request to the server and shows the response.
+The homepage of the client application for a Third party contains a registration section showing a form to fill with registration information. The client application performs simple checks on the lenght and the type of data, sends the request to the server and, if the response is `success`,  shows the login form for the third party.
 
 %%
-\subsection{Individual Registration}
+\subsection{Individual - Registration}
 \begin{itemize}
+	\item {\color{Green}\textbf{R15)}} Two different users cannot have the same username.
 	\item {\color{Green}\textbf{R13)}} The system must allow the individual to register to the application by selecting a password and providing his/her data, fiscal code included;
 \end{itemize}
+
 \subsubsection*{Database}
-The database stores the User information and credentials inside the table denominated 'users'.\\
-Passwords are stored as salted hashes for security purposes.
+The database stores the Individual information and credentials inside the table denominated 'INDIVIDUAL'. It also saves the VAT number and password in another table called `USERS` with an attribute that specifies the role of the user (in this case the role is Third party) to determine which requests can be accepted and performed in future.\\
 
 \subsubsection*{Back-end} 
+The Individual registration API handles the registration process for the individual and the communication with the database. It performs a check on the presence of an already registered Individual with the same fiscal code.
 
 \subsubsection*{Front-end}
-The homepage of the client application for a Guest contains a registration section showing a form to fill with registration information. The client application validates the information, performs the request to the server and shows the response.
+The homepage of the client application for an individual contains a registration section showing a form to fill with registration information. The client application performs simple checks on the lenght and the type of data, sends the request to the server and, if the response is `success`,  shows the login form for the individual.
 
 %%
-\subsection{Third Party Login}
+\subsection{Login}
 \begin{itemize}
 	\item {\color{Green}\textbf{R17)}} The system must allow the third party to log in to the application by providing the combination of a VAT registration number and a password that match an account.
+		\item {\color{ProcessBlue}\textbf{R14)}} The system must allow the individual to log in to the application by providing the combination of a fiscal code and a password that matches an account.
 \end{itemize}
-\subsubsection*{Database}
-
 
 \subsubsection*{Back-end}
-
-
-\subsubsection*{Front-end}
-The homepage of the application contains (if the User is not logged in) a login form. The client application validates the information, performs the request to the server and shows the response.
-
-%%
-\subsection{Individual Login}
-\begin{itemize}
-	\item {\color{ProcessBlue}\textbf{R14)}} The system must allow the individual to log in to the application by providing the combination of a fiscal code and a password that matches an account.
-\end{itemize}
-\subsubsection*{Database}
-
-
-\subsubsection*{Back-end}
-
+The Login API manages the login of both Third parties and Individuals by validating the provided credentials and generating a unique access token for the user. 
+The access token is generated by taking into account the username and password of the user and the current time.
+Every further request to the server must contain this token to be accepted.
 
 \subsubsection*{Front-end}
-The homepage of the application contains (if the User is not logged in) a login form. The client application validates the information, performs the request to the server and shows the response.
-
+The front end is the same for Third party and Individual. The application in both cases shows the login form if the user is not logged in.
+The client application performs a simple check on the lenght of the data and sends the request to the server. If the response is `success`, the client receives the access token and shows the home page for the Third party or the Individual, otherwise shows an error.
 
 %%
-\subsection{Third Party Settings Management}
+\subsection{Third Party - Settings Management}
 \begin{itemize}
 	\item {\color{Green}\textbf{R33)}} The system must allow the Third party to change its password.
 \end{itemize}
 \subsubsection*{Database}
-
+The database updates the data of the Individual by performing an update of the existing tuple.
 
 \subsubsection*{Back-end}
-
+The Modify Third party password API first check if the old password value is really the password of the individual and then communicates to the database the new one. 
 
 \subsubsection*{Front-end}
+The client shows a form in which the user can insert the old and the new password. It performs a check on the minimum lenght of the passwords and forwards the data to the back-end, then it shows the response message.
 
 %%
-\subsection{Individual Settings Management}
+\subsection{Individual - Settings Management}
 \begin{itemize}	
 	\item {\color{Red}\textbf{R31)}} The system must allow the user to change his/her personal info.
 	\item {\color{Green}\textbf{R32)}} The system must allow the individual to change his/her password.
 	\item {\color{Red}\textbf{R34)}} The system must allow the user to connect a smartwatch or a similar device to its smartphone.
 \end{itemize}
 \subsubsection*{Database}
-
+The database updates the data of the Individual by performing an update of the existing tuple. At this point of the implementation only password and location's coordinates can be updated. 
 
 \subsubsection*{Back-end}
-
+The Edit Individual Information API  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection*{Front-end}
+The client shows a form in which the user can insert the old and the new password. It performs a check on the minimum lenght of the passwords and forwards the data to the back-end, then it shows the response message. %%%%%%%%%%%
+
+
+%%
+\subsection{Individual - AutomatedSOS service}
+\begin{itemize}	
+	\item {\color{Green}\textbf{R25)}} The AutomatedSOS service must be enabled.
+	\item {\color{Green}\textbf{R18)}} When the health status values go below the threshold, the system must send an SOS within 5 seconds;
+	\item {\color{Green}\textbf{R26)}} The system must allow the user to enable/disable the AutomatedSOS service at any time.
+\end{itemize}
+
+\subsubsection*{Front-end}
+The client gives the user the chance to enable and disable the service by simply pressing a button. If the service is enabled, the application performs a check, every second, on the last N (N equal to 3 in the prototype) received data in order to detect the necessity of help. If all the N data are outside the safety bounds a message is shown and the service is disabled until the Individual reactivates it.
+The application must have a connected device sending data to provide the service.
+
+
+%%
+\subsection{Individual - Data acquisition}
+\begin{itemize}	
+	\item {\color{Green}\textbf{R27)}} The system must be able to store data retrieved from registered users.
+	\item {\color{Red}\textbf{R3)}} The system must be able to retrieve data from the smartwatches and similar devices;
+\end{itemize}
+
+\subsubsection*{Database}
+The database stores the data received by the Individuals in the `INDIVIDUAL\_DATA` table.
+
+\subsubsection*{Back-end}
+The Send data API allows the client to send data to the server and transfer them to the database if they are sent by a registered Individual.
+
+\subsubsection*{Front-end}
+The client should retreive data from external devices. It is supposed that data are received every second when a device is connected. The client accumulates data in a list and every time the list reaches size N (N equal to 12 in the prototype) the group of data is sent to the server.
+In this first implementation data from external devices are randomly generated when a fictitious device is connected.
 
 
 %%
@@ -96,13 +119,12 @@ The homepage of the application contains (if the User is not logged in) a login 
 \begin{itemize}	
 	\item {\color{Green}\textbf{R11)}} The system is optimized to send the data received from the mobile application to the third parties as soon as possible.
 	\item {\color{Green}\textbf{R9)}} The third party is not allowed to access the users data until he/she accepts the request.
-	\item {\color{Green}\textbf{R27)}} The system must be able to store data retrieved from registered users.
-	\item {\color{Red}\textbf{R3)}} The system must be able to retrieve data from the smartwatches and similar devices;
 	\item {\color{Green}\textbf{R2)}} The system must be able to provide to the third party the location and the health status of individuals;
 	\item {\color{Green}\textbf{R1)}} The users must have given the consensus to the treatment of their information to the third party;
 \end{itemize}
 
 \subsubsection*{Database}
+The database keeps all the data in the table `INDIVIDUAL\_DATA`
 
 
 \subsubsection*{Back-end}
@@ -128,17 +150,18 @@ The homepage of the application contains (if the User is not logged in) a login 
 	\item {\color{Green}\textbf{R28)}} The user must have an active subscription to stop it;
 	\item {\color{Green}\textbf{R29)}} The system must be able to allow the user to unsubscribe to the third party and to stop the transmission of his/her data.
 	\item {\color{Green}\textbf{R7)}} The system must be able to forward the requests from the third party to the user;
-	\item {\color{Green}\textbf{R8)}} The system must save the preference of the user;
-	
+	\item {\color{Green}\textbf{R8)}} The system must save the preference of the user;	
 \end{itemize}
 
 \subsubsection*{Database}
-
+The database stores the requests from Third parties to Individuals in the table `INDIVIDUAL\_REQUEST`.
 
 \subsubsection*{Back-end}
 
 
 \subsubsection*{Front-end}
+
+The Third party client shows a list of the Individuals registered to TrackMe and allows the Third party to make a 
 
 %%
 \subsection{Anonymous Requests}	
