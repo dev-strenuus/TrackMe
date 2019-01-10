@@ -133,7 +133,7 @@ public class IndividualController {
         Float newLatitude = coordinates.get(0);
         Float newLongitude = coordinates.get(1);
 
-        if (newLatitude == null || newLongitude == null) {
+        if (newLatitude != null && newLongitude != null) {
             individual.setLatitude(newLatitude);
             individual.setLongitude(newLongitude);
             individualService.updateIndividual(individual);
