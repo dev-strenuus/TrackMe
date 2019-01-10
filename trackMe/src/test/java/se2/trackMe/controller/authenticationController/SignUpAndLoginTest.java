@@ -132,7 +132,7 @@ public class SignUpAndLoginTest {
         // login of a registered user with wrong password
         exception.expect(BadCredentialsException.class);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(fiscalCode,"wrongpassword"));
-        // login of a unregistered user
+        // login of an unregistered user
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("notregistered",password));
     }
 
