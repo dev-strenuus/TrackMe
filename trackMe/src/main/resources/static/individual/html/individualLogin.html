@@ -4,38 +4,56 @@
 </head>
 <body>
 
-    <div class="jumbotron login" style="background-image: url(https://www.shape.com/sites/shape.com/files/u470/1200-woman-running-outside.jpg)">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6 jumbo">
-                    TrackMe
-                </div>
-                <div class="col-sm-6 jumbo">
-                    Login
-                </div>
+<div class="jumbotron login" style="background-image: url(https://www.shape.com/sites/shape.com/files/u470/1200-woman-running-outside.jpg)">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 jumbo">
+                TrackMe
+            </div>
+            <div class="col-sm-6 jumbo">
+                Login
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container-fluid">
-        <form ng-submit="submitLogin()">
-            <table align="center" cellpadding="22" >
-                <tr>
-                    <th>Fiscal code: </th>
-                    <td> <input class="textArea" type="text" ng-model="credentials.username" pattern=".{16}"
-                                title="Field must be 16 characters long" required></td>
-                </tr>
-                <tr>
-                    <th>Password</th>
-                    <td> <input class="textArea" type="password" ng-model="credentials.password" title="Insert your password" required></td>
-                </tr>
-            </table>
-            <input type="submit" class="submit" id="submitLogin" value="Login">
-        </form>
-        <div>
-            <p>If you still do not have an account, click here:</p>
-            <a href="#!signUp"><button class="submit" class="btn">Sign Up</button></a>
-        </div>
-        <p ng-bind="loginResult"></p>
+<div class="container-fluid">
+
+    <form ng-submit="submitAddress()">
+        <table align="center" cellpadding="22" >
+            <tr>
+                <th>IP Address: </th>
+                <td> <input type="text" class="textArea" ng-model="ipAddress"></td>
+            </tr>
+            <tr>
+                <th>Port: </th>
+                <td> <input type="text" class="textArea" ng-model="port"></td>
+            </tr>
+        </table>
+        <input type="submit" class="submit" id="submitAddress" value="Send IP">
+        <p ng-bind="ipResult"></p>
+    </form>
+
+    <form ng-submit="submitLogin()">
+        <table align="center" cellpadding="22" >
+            <tr>
+                <th>Fiscal code: </th>
+                <td> <input type="text" class="textArea" ng-model="credentials.username" pattern=".{16}"
+                            title="Field must be 16 characters long" required></td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td> <input type="password" class="textArea" ng-model="credentials.password" title="Insert your password" required></td>
+            </tr>
+        </table>
+        <input type="submit" class="submit" id="submitLogin" value="Login">
+    </form>
+
+    <div>
+        <p>If you still do not have an account, click here:</p>
+        <a href="#!signUp"><button class="submit" class="btn">Sign Up</button></a>
     </div>
+    <p ng-bind="loginResult"></p>
+
+</div>
 </body>
