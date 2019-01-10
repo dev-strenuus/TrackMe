@@ -112,7 +112,7 @@ public class ThirdPartyController {
         Individual individual = thirdPartyService.getIndividual(iId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual not found"));
 
         // check if the thirdParty has an active subscription to receive the data of the individual
-        IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual"));
+        IndividualRequest individualRequest = thirdPartyService.getIndividualRequest(thirdParty, individual).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The thirdParty has not the right to receive data from the individual because you never asked for it"));
 
         if(individualRequest.getAccepted() == false)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can't access this data");

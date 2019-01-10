@@ -41,25 +41,25 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
         String username = null;
         String authToken = null;
-        System.out.println(requestHeader);
+        //System.out.println(requestHeader);
         if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
             authToken = requestHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
-                System.out.println("username: "+username);
+                //System.out.println("username: "+username);
             } catch (IllegalArgumentException e) {
-                logger.error("an error occured during getting username from token", e);
+                //logger.error("an error occured during getting username from token", e);
             } catch (ExpiredJwtException e) {
-                logger.warn("the token is expired and not valid anymore", e);
+                //logger.warn("the token is expired and not valid anymore", e);
             }
         } else {
-            logger.warn("couldn't find bearer string, will ignore the header");
+            //logger.warn("couldn't find bearer string, will ignore the header");
         }
-        System.out.println("authentication ops");
-        logger.warn("checking authentication for user '{}'", username);
+        //System.out.println("authentication ops");
+        //logger.warn("checking authentication for user '{}'", username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            logger.debug("security context was null, so authorizating user");
-            System.out.println("authentication ops "+username);
+            //logger.debug("security context was null, so authorizating user");
+            //System.out.println("authentication ops "+username);
             // It is not compelling necessary to load the use details from the database. You could also store the information
             // in the token and read it from it. It's up to you ;)
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
@@ -69,7 +69,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                logger.warn("authorizated user '{}', setting security context", username);
+                //logger.warn("authorizated user '{}', setting security context", username);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
