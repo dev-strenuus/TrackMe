@@ -1,9 +1,6 @@
 package se2.trackMe.controller.authenticationController;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseOperation;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -21,8 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.web.server.ResponseStatusException;
 import se2.trackMe.TrackMeApplication;
-import se2.trackMe.controller.individualController.IndividualController;
 import se2.trackMe.controller.individualController.IndividualService;
 import se2.trackMe.controller.thirdPartyController.ThirdPartyService;
 import se2.trackMe.model.Individual;
@@ -36,11 +33,8 @@ import static org.junit.Assert.*;
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TrackMeApplication.class)
-@DatabaseSetup(value = SignUpAndLoginTest.DATASET)
-@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = SignUpAndLoginTest.DATASET)
 @DirtiesContext
 public class SignUpAndLoginTest {
-    static final String DATASET = "/registrationData.xml";
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -96,12 +90,10 @@ public class SignUpAndLoginTest {
         //assertEquals(firstIndividual.toString(), individualService.getIndividual(fiscalCode).get().toString());
 
         // try to register another individual with the same fiscal code
+        exception.expect(ResponseStatusException.class);
         Individual secondIndividual = new Individual(fiscalCode, "Giorgio", "Polla", password, birthDate, 13.f, 33.8f);
-        try {
-            userController.addIndividual(secondIndividual);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        userController.addIndividual(secondIndividual);
+
 
         // insert another individual into the database
         Individual thirdIndividual = new Individual("melamelamela2019", "Giorgio", "Romeo", password, birthDate, 40.5f, 10.0f);
@@ -121,9 +113,6 @@ public class SignUpAndLoginTest {
         }
 
         // login of a registered user
-
-        //JwtAuthenticationRequest jwtAuthenticationRequest= new JwtAuthenticationRequest(fiscalCode,password);
-        //authenticationRestController.createAuthenticationToken(jwtAuthenticationRequest);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(fiscalCode,password));
         final UserDetails userDetailsRegistered = userDetailsService.loadUserByUsername(fiscalCode);
         final String tokenRegistered = jwtTokenUtil.generateToken(userDetailsRegistered);
@@ -156,12 +145,9 @@ public class SignUpAndLoginTest {
         }
 
         // try to register another third party with the same VAT number
+        exception.expect(ResponseStatusException.class);
         ThirdParty secondThirdParty = new ThirdParty(vatNumber, "Track4Run", "password2");
-        try {
-            userController.addThirdParty(secondThirdParty);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        userController.addThirdParty(secondThirdParty);
 
         // add another third party
         ThirdParty thirdThirdParty = new ThirdParty("09876543211", "Data4Help", "password3");

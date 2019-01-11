@@ -20,7 +20,7 @@
 <div class="container-fluid">
 
     <form ng-submit="submitAddress()">
-        <table align="center" cellpadding="22" >
+        <!--<table align="center" cellpadding="22" >
             <tr>
                 <th>IP Address: </th>
                 <td> <input type="text" class="textArea" ng-model="ipAddress"></td>
@@ -29,31 +29,66 @@
                 <th>Port: </th>
                 <td> <input type="text" class="textArea" ng-model="port"></td>
             </tr>
-        </table>
+        </table>-->
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <p>IP Address:</p>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <input type="text" ng-model="ipAddress">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <p>Port:</p>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <input type="text" ng-model="port">
+            </div>
+        </div>
+
         <input type="submit" class="submit" id="submitAddress" value="Send IP">
         <p ng-bind="ipResult"></p>
     </form>
+    <div ng-show="sharedDataService.ipAddressSubmitted">
+        <form ng-submit="submitLogin()" >
+           <!-- <table align="center" cellpadding="22" >
+                <tr>
+                    <th>Fiscal code: </th>
+                    <td> <input type="text" class="textArea" ng-model="credentials.username" pattern=".{16}"
+                                title="Field must be 16 characters long" required></td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td> <input type="password" class="textArea" ng-model="credentials.password" title="Insert your password" required></td>
+                </tr>
+            </table>
+            -->
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Fiscal code:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" ng-model="credentials.username" pattern=".{16}"
+                           title="Field must be 16 characters long" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Password</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="password" ng-model="credentials.password" title="Insert your password" required>
+                </div>
+            </div>
+            <input type="submit" class="submit" id="submitLogin" value="Login">
+        </form>
 
-    <form ng-submit="submitLogin()">
-        <table align="center" cellpadding="22" >
-            <tr>
-                <th>Fiscal code: </th>
-                <td> <input type="text" class="textArea" ng-model="credentials.username" pattern=".{16}"
-                            title="Field must be 16 characters long" required></td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td> <input type="password" class="textArea" ng-model="credentials.password" title="Insert your password" required></td>
-            </tr>
-        </table>
-        <input type="submit" class="submit" id="submitLogin" value="Login">
-    </form>
-
-    <div>
-        <p>If you still do not have an account, click here:</p>
-        <a href="#!signUp"><button class="submit" class="btn">Sign Up</button></a>
+        <div>
+            <p>If you still do not have an account, click here:</p>
+            <a href="#!signUp"><button class="submit">Sign Up</button></a>
+        </div>
+        <p ng-bind="loginResult"></p>
     </div>
-    <p ng-bind="loginResult"></p>
-
 </div>
 </body>

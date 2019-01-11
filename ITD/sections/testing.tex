@@ -1,1 +1,148 @@
 \section{Testing}
+
+This section describes in the following order the performed Unit Tests, Integration/Feature Tests and System Integration Tests.
+
+\subsection{Unit Testing}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Sign Up}\\
+		\hline
+		state & input & assertions\\
+		\hline
+		Unregistered user &
+		Valid credentials& 
+		The user insertion into the database has  result "true"\newline
+		\\
+		\hline
+		Registered user &
+		Credentials& 
+		The user insertion into the database has result "false" \newline
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Login}\\
+		\hline
+		state & request & assertions\\
+		\hline
+		Registered user& 
+		Valid credentials &
+		The user authentication has result "true" \newline
+		\\
+		\hline
+		Registered user & 
+		Invalid credentials &
+		The user authentication has result "false"  \newline
+		\\
+		\hline
+		Unregistered user & 
+		Credentials &
+		The user authentication has result "false"  \newline
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Individual Request by the Third Party}\\
+		\hline
+		state & request & assertions \\
+		\hline
+		Fiscal Code never used before &
+		Valid Fiscal Code &
+		 The insertion of the Individual Request into the database has result "true"\newline
+		\\
+		\hline
+		Fiscal Code previously used to send an Individual Request&
+		Valid Fiscal Code &
+		The insertion of the Individual Request into the database has result "false" \newline
+		\\
+		\hline
+		Indifferent&
+		Invalid Fiscal Code &
+		The insertion of the Individual Request into the database has result "false" \newline
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Response to the Individual Request}\\
+		\hline
+		state & request & assertions \\
+		\hline
+		Pendent request& 
+		Accept request &
+		The size of accepted requests is increased by 1 \newline
+		\\
+		\hline
+		Pendent request& 
+		Refuse request &
+		The size of pending requests is decreased by 1 \newline
+		\\
+		\hline
+		Accepted request & 
+		Refuse request &
+		The size of accepted requests is decreased by 1 \newline
+		\\
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Change password}\\
+		\hline
+		state & input & assertions \\
+		\hline
+		Logged user &
+		Old password valid& 
+		The password is updated \newline
+		\\
+		\hline
+		Logged user &
+		Old password invalid& 
+		The password is not updated \newline
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Change location}\\
+		\hline
+		state & input & assertions \\
+		\hline
+		Logged user &
+		Valid coordinates& 
+		The coordinates are updated \newline
+		\\
+		\hline
+		Logged user &
+		Invalid coordinates& 
+		The coordinates are not updated \newline
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Integration/Feature Testing}
+In this section we present the Integration tests between the components of the back-end system.\\
+As Integration we test the Features provided by each API.\\
+
+
+
+\section{Testing}
