@@ -38,6 +38,10 @@ public class Individual {
     @NotNull
     private Float longitude;
 
+    @Column
+    @NotNull
+    private boolean automatedSOS;
+
     public Individual() {
     }
 
@@ -49,6 +53,7 @@ public class Individual {
         this.birthDate = birthDate;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.automatedSOS = false;
     }
 
     public String getPassword() {
@@ -79,16 +84,24 @@ public class Individual {
         return latitude;
     }
 
-    public Float getLongitude() {
-        return longitude;
-    }
-
     public void setLatitude(Float latitude) {
         this.latitude = latitude;
     }
 
+    public Float getLongitude() {
+        return longitude;
+    }
+
     public void setLongitude(Float longitude) {
         this.longitude = longitude;
+    }
+
+    public boolean isAutomatedSOS() {
+        return automatedSOS;
+    }
+
+    public void setAutomatedSOS(boolean value) {
+        this.automatedSOS = value;
     }
 
     @Override

@@ -276,8 +276,8 @@ app.controller("individualSettingsController", function ($scope, $http, $locatio
         if($scope.sharedDataService.automatedSOS === true && $scope.sharedDataService.deviceConnected){
             if(checkDisease($scope.sharedDataService.data.slice(-3))){
                 $scope.sharedDataService.inDanger = true;
-                $scope.sharedDataService.automatedSOS = false;
-                $scope.resultSOS = "An SOS has been sent. Enable the service as soon as you are fine."
+                $scope.resultSOS = "An SOS has been sent. Enable the service as soon as you are fine.";
+                disableAutomatedSOS();
             }
         }
     }, 1000, 1000);
@@ -287,13 +287,24 @@ app.controller("individualSettingsController", function ($scope, $http, $locatio
     };
 
     function disableAutomatedSOS() {
-        $scope.sharedDataService.automatedSOS = false;
+
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.put(url + "/individual/" + $scope.sharedDataService.username + "/updateAutomatedSOS", false, config).then(function onSuccess(response) {
+            console.log("automated SOS disabled");
+            $scope.sharedDataService.automatedSOS = false;
+        });
+
     }
 
     function enableAutomatedSOS() {
-        $scope.sharedDataService.automatedSOS = true;
-        $scope.sharedDataService.inDanger = false;
-        $scope.resultSOS = null;
+        $http.defaults.headers.common.Authorization = SharedDataService.token;
+        $http.put(url + "/individual/" + $scope.sharedDataService.username + "/updateAutomatedSOS", true, config).then(function onSuccess(response) {
+            console.log("automated SOS enabled");
+            $scope.sharedDataService.automatedSOS = true;
+            $scope.sharedDataService.inDanger = false;
+            $scope.resultSOS = null;
+        });
+
     }
 
     $scope.updatePassword = function () {
