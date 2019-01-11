@@ -28,13 +28,13 @@
 \contentsline {section}{\numberline {5}Testing}{17}{section.5}
 \contentsline {subsection}{\numberline {5.1}Unit Testing}{17}{subsection.5.1}
 \contentsline {subsection}{\numberline {5.2}Integration/Feature Testing}{18}{subsection.5.2}
-\contentsline {section}{\numberline {6}Testing}{18}{section.6}
-\contentsline {section}{\numberline {7}REST API}{19}{section.7}
-\contentsline {subsection}{\numberline {7.1}Authentication Controller}{19}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Third Party Controller}{22}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Individual Controller}{31}{subsection.7.3}
-\contentsline {section}{\numberline {8}Installation Instructions}{37}{section.8}
-\contentsline {section}{\numberline {9}Source Code Structure}{38}{section.9}
-\contentsline {subsection}{\numberline {9.1}Romeo Paolo}{38}{subsection.9.1}
-\contentsline {subsection}{\numberline {9.2}Scotti Andrea}{38}{subsection.9.2}
-\contentsline {subsection}{\numberline {9.3}Staccone Francesco}{38}{subsection.9.3}
+\contentsline {section}{\numberline {6}Testing}{24}{section.6}
+\contentsline {section}{\numberline {7}REST API}{25}{section.7}
+\contentsline {subsection}{\numberline {7.1}Authentication Controller}{25}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Third Party Controller}{28}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Individual Controller}{37}{subsection.7.3}
+\contentsline {section}{\numberline {8}Installation Instructions}{43}{section.8}
+\contentsline {section}{\numberline {9}Source Code Structure}{44}{section.9}
+\contentsline {subsection}{\numberline {9.1}Romeo Paolo}{44}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.2}Scotti Andrea}{44}{subsection.9.2}
+\contentsline {subsection}{\numberline {9.3}Staccone Francesco}{44}{subsection.9.3}

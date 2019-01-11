@@ -6,8 +6,8 @@ const maximumSystolicPressure = 180;
 const minimumDiastolicPressure = 20; // Normal value 80
 const maximumDiastolicPressure = 140;
 const minimumOxygenPercentage = 50; // Normal value > 75
-const minimumHearthRate = 30;
-const maximumHeartRate = 200;
+const minimumHearthRate = 60;
+const maximumHeartRate = 170;
 
 let config = {
     headers: {
@@ -95,8 +95,20 @@ app.controller("individualSignUpController", function ($scope, $http, $location,
     };
 });
 
-app.controller("individualLoginController", function ($scope, $http, $location, SharedDataService) {
+app.controller("individualLoginController", function ($scope, $http, $location, $window, SharedDataService) {
     console.log("login");
+    $scope.position = null;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+            $scope.$apply(function(){
+                $scope.position = position;
+            });
+        });
+    }
+    else{
+        $window.alert("error");
+    }
+    $window.alert($scope.position);
     $scope.credentials = {};
     $scope.ipAddress = "";
     $scope.port = "";
@@ -224,7 +236,7 @@ app.controller("individualNotificationsController", function ($scope, $http, $in
     });
 });
 
-app.controller("individualSettingsController", function ($scope, $http, $location, $interval, SharedDataService) {
+app.controller("individualSettingsController", function ($scope, $http, $location, $interval, $window, SharedDataService) {
     $scope.sharedDataService = SharedDataService;
     $scope.fiscalCode = $scope.sharedDataService.username;
 
@@ -275,7 +287,9 @@ app.controller("individualSettingsController", function ($scope, $http, $locatio
     $interval(function () {
         if($scope.sharedDataService.automatedSOS === true && $scope.sharedDataService.deviceConnected){
             if(checkDisease($scope.sharedDataService.data.slice(-3))){
+                $scope.sharedDataService.automatedSOS = false;
                 $scope.sharedDataService.inDanger = true;
+                $window.alert("An SOS has been sent. Enable the service as soon as you are fine.");
                 $scope.resultSOS = "An SOS has been sent. Enable the service as soon as you are fine.";
                 disableAutomatedSOS();
             }
@@ -300,9 +314,10 @@ app.controller("individualSettingsController", function ($scope, $http, $locatio
         $http.defaults.headers.common.Authorization = SharedDataService.token;
         $http.put(url + "/individual/" + $scope.sharedDataService.username + "/updateAutomatedSOS", true, config).then(function onSuccess(response) {
             console.log("automated SOS enabled");
+            $scope.resultSOS = null;
             $scope.sharedDataService.automatedSOS = true;
             $scope.sharedDataService.inDanger = false;
-            $scope.resultSOS = null;
+
         });
 
     }
@@ -339,7 +354,7 @@ app.controller('graphController', function ($scope, $interval, SharedDataService
     $scope.yAxis = ['Heart Rate', 'Systolic Blood Pressure', 'Diastolic Blood Pressure', 'Oxygen Percentage'];
     $scope.xAxis = 'Time';
     $scope.data = $scope.sharedDataService.data;
-    $scope.max = [90, 150, 200, 100];
+    $scope.max = [220, 200, 160, 95];
 
 
 });
