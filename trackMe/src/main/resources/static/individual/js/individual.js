@@ -45,6 +45,7 @@ app.config(function ($routeProvider) {
 
 app.service('SharedDataService', function () {
     let sharedData = {
+        ipAddress:false,
         loggedIn: false,
         deviceConnected: false,
         intervalPromise: null,
@@ -103,6 +104,7 @@ app.controller("individualLoginController", function ($scope, $http, $location, 
     $scope.submitAddress = function () {
         url="http://"+$scope.ipAddress+":"+$scope.port;
         $scope.ipResult = "IP inserted";
+        $scope.sharedDataService.ipAddressSubmitted=true;
     };
     $scope.submitLogin = function () {
         console.log($scope.credentials);

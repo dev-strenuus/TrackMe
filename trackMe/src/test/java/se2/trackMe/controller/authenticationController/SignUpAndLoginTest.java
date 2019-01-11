@@ -114,9 +114,6 @@ public class SignUpAndLoginTest {
         }
 
         // login of a registered user
-
-        //JwtAuthenticationRequest jwtAuthenticationRequest= new JwtAuthenticationRequest(fiscalCode,password);
-        //authenticationRestController.createAuthenticationToken(jwtAuthenticationRequest);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(fiscalCode,password));
         final UserDetails userDetailsRegistered = userDetailsService.loadUserByUsername(fiscalCode);
         final String tokenRegistered = jwtTokenUtil.generateToken(userDetailsRegistered);

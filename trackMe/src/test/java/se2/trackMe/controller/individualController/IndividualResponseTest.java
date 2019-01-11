@@ -61,6 +61,7 @@ public class IndividualResponseTest {
         individualRequest.setAccepted(true);
         individualService.setIndividualRequestAnswer(individualRequest);
 
+        assertEquals(individualService.getIndvidualPendingNotificationList(individual).size(),0);
         assertEquals(individualService.getIndividualAcceptedRequestList(individual).size(), 1);
 
         individualRequest.setAccepted(false);
