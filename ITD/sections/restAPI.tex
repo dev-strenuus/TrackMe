@@ -49,9 +49,6 @@
 		Request Example & 
 		\parbox{0.8\textwidth}{
 		\bigskip
-		POST /api/v1/user HTTP/1.1 \\
-		Host: {addr}:8080 \\
-		User-Agent: * \\
 		Content-Type: application/json \\
 		Accept: application/json \\
 		\bigskip
@@ -114,9 +111,6 @@
 	Request Example & 
 		\parbox{0.8\textwidth}{
 		\bigskip
-		POST /api/v1/user HTTP/1.1 \\
-		Host: {addr}:8080 \\
-		User-Agent: * \\
 		Content-Type: application/json \\
 		Accept: application/json \\
 		\bigskip
@@ -175,12 +169,25 @@
 			\bigskip Allows an individual or a third party to obtain an authentication Token
 		\bigskip }\\
 		\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{"username": "individualindivi", ^^J
+		  "password": "individual" ^^J
+		  \}
+		\end{lstlisting}
+	} \\
+		\hline
 	\end{tabularx}
 \newpage
 
 \textbf{NOTE: }
 \begin{itemize}
-\item all successive requests need to contain the token, retrieved during the login request, in order to be allowed;
+\item all successive requests need to contain the token, retrieved during the login request, in order to be allowed (as an example \{Authorization: "Bearer $eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmRyZWEiLCJleHAiOjE1NDc4MTk1NDcsImlhdCI6MTU0NzIxNDc0N30.znM-I2fY4F7mnTNZdDmT0yq9W22QUvMkZFBqT9uCIRjXir7dn_588NJBy4JmYwpUaRvOnJe4GNY58rtZqUfgJg$"\});
 \item if a logged in user try to use REST API trying to be another user a excepction is launched (code: 401 UNAUTHORIZED Content : \{error: "Trying to be another user!"\}.
 \end{itemize}
 
@@ -235,6 +242,25 @@
 		\bigskip Allows the third party to do an individual request of data.
 	\bigskip}  \\
 	\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "individualindivi"
+			\}, ^^J
+			"thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+			"subscribedToNewData": true
+		\}
+	\end{lstlisting}
+	} \\
+	\hline
 \end{tabularx}
 \newpage
 \textbf{Make and anonymous request} \\
@@ -287,6 +313,28 @@
 		\bigskip Allows the third party to do a group request of data.
 	\bigskip}  \\
 	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{
+		  "thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+		  "startAge": "12", ^^J
+		  "endAge": "15", ^^J
+		  "lat1": "-10.0", ^^J
+		  "lat2": "10.0", ^^J
+		  "lon1": "-5.0", ^^J
+		  "lon2": "5.0", ^^J
+		  "subscribedToNewData": false
+		  \}
+		\end{lstlisting}
+	} \\
+		\hline
 \end{tabularx}
 
 \textbf{Modify Third Party Password}\\
@@ -341,6 +389,19 @@
 		\bigskip
 	} \\
 	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{"newPassword": "thirdParty1", ^^J
+		  "oldPassword": "ciaone" ^^J
+		  \}
+		\end{lstlisting}
+	} \\
+		\hline
 \end{tabularx}
 \newpage
 \textbf{Get individual requests} \\
@@ -364,7 +425,7 @@
 		\parbox{0.7\textwidth}{
 			\bigskip
 			code: 200\\
-			Content : \{individualRequests: List<IndividualRequest>\}
+			Content : \{individualRequests: List$<$IndividualRequest$>$\}
 			\bigskip
 		} \\
 		\hline
@@ -385,6 +446,30 @@
 			\bigskip Allows the third parties to request for all individual requests it has done.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "individualindivi"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": true
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": false
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get individual request notifications} \\
@@ -408,7 +493,7 @@
 		\parbox{0.7\textwidth}{
 			\bigskip
 			code: 200\\
-			Content : \{notifications: List<IndividualRequest>\}
+			Content : \{notifications: List$<$IndividualRequest$>$\}
 			\bigskip
 		} \\
 		\hline
@@ -429,6 +514,36 @@
 			\bigskip Allows the third parties to request for notifications of individual requests.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "individualindivi"
+			\}, ^^J
+			"thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": true
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": false
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get individual request notifications counter} \\
@@ -473,6 +588,16 @@
 			\bigskip Allows the third parties to request for the number of new notifications of individual requests.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\begin{lstlisting}^^J
+			2 ^^J
+		\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get past individual data} \\
@@ -524,6 +649,36 @@
 			\bigskip Allows the third parties to request for past data of a specific individual.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get new individual data} \\
@@ -575,6 +730,36 @@
 			\bigskip Allows the third parties to request for new data of a specific individual.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get anonymous requests} \\
@@ -618,6 +803,33 @@
 		\parbox{0.7\textwidth}{
 			\bigskip Allows the third parties to request for all anonymous requests it has done.
 		\bigskip}  \\
+		\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{"id": "13", ^^J
+		  "startAge": "12", ^^J
+		  "endAge": "15", ^^J
+		  "lat1": "-10.0", ^^J
+		  "lat2": "10.0", ^^J
+		  "lon1": "-5.0", ^^J
+		  "lon2": "5.0", ^^J
+		  "subscribedToNewData": false\}, ^^J
+		  \{"id": "14", ^^J
+		  "startAge": "6", ^^J
+		  "endAge": "15", ^^J
+		  "lat1": "-1.0", ^^J
+		  "lat2": "10.0", ^^J
+		  "lon1": "-3.0", ^^J
+		  "lon2": "5.0", ^^J
+		  "subscribedToNewData": true
+		  \}]
+		\end{lstlisting}
+	} \\
 		\hline
 	\end{tabularx}
 	
@@ -668,6 +880,62 @@
 			\bigskip Allows the third parties to request for past data of an anonymous request.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[ ^^J
+		\{ ^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}] ^^J
+		\}, ^^J
+		\{ ^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:40.61", ^^J
+			"heartRate": 62,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 119, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:42.64", ^^J
+			"heartRate": 59,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 122, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}] ^^J
+		\} ^^J
+		]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get new anonymous request data} \\
@@ -717,6 +985,62 @@
 			\bigskip Allows the third parties to request for new data of an anonymous request.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[ ^^J
+		\{ ^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}] ^^J
+		\}, ^^J
+		\{ ^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:40.61", ^^J
+			"heartRate": 62,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 119, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:42.64", ^^J
+			"heartRate": 59,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 122, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}] ^^J
+		\} ^^J
+		]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 \newpage
 \subsection{Individual Controller}
@@ -766,6 +1090,26 @@
 			\bigskip Allows the individual to accept or refuse an individual request.
 		\bigskip}  \\
 		\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "individualindivi"
+			\}, ^^J
+			"thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": true
+		\}
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Modify Individual Password}\\
@@ -820,6 +1164,19 @@
 		\bigskip
 	} \\
 	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{"newPassword": "individual", ^^J
+		  "oldPassword": "ciaone" ^^J
+		  \}
+		\end{lstlisting}
+	} \\
+		\hline
 \end{tabularx}
 
 \textbf{Modify Individual Residence}\\
@@ -870,6 +1227,17 @@
 		\bigskip
 	} \\
 	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[ 3.0 , 4.1 ]
+		\end{lstlisting}
+	} \\
+		\hline
 \end{tabularx}
 
 \textbf{Get individual pending requests} \\
@@ -914,6 +1282,28 @@
 			\bigskip Allows the individual to request for all individual requests pending for him.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty1"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}, ^^J
+		\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty2"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get individual accepted requests} \\
@@ -958,6 +1348,28 @@
 			\bigskip Allows the individual to request for all individual requests that he has already accepted.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty1"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}, ^^J
+		\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty2"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get individual request notifications} \\
@@ -1002,6 +1414,28 @@
 			\bigskip Allows the individual to request for all new individual requests for him (that he hasn't seen yet).
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty1"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}, ^^J
+		\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty2"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Get individual request notifications counter} \\
@@ -1046,6 +1480,16 @@
 			\bigskip Allows an individual to request for the number of new notifications of individual requests.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\begin{lstlisting}^^J
+			2 ^^J
+		\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
 	
 	\textbf{Send Data} \\
@@ -1091,4 +1535,34 @@
 			\bigskip Allows the individual to send data.
 		\bigskip}  \\
 		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
 	\end{tabularx}
