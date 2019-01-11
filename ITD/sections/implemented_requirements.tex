@@ -12,7 +12,7 @@ Requirements in red are not fully implemented but the base for a further complet
 \end{itemize}
 
 \subsubsection*{Database}
-The database stores the Third party information and credentials inside the table denominated 'THIRD_PARTY'. It also saves the VAT number and password in another table called `USERS` with an attribute that specifies the role of the user (in this case the role is Third party) to determine which requests can be accepted and performed in future.\\
+The database stores the Third party information and credentials inside the table denominated "THIRD\_PARTY". It also saves the VAT number and password in another table called `USERS` with an attribute that specifies the role of the user (in this case the role is Third party) to determine which requests can be accepted and performed in future.\\
 
 \subsubsection*{Back-end}
 The Third party registration API handles the registration process for the Third party and the communication with the database. It performs a check on the presence of an already registered Third party with the same VAT number.
@@ -104,7 +104,7 @@ The application must have a connected device sending data to provide the service
 \end{itemize}
 
 \subsubsection*{Database}
-The database stores the data received by the Individuals in the `INDIVIDUAL_DATA` table.
+The database stores the data received by the Individuals in the `INDIVIDUAL\_DATA` table.
 
 \subsubsection*{Back-end}
 The Send data API allows the client to send data to the server and transfer them to the database if they are sent by a registered Individual.
@@ -115,7 +115,7 @@ In this first implementation data from external devices are randomly generated w
 
 
 %%
-\subsection{Third party - Data reception}
+\subsection{Data Management}
 \begin{itemize}	
 	\item {\color{Green}\textbf{R11)}} The system is optimized to send the data received from the mobile application to the third parties as soon as possible.
 	\item {\color{Green}\textbf{R9)}} The third party is not allowed to access the users data until he/she accepts the request.
@@ -124,13 +124,25 @@ In this first implementation data from external devices are randomly generated w
 \end{itemize}
 
 \subsubsection*{Database}
-The database keeps all the data in the table `INDIVIDUAL_DATA`
+The database keeps all the data in the table `INDIVIDUAL\_DATA`
 
 
 \subsubsection*{Back-end}
 
 
 \subsubsection*{Front-end}
+
+
+%%
+\subsection{AutomatedSOS service}
+\begin{itemize}	
+	\item {\color{Green}\textbf{R25)}} The AutomatedSOS service must be enabled.
+	\item {\color{Green}\textbf{R18)}} When the health status values go below the threshold, the system must send an SOS within 5 seconds;
+	\item {\color{Green}\textbf{R26)}}	 The system must allow the user to enable/disable the AutomatedSOS service at any time.
+\end{itemize}
+
+\subsubsection*{Front-end}
+
 
 %%
 \subsection{Individual Requests}
@@ -142,7 +154,7 @@ The database keeps all the data in the table `INDIVIDUAL_DATA`
 \end{itemize}
 
 \subsubsection*{Database}
-The database stores the requests from Third parties to Individuals in the table `INDIVIDUAL_REQUEST`.
+The database stores the requests from Third parties to Individuals in the table `INDIVIDUAL\_REQUEST`.
 
 \subsubsection*{Back-end}
 
@@ -153,13 +165,13 @@ The Third party client shows a list of the Individuals registered to TrackMe and
 
 %%
 \subsection{Anonymous Requests}	
-\begin{itemize}	
+\begin{itemize}
 	\item {\color{Green}\textbf{R5)}} The system must be able to provide to the third party the health status of individuals
 in an anonymous way;
 	\item {\color{Green}\textbf{R4)}} The groups must be composed at least by 1000 individuals;
 	\item {\color{Green}\textbf{R6)}} The system must be able to aggregate the data of the individuals, as requested by the
 third party;
-\end{itemize}	
+\end{itemize}
 \subsubsection*{Database}
 
 
