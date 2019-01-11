@@ -141,4 +141,24 @@ public class IndividualController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Provided values are not valid");
         }
     }
+
+    @JsonView(Profile.IndividualPublicView.class)
+    @RequestMapping(method = RequestMethod.PUT, value = "/individual/{username}/updateAutomatedSOS")
+    public void updateAutomatesSOS(@PathVariable("username") String id, @RequestBody boolean value, @RequestHeader("Authorization") String token) {
+        checkUsername(id, token);
+        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+
+        individual.setAutomatedSOS(value);
+        individualService.updateIndividual(individual);
+    }
+
+    @JsonView(Profile.IndividualPublicView.class)
+    @RequestMapping("/individual/{username}/automatedSOS")
+    public @ResponseBody
+    boolean getAutomatesSOSStatus(@PathVariable("username") String id, @RequestHeader("Authorization") String token){
+        checkUsername(id, token);
+        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+
+        return individual.isAutomatedSOS();
+    }
 }
