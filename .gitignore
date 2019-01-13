@@ -1,7 +1,8 @@
 # .gitignore
 
 .DS_Store
-*.jar
+target/
+classes/
 *.log
 *.aux
 *.gz

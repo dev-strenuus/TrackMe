@@ -97,18 +97,6 @@ app.controller("individualSignUpController", function ($scope, $http, $location,
 
 app.controller("individualLoginController", function ($scope, $http, $location, $window, SharedDataService) {
     console.log("login");
-    $scope.position = null;
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position){
-            $scope.$apply(function(){
-                $scope.position = position;
-            });
-        });
-    }
-    else{
-        $window.alert("error");
-    }
-    $window.alert($scope.position);
     $scope.credentials = {};
     $scope.ipAddress = "";
     $scope.port = "";
