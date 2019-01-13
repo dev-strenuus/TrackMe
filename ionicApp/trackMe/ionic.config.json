@@ -1,5 +1,7 @@
 {
-  "name": "trackMe",
-  "integrations": {},
-  "type": "ionic-angular"
+  "name": "TrackMe",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
 }
