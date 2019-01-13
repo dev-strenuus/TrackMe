@@ -1,9 +1,6 @@
 package se2.trackMe.controller.authenticationController;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseOperation;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,7 +20,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.web.server.ResponseStatusException;
 import se2.trackMe.TrackMeApplication;
-import se2.trackMe.controller.individualController.IndividualController;
 import se2.trackMe.controller.individualController.IndividualService;
 import se2.trackMe.controller.thirdPartyController.ThirdPartyService;
 import se2.trackMe.model.Individual;
@@ -37,11 +33,8 @@ import static org.junit.Assert.*;
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TrackMeApplication.class)
-@DatabaseSetup(value = SignUpAndLoginTest.DATASET)
-@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = SignUpAndLoginTest.DATASET)
 @DirtiesContext
 public class SignUpAndLoginTest {
-    static final String DATASET = "/registrationData.xml";
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -120,9 +113,6 @@ public class SignUpAndLoginTest {
         }
 
         // login of a registered user
-
-        //JwtAuthenticationRequest jwtAuthenticationRequest= new JwtAuthenticationRequest(fiscalCode,password);
-        //authenticationRestController.createAuthenticationToken(jwtAuthenticationRequest);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(fiscalCode,password));
         final UserDetails userDetailsRegistered = userDetailsService.loadUserByUsername(fiscalCode);
         final String tokenRegistered = jwtTokenUtil.generateToken(userDetailsRegistered);

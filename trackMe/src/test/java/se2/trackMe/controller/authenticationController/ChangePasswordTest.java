@@ -1,4 +1,4 @@
-package se2.trackMe.controller.thirdPartyController;
+package se2.trackMe.controller.authenticationController;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import org.junit.Test;
@@ -14,44 +14,57 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import se2.trackMe.TrackMeApplication;
 import se2.trackMe.controller.authenticationController.UserController;
+import se2.trackMe.controller.authenticationController.UserService;
+import se2.trackMe.controller.individualController.IndividualService;
 import se2.trackMe.model.Individual;
-import se2.trackMe.model.ThirdParty;
 
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class, TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TrackMeApplication.class)
 @DirtiesContext
-public class IndividualRequestTest {
+public class ChangePasswordTest {
 
     @Autowired
     private UserController userController;
 
     @Autowired
-    private ThirdPartyService thirdPartyService;
+    private UserService userService;
+
+    @Autowired
+    private IndividualService individualService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
     /***
-     * This test verifies the correct insertion of the Individual Request into the database.
+     * This test verifies the correct modification of the Password of the User into the database.
      */
     @Test
-    public void IndividualRequestTest() {
-        String vatNumber = "vatNumber";
+    public void ChangePasswordTest(){
         Date birthDate = new Date(000000000);
         String fiscalCode = "fiscalCodeTest00";
         String password = "password";
         Individual individual = new Individual(fiscalCode, "name", "surname", password, birthDate, 40.5f, 10.0f);
         userController.addIndividual(individual);
-        ThirdParty thirdParty = new ThirdParty(vatNumber,"thirdParty", password);
-        userController.addThirdParty(thirdParty);
-        thirdPartyService.addIndividualRequest(thirdParty, individual, true);
+        String newPassword= "newPassword";
+        try {
+            userService.updatePassword(fiscalCode,newPassword,password);
+        } catch (Exception e) {
+            fail();
+        }
 
-        assertEquals(thirdPartyService.getIndividualRequest(thirdParty, individual).isPresent(), true);
+        try {
+            userService.updatePassword(fiscalCode,"newPassword","fakePassword");
+            fail();
+        } catch (Exception e) {
+        }
+
+        assertEquals(individualService.getIndividual(fiscalCode).get().getPassword(),newPassword);
+
     }
 }
-

@@ -1,4 +1,4 @@
-package se2.trackMe.controller.thirdPartyController;
+package se2.trackMe.controller.individualController;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import se2.trackMe.TrackMeApplication;
 import se2.trackMe.controller.authenticationController.UserController;
 import se2.trackMe.model.Individual;
-import se2.trackMe.model.ThirdParty;
 
 import java.util.Date;
 
@@ -25,33 +24,30 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = TrackMeApplication.class)
 @DirtiesContext
-public class IndividualRequestTest {
+public class AutomatedSOSTest {
 
     @Autowired
     private UserController userController;
 
     @Autowired
-    private ThirdPartyService thirdPartyService;
+    private IndividualService individualService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
     /***
-     * This test verifies the correct insertion of the Individual Request into the database.
+     * This test verifies the correct modification of the AutomatedSOS boolean value into the database.
      */
     @Test
-    public void IndividualRequestTest() {
-        String vatNumber = "vatNumber";
+    public void AutomatedSOSTest() {
         Date birthDate = new Date(000000000);
         String fiscalCode = "fiscalCodeTest00";
         String password = "password";
         Individual individual = new Individual(fiscalCode, "name", "surname", password, birthDate, 40.5f, 10.0f);
         userController.addIndividual(individual);
-        ThirdParty thirdParty = new ThirdParty(vatNumber,"thirdParty", password);
-        userController.addThirdParty(thirdParty);
-        thirdPartyService.addIndividualRequest(thirdParty, individual, true);
+        individual.setAutomatedSOS(true);
+        individualService.updateIndividual(individual);
 
-        assertEquals(thirdPartyService.getIndividualRequest(thirdParty, individual).isPresent(), true);
+        assertEquals(individualService.getIndividual(fiscalCode).get().isAutomatedSOS(),true);
     }
 }
-

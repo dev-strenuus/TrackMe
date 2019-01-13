@@ -1,1 +1,716 @@
 \section{Testing}
+
+This section describes in the following order the performed Unit Tests, Integration/Feature Tests and System Integration Tests.
+
+\subsection{Unit Testing}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Sign Up}\\
+		\hline
+		state & input & assertions\\
+		\hline
+		Unregistered user &
+		Valid credentials& 
+		The user insertion into the database has  result "true"\newline
+		\\
+		\hline
+		Registered user &
+		Credentials& 
+		The user insertion into the database has result "false" \newline
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Login}\\
+		\hline
+		state & request & assertions\\
+		\hline
+		Registered user& 
+		Valid credentials &
+		The user authentication has result "true" \newline
+		\\
+		\hline
+		Registered user & 
+		Invalid credentials &
+		The user authentication has result "false"  \newline
+		\\
+		\hline
+		Unregistered user & 
+		Credentials &
+		The user authentication has result "false"  \newline
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Individual Request by the Third Party}\\
+		\hline
+		state & request & assertions \\
+		\hline
+		Fiscal Code never used before &
+		Valid Fiscal Code &
+		 The insertion of the Individual Request into the database has result "true"\newline
+		\\
+		\hline
+		Fiscal Code previously used to send an Individual Request&
+		Valid Fiscal Code &
+		The insertion of the Individual Request into the database has result "false" \newline
+		\\
+		\hline
+		Indifferent&
+		Invalid Fiscal Code &
+		The insertion of the Individual Request into the database has result "false" \newline
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Response to the Individual Request}\\
+		\hline
+		state & request & assertions \\
+		\hline
+		Pendent request& 
+		Accept request &
+		The size of accepted requests is increased by 1 \newline
+		\\
+		\hline
+		Pendent request& 
+		Refuse request &
+		The size of pending requests is decreased by 1 \newline
+		\\
+		\hline
+		Accepted request & 
+		Refuse request &
+		The size of accepted requests is decreased by 1 \newline
+		\\
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Change password}\\
+		\hline
+		state & input & assertions \\
+		\hline
+		Logged user &
+		Old password valid& 
+		The password is updated \newline
+		\\
+		\hline
+		Logged user &
+		Old password invalid& 
+		The password is not updated \newline
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Change location}\\
+		\hline
+		state & input & assertions \\
+		\hline
+		Logged user &
+		Valid coordinates& 
+		The coordinates are updated \newline
+		\\
+		\hline
+		Logged user &
+		Invalid coordinates& 
+		The coordinates are not updated \newline
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Integration/Feature Testing}
+In this section we present the Integration tests between the components of the back-end system.\\
+As Integration we test the Features provided by each API.\\
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Third Party Sign Up: */auth/thirdparty/signUp}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		VAT code not associated to another User &
+		Request with valid data & 
+		- Response status code is 200 OK \newline
+		- The database has an entry with the new User data
+		\\
+		
+		\hline
+		VAT code already associated to another User   &
+		Request with valid data & 
+		- Response status code is 409 CONFLICT\newline
+		- The database has not an entry with the new User data
+		\\
+		
+		\hline
+		Indifferent  &
+		Request with invalid data & 
+		- Response status code is 500 INTERNAL SERVER ERROR\newline
+		- The database has not an entry with the new User data
+		\\
+		
+		\hline
+
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Individual Sign Up: */auth/individual/signUp}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Fiscal code not associated to another User &
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The database has an entry with the new User data
+		\\
+		
+		\hline
+		Fiscal code already associated to another User   &
+		Request with valid data & 
+		- Response status code is 409 CONFLICT\newline
+		- The database has not an entry with the new User data
+		\\
+		
+		\hline
+		Indifferent  &
+		Request with invalid data & 
+		- Response status code is 500 INTERNAL SERVER ERROR \newline
+		- The database has not an entry with the new User data
+		\\
+		
+		\hline
+
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Login: */auth}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Registered user&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- Response message contains the token to be used by the User
+		\\
+		
+		\hline
+		Registered user&
+		Request with invalid data & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The token is not generated
+		\\
+		
+		\hline
+		Unregistered user &
+		Request with consistent data & 
+		- Response status code is 500 INTERNAL SERVER ERROR\newline
+		- The token is not generated
+		\\
+		
+		\hline
+
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Make an Individual Request: *thirdparty/individualRequest}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid fiscal code & 
+		- Response status code is 200 OK\newline
+		- The database has an entry with the new Individual Request data
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The database has not an entry with the new Individual Request data
+		\\
+		
+		\hline
+		Third party logged&
+		Request with invalid fiscal code & 
+		- Response status code is code: 404 NOT FOUND\newline
+		- The database has not an entry with the new Individual Request data
+		\\
+		
+		\hline
+		Third party logged&
+		Request with fiscal code already sent & 
+		- Response status code is Code: 401 CONFLICT\newline
+		- The database has not an entry with the new Individual Request data
+		\\
+		
+		\hline
+
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Make an Anonymous/Group Request: *thirdparty/anonymousRequest}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The database has an entry with the Anonymous Request data
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The database has not an entry with the Anonymous Request data
+		\\
+		
+		\hline
+		Third party logged&
+		Request with invalid data & 
+		- Response status code is code: 500 INTERNAL SERVER ERROR\newline
+		- The database has not an entry with the Anonymous Request data
+		\\
+		
+		\hline
+
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Modify Third Party Password: */thirdParty/username/changePassword}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The database has an entry with the Anonymous Request data
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The database is not updated
+		\\
+		
+		\hline
+		Third party logged&
+		Request with invalid data & 
+		- Response status code is code: 422 UNPROCESSABLE ENTITY\newline
+		- The database is not updated
+		\\
+		
+		\hline
+
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Get individual requests: */thirdParty/\{thirdParty\}/individualRequests}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The list of Individual Requests is sent to the Third Party
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The database is not updated
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Get past individual data: */thirdParty/\{thirdParty\}/\{individual\}/data}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The Past Data are sent to the Third Party
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The Past Data are not sent to the Third Party
+		\\
+		\hline
+		Third party logged&
+		Request with invalid fiscal code & 
+		- Response status code is 404 NOT FOUND\newline
+		- The Past Data are not sent to the Third Party
+		\\
+		\hline
+		Third party did not ever send the Individual Request&
+		Request with consistent data & 
+		- Response status code is 404 NOT FOUND\newline
+		- The Past Data are not sent to the Third Party
+		\\
+		Individual did not accept the Individual Request&
+		Request with consistent data & 
+		- Response status code is 400 BAS REQUEST\newline
+		- The Past Data are not sent to the Third Party
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Get new individual data: */thirdParty/\{thirdParty\{/notications/\{individual\}}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The New Data are sent to the Third Party
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The New Data are not sent to the Third Party
+		\\
+		\hline
+		Third party logged&
+		Request with invalid fiscal code & 
+		- Response status code is 404 NOT FOUND\newline
+		- The New Data are not sent to the Third Party
+		\\
+		\hline
+		Third party did not ever send the Individual Request&
+		Request with consistent data & 
+		- Response status code is 404 NOT FOUND\newline
+		- The New Data are not sent to the Third Party
+		\\
+		\hline
+		Individual did not accept the Individual Request&
+		Request with consistent data & 
+		- Response status code is 400 BAS REQUEST\newline
+		- The New Data are not sent to the Third Party
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Get anonymous requests: */thirdParty/\{thirdParty\}/anonymousRequests}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The data are sent to the Third Party
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The data are not sent to the Third Party
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Get past anonymous request data: */thirdParty/\{thirdParty\}/anonymousAnswer/\{anonymousRequest\}}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The data are sent to the Third Party
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The data are not sent to the Third Party
+		\\
+		
+		\hline
+		Third party logged&
+		Request with anonymousRequest not valid& 
+		- Response status code is 404 NOT FOUND \newline
+		- The data are not sent to the Third Party
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Get new anonymous request data: */thirdParty/\{thirdParty\}/anonymousAnswer/notications/\{anonymousRequest\}}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Third party logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The data are sent to the Third Party
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The data are not sent to the Third Party
+		\\
+		
+		\hline
+		Third party logged&
+		Request with anonymousRequest not valid& 
+		- Response status code is 404 NOT FOUND \newline
+		- The data are not sent to the Third Party
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Answer to Individual Request: *individual/individualRequest/answer}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Individual logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The database is updated with the new state of the Request
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The database is not updated
+		\\
+		
+		\hline
+		Individual logged&
+		Request with invalid data& 
+		- Response status code is 404 NOT FOUND \newline
+		-The database is not updated
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Modify Individual Password: */individual/username/changePassword}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Individual logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The database is updated with the new Password
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The database is not updated
+		\\
+		
+		\hline
+		Individual logged&
+		Request with invalid data& 
+		- Response status code is 422 UNPROCESSABLE ENTITY \newline
+		-The database is not updated
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Modify Individual Residence: */individual/username/changeLocation}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Individual logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The database is updated with the new Residence
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The database is not updated
+		\\
+		
+		\hline
+		Individual logged&
+		Request with invalid data& 
+		- Response status code is 422 UNPROCESSABLE ENTITY \newline
+		-The database is not updated
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Get individual pending requests: */individual/\{individual\}/individualRequests}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Individual logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The data are sent to the Individual
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The data are not sent to the Individual
+		\\
+		
+		\hline
+		Individual logged&
+		Request with invalid data& 
+		- Response status code is 404 NOT FOUND \newline
+		-The data are not sent to the Individual
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		\multicolumn{3}{c}{Get individual accepted requests: */individual/\{individual\}/acceptedRequests}\\
+
+		\hline
+		state & request & assertions \\
+		
+		\hline
+		Individual logged&
+		Request with valid data & 
+		- Response status code is 200 OK\newline
+		- The data are sent to the Individual
+		\\
+		
+		\hline
+		Indifferent&
+		Request with invalid token & 
+		- Response status code is 401 UNAUTHORIZED \newline
+		- The data are not sent to the Individual
+		\\
+		
+		\hline
+		Individual logged&
+		Request with invalid data& 
+		- Response status code is 404 NOT FOUND \newline
+		-The data are not sent to the Individual
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+

@@ -6,29 +6,34 @@
 \BOOKMARK [2][-]{subsection.1.3}{Reference Documents}{section.1}% 6
 \BOOKMARK [2][-]{subsection.1.4}{Overview}{section.1}% 7
 \BOOKMARK [1][-]{section.2}{Implemented requirements}{}% 8
-\BOOKMARK [2][-]{subsection.2.1}{Third Party Registration}{section.2}% 9
-\BOOKMARK [2][-]{subsection.2.2}{Individual Registration}{section.2}% 10
-\BOOKMARK [2][-]{subsection.2.3}{Third Party Login}{section.2}% 11
-\BOOKMARK [2][-]{subsection.2.4}{Individual Login}{section.2}% 12
-\BOOKMARK [2][-]{subsection.2.5}{Individual Data Manager}{section.2}% 13
-\BOOKMARK [2][-]{subsection.2.6}{Individual Notifications}{section.2}% 14
-\BOOKMARK [2][-]{subsection.2.7}{Individual Settings Management}{section.2}% 15
-\BOOKMARK [2][-]{subsection.2.8}{Individual SOS Call}{section.2}% 16
-\BOOKMARK [2][-]{subsection.2.9}{Third Party Notifications}{section.2}% 17
-\BOOKMARK [2][-]{subsection.2.10}{Third Party Settings Management}{section.2}% 18
-\BOOKMARK [2][-]{subsection.2.11}{Third Party Individual Request}{section.2}% 19
-\BOOKMARK [2][-]{subsection.2.12}{Third Party Anonymous Request}{section.2}% 20
-\BOOKMARK [1][-]{section.3}{Adopted Frameworks}{}% 21
-\BOOKMARK [2][-]{subsection.3.1}{Spring Boot}{section.3}% 22
-\BOOKMARK [2][-]{subsection.3.2}{AngularJS}{section.3}% 23
-\BOOKMARK [2][-]{subsection.3.3}{Ionic}{section.3}% 24
-\BOOKMARK [2][-]{subsection.3.4}{Drawbacks}{section.3}% 25
-\BOOKMARK [1][-]{section.4}{Source Code Structure}{}% 26
-\BOOKMARK [2][-]{subsection.4.1}{Back End}{section.4}% 27
-\BOOKMARK [2][-]{subsection.4.2}{Front End}{section.4}% 28
-\BOOKMARK [1][-]{section.5}{Testing}{}% 29
-\BOOKMARK [1][-]{section.6}{Installation Instructions}{}% 30
-\BOOKMARK [1][-]{section.7}{Source Code Structure}{}% 31
-\BOOKMARK [2][-]{subsection.7.1}{Romeo Paolo}{section.7}% 32
-\BOOKMARK [2][-]{subsection.7.2}{Scotti Andrea}{section.7}% 33
-\BOOKMARK [2][-]{subsection.7.3}{Staccone Francesco}{section.7}% 34
+\BOOKMARK [2][-]{subsection.2.1}{Third Party - Registration}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.2}{Individual - Registration}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.3}{Login}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.4}{Third Party - Settings Management}{section.2}% 12
+\BOOKMARK [2][-]{subsection.2.5}{Individual - Settings Management}{section.2}% 13
+\BOOKMARK [2][-]{subsection.2.6}{Individual - AutomatedSOS service}{section.2}% 14
+\BOOKMARK [2][-]{subsection.2.7}{Individual - Data acquisition}{section.2}% 15
+\BOOKMARK [2][-]{subsection.2.8}{Data Management}{section.2}% 16
+\BOOKMARK [2][-]{subsection.2.9}{AutomatedSOS service}{section.2}% 17
+\BOOKMARK [2][-]{subsection.2.10}{Individual Requests}{section.2}% 18
+\BOOKMARK [2][-]{subsection.2.11}{Anonymous Requests}{section.2}% 19
+\BOOKMARK [1][-]{section.3}{Adopted Frameworks}{}% 20
+\BOOKMARK [2][-]{subsection.3.1}{Spring Boot}{section.3}% 21
+\BOOKMARK [2][-]{subsection.3.2}{AngularJS}{section.3}% 22
+\BOOKMARK [2][-]{subsection.3.3}{Ionic}{section.3}% 23
+\BOOKMARK [2][-]{subsection.3.4}{Drawbacks}{section.3}% 24
+\BOOKMARK [1][-]{section.4}{Source Code Structure}{}% 25
+\BOOKMARK [2][-]{subsection.4.1}{Back End}{section.4}% 26
+\BOOKMARK [2][-]{subsection.4.2}{Front End}{section.4}% 27
+\BOOKMARK [1][-]{section.5}{Testing}{}% 28
+\BOOKMARK [2][-]{subsection.5.1}{Unit Testing}{section.5}% 29
+\BOOKMARK [2][-]{subsection.5.2}{Integration/Feature Testing}{section.5}% 30
+\BOOKMARK [1][-]{section.6}{REST API}{}% 31
+\BOOKMARK [2][-]{subsection.6.1}{Authentication Controller}{section.6}% 32
+\BOOKMARK [2][-]{subsection.6.2}{Third Party Controller}{section.6}% 33
+\BOOKMARK [2][-]{subsection.6.3}{Individual Controller}{section.6}% 34
+\BOOKMARK [1][-]{section.7}{Installation Instructions}{}% 35
+\BOOKMARK [1][-]{section.8}{Source Code Structure}{}% 36
+\BOOKMARK [2][-]{subsection.8.1}{Romeo Paolo}{section.8}% 37
+\BOOKMARK [2][-]{subsection.8.2}{Scotti Andrea}{section.8}% 38
+\BOOKMARK [2][-]{subsection.8.3}{Staccone Francesco}{section.8}% 39

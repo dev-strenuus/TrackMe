@@ -6,7 +6,7 @@
 <body>
 
 <div ng-show="sharedDataService.loggedIn" class="container-fluid">
-    <table align="center" cellpadding="22">
+    <!--<table align="center" cellpadding="22">
         <tr>
             <th><h4>Your Fiscal code:</h4></th>
             <th><h4 ng-bind="fiscalCode"></h4></th>
@@ -20,22 +20,65 @@
             <th><h4>New password:</h4></th>
             <td><input class="textArea" type="password" ng-model="newPassword" minlength="6"></td>
         </tr>
-    </table>
+    </table>-->
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <p>Your Fiscal code:</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <p ng-bind="fiscalCode"></p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <p>Old password:</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <input class="textArea" type="password" ng-model="oldPassword">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <p>New password:</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <input class="textArea" type="password" ng-model="newPassword" minlength="6">
+        </div>
+    </div>
     <button class="submit" ng-click="updatePassword()">Update</button>
     <p ng-bind="passReqResult"></p>
-
     <hr>
-
-    <div align="center" >
-        <h3>Automated SOS</h3>
-        <p>You can enable or disable the service at any time.</p>
-        <button type="button" ng-click="toggleAutomatedSOS()" >{{ sharedDataService.automatedSOS ? 'Disable' : 'Enable' }}</button>
-        <p ng-bind="resultSOS"></p>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <p>Automated SOS:</p>
+            <p>You can enable or disable the service at any time.</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <button type="button" ng-click="toggleAutomatedSOS()" >{{ sharedDataService.automatedSOS ? 'Disable' : 'Enable' }}</button>
+            <p ng-bind="resultSOS"></p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <p>New latitude:</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <input type="number" ng-model="newLatitude">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <p>New longitude:</p>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <input type="number" ng-model="newLongitude">
+        </div>
     </div>
 
-    <hr>
-
-    <table align="center" cellpadding="22">
+    <!--<table align="center" cellpadding="22">
         <tr>
             <th><h4>New latitude:</h4></th>
             <td><input class="textArea" type="number" ng-model="newLatitude"></td>
@@ -45,7 +88,8 @@
             <th><h4>New longitude:</h4></th>
             <td><input class="textArea" type="number" ng-model="newLongitude"></td>
         </tr>
-    </table>
+    </table>-->
+
     <button class="submit" ng-click="updateCoordinates()">Update</button>
     <p ng-bind="coordReqResult"></p>
 </div>
