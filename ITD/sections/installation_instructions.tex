@@ -1,3 +1,15 @@
 \section{Installation Instructions} 
 
-java -DanonymousSize="2" -DanonymousTime="10000" -jar trackMe-0.2.0.jar
+\subsection{Server}
+In oder to run the server type from the executable folder: \\
+\textit{java -DanonymousSize="2" -DanonymousTime="10000" -jar trackMe-0.2.0.jar}
+Parameters:
+\begin{itemize}
+	\item \textit{anonymousSize}: minimum number of individuals requested to be in the group in order to guarantee anonymity in group request.
+	\item \textit{anonymousTime}: The check of anonymity and the retrieval of data are done every this quantity of time (in milliseconds).
+\end{itemize}
+
+\subsection{Third Party Client}
+The third party can reach his login page on the browser from the url: \textit{ipserver:8080/thirdParty/html/thirdParty.html} where ipserver is the ip of the server.
+
+\subsection{Individual Client}
