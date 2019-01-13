@@ -109,10 +109,11 @@ The database updates the data of the Individual by performing an update of the e
 \begin{itemize}	
 	\item {\color{Green}\textbf{R27)}} The system must be able to store data retrieved from registered users.
 	\item {\color{Red}\textbf{R3)}} The system must be able to retrieve data from the smartwatches and similar devices;
+	\item {\color{Green}\textbf{R35)}} The system must be able to aggregate data based on the location of the individuals residence.\\
 \end{itemize}
 
 \subsubsection*{Database}
-The database stores the data received by the Individuals in the `INDIVIDUAL\_DATA` table and stores the notifications, containing these data, for third parties subscribed to these data in the `THIRD\_PARTY\_NOTIFICATION` table.
+The database stores the data received by the Individuals in the `INDIVIDUAL\_DATA` table  (mapped with the current residence of the individual) and stores the notifications, containing these data, for third parties subscribed to these data in the `THIRD\_PARTY\_NOTIFICATION` table.
 
 \subsubsection*{Back-end}
 The Send data implemented API allows the client to send data to the server and transfer them to the database if they are sent by a registered Individual.
@@ -147,15 +148,15 @@ The third party front-end offers a dedicated page for each singular individual r
 	\item {\color{Green}\textbf{R28)}} The user must have an active subscription to stop it;
 	\item {\color{Green}\textbf{R29)}} The system must be able to allow the user to unsubscribe to the third party and to stop the transmission of his/her data.
 	\item {\color{Green}\textbf{R7)}} The system must be able to forward the requests from the third party to the user;
-	\item {\color{Green}\textbf{R8)}} The system must save the preference of the user;	
+	\item {\color{Green}\textbf{R8)}} The system must save the preference of the user;
+	\item {\color{Green}\textbf{R37)}} The system must allow the third party to make individual requests.\\
 \end{itemize}
 
 \subsubsection*{Database}
-The database stores the requests from Third parties to Individuals in the table `INDIVIDUAL\_REQUEST`.
+The database stores the requests from Third parties to Individuals in the table `INDIVIDUAL\_REQUEST`. A notification for the individual is saved in the table `INDIVIDUAL\_NOTIFICATION`.
 
 \subsubsection*{Back-end}
-
-
+The Individual Request implemented API allows the third party to make an individual request by communicating with the database. They also allow the individual to retrieve all the individual requests for him and interact with them.
 
 \subsubsection*{Front-end}
 The Third party client home page shows a list of the Individuals registered to TrackMe and allows the Third party to make individual request to the servers. The notifications page instead shows all the individual requested made in the past and the response from individuals.
@@ -169,12 +170,17 @@ in an anonymous way;
 	\item {\color{Green}\textbf{R4)}} The groups must be composed at least by 1000 individuals;
 	\item {\color{Green}\textbf{R6)}} The system must be able to aggregate the data of the individuals, as requested by the
 third party;
+	\item {\color{Green}\textbf{R36)}} The system must allow the third party to make group requests.\\
 \end{itemize}
 \subsubsection*{Database}
+The database stores the requests from Third parties in the table `ANONYMOUS\_REQUEST`.
 
 
 \subsubsection*{Back-end}
+When the Anonymous Request implemented API receive an anonymous request, if it is a well formed request, the server immediately responds to the client. While in the background, the server starts a new thread that, from the timestamp of the first data in DB it will check, until now, with a fixed range of one hour, if there is a group that satisfy the anonymous request.
+If the third party, who made the request, subscribed to new data, this operation will be done every hour from so on. If the server crashes, these threads are restarted during the application restart. As soon as data are ready they are inserted in the DB in the table `ANONYMOUS\_ANSWER`.
 
 
 \subsubsection*{Front-end}
+The Third party client home page contains a forms which allow him to create and send to the server an anomymous request.
 The Third party client notifications page instead shows all the anonymous requested made in the past. For each singular anonymous request there is a page which shows past and new data concerning that requests and some statistics. Both past and new data are requested every 5 seconds to the server.

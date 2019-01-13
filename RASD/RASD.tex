@@ -113,7 +113,7 @@ The TrackMe system is thought to be a Health Data Management and Run-Friendly Mo
 		\item AutomatedSOS;\\
 		\item Track4Run.\\
 		\end{itemize}
-\textit {Data4Help}, a service that allows the third parties to monitor the location and the health status of the individuals. TrackMe acquires the registered users' data trough external devices connected to their smartphones.\\
+\textit {Data4Help}, a service that allows the third parties to monitor the the health status of the individuals. TrackMe acquires the registered users' data trough external devices connected to their smartphones.\\
 The other two services are built on top of Data4Help and their main purpose will be to provide tangible functionalities to the users.\\
 \textit{AutomatedSOS }, an optional service that monitors the health status of the users by performing a continuous evaluation of the health parameters' data acquired by Data4Help. It sends an SOS to an entity that can send an ambulance to the location of the individual if it establishes that he/she is in danger.\\
 \textit{Track4Run}, a service thought for the organization of running events. It allows the third parties to organize races and the users to enrol to them or simply know the position of runners during a run.\\
@@ -125,7 +125,7 @@ The features offered by the abovementioned services comply with strict requireme
 			{\normalfont
 			The goals of the whole application are formalized below:\\
 				\begin{itemize}
-				\item G1) Third parties can monitor the position and the health status of the individuals;\\
+				\item G1) Third parties can monitor the health status of the individuals;\\
 				\item G2) Third parties can access the anonymized data of the groups of individuals;\\
 				\item G3) The user can accept or refuse the requests concerning the treatment of his/her personal data by the third parties;\\
 				\item G4) The third party can ask to subscribe to new data and receive them as soon as they are produced;\\
@@ -646,17 +646,17 @@ The association WalkMore wants to promote walking among young people who have a 
 				}
 			\textbf{\item Mapping on requirements}\\
 				\begin{itemize}
-				\item G1) Third parties can monitor the position and the health status of the individuals;\\
+				\item G1) Third parties can monitor the health status of the individuals;\\
 				{\normalfont
 					\begin{itemize}
 					\item D1) The measurements of the health status parameters of the individuals are supposed to be reliable;\\
-	 				\item D2) The position of the individuals is supposed to be reliable;\\
 					\item D8) The location of a registered user is acquired by his smartphone used by the user himself;\\
 					\item D9) Data related to the health status of a registered user are acquired by smartwatches or similar devices used by the user himself;\\
 					\item R1) The users must have given the consensus to the treatment of their information to the third party;\\
-					\item R2) The system must be able to provide to the third party the location and the health status of individuals;
+					\item R2) The system must be able to provide to the third party and the health status of individuals;
 					\item R3) The system must be able to retrieve data from the smartwatches and similar devices;\\
-					\item R27) The system must be able to store data retrieved from registered users;\\
+					\item R27) The system must be able to store data retrieved from registered individuals;\\
+					\item R37) The system must allow the third party to make individual requests.\\
 					\end{itemize}
 				}
 				\item G2) Third parties can access the anonymized data of the groups of individuals;\\
@@ -670,6 +670,8 @@ The association WalkMore wants to promote walking among young people who have a 
 					\item R5) The system must be able to provide to the third party the health status of individuals in an anonymous way;\\
 					\item R6) The system must be able to aggregate the data of the individuals, as requested by the third party;\\
 					\item R27) The system must be able to store data retrieved from registered users.\\
+					\item R35) The system must be able to aggregate data based on the location of the individuals residence.\\
+					\item R36) The system must allow the third party to make group requests.\\
 					\end{itemize}
 				}
 				\newpage
