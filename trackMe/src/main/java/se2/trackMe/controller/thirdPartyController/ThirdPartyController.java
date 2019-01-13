@@ -178,7 +178,7 @@ public class ThirdPartyController {
     public @ResponseBody
     List<AnonymousAnswer> getAnonymousData(@PathVariable("thirdParty") String tPId, @PathVariable("anonymousRequest") Long aRId, @RequestHeader("Authorization") String token) {
         checkUsername(tPId, token);
-        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
         AnonymousRequest anonymousRequest = thirdPartyService.getAnonymousRequest(aRId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anonymous Request not found"));
         if(!anonymousRequest.getThirdParty().getVat().equals(anonymousRequest.getThirdParty().getVat()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not your request");
@@ -190,7 +190,7 @@ public class ThirdPartyController {
     public @ResponseBody
     List<AnonymousAnswer> getAnonymousDataNotifications(@PathVariable("thirdParty") String tPId, @PathVariable("anonymousRequest") Long aRId, @RequestHeader("Authorization") String token) {
         checkUsername(tPId, token);
-        ThirdParty thirdParty = thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
+        thirdPartyService.getThirdParty(tPId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ThirdParty not found"));
         AnonymousRequest anonymousRequest = thirdPartyService.getAnonymousRequest(aRId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anonymous Request not found"));
         if(!anonymousRequest.getThirdParty().getVat().equals(anonymousRequest.getThirdParty().getVat()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not your request");
@@ -201,7 +201,7 @@ public class ThirdPartyController {
     @RequestMapping(method = RequestMethod.PUT, value = "/thirdParty/{username}/changePassword")
     public void updatePassword(@PathVariable("username") String id, @RequestBody List<String> passwords, @RequestHeader("Authorization") String token) {
         checkUsername(id, token);
-        ThirdParty thirdParty = thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Third party Not Found"));
+        thirdPartyService.getThirdParty(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Third party Not Found"));
 
         String oldPassword = passwords.get(0);
         String newPassword = passwords.get(1);

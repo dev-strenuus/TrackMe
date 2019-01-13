@@ -193,7 +193,7 @@
 
 \subsection{Third Party Controller}
 
-\textbf{Make and individual request} \\
+\textbf{Make an individual request} \\
 
 \begin{tabularx}{\linewidth}{| l| l }
 	\hline
@@ -224,8 +224,6 @@
 		\bigskip
 		code: 400 BAD REQUEST \\
 		Content : \{error: "JSON parse error"\}\\
-		code: 409 CONFLICT \\
-		Content : \{error: "This user already exists"\}\\
 		code: 401 UNAUTHORIZED \\
 		Content : \{error: "Bad credentials!"\}\\
 		code: 404 NOT FOUND \\
@@ -263,7 +261,7 @@
 	\hline
 \end{tabularx}
 \newpage
-\textbf{Make and anonymous request} \\
+\textbf{Make an anonymous request} \\
 
 \begin{tabularx}{\linewidth}{| l| l }
 	\hline
@@ -837,7 +835,7 @@
 
 	\begin{tabularx}{\linewidth}{| l| l }
 		\hline
-		endpoint & */thirdParty/\{thirdParty\}/anonymousAnswer/\{anonymousAnswer\} \\
+		endpoint & */thirdParty/\{thirdParty\}/anonymousAnswer/\{anonymousRequest\} \\
 		\hline
 		method & GET \\
 		\hline
@@ -942,7 +940,7 @@
 
 	\begin{tabularx}{\linewidth}{| l| l }
 		\hline
-		endpoint & */thirdParty/\{thirdParty\}/anonymousAnswer/notifications/\{anonymousAnswer\} \\
+		endpoint & */thirdParty/\{thirdParty\}/anonymousAnswer/notifications/\{anonymousRequest\} \\
 		\hline
 		method & GET \\
 		\hline
@@ -1496,25 +1494,28 @@
 
 	\begin{tabularx}{\linewidth}{| l| l }
 		\hline
-		endpoint & *individual/\{id\}/data \\
+		endpoint & *individual/\{individual\}/data \\
 		\hline
 		method & POST \\
 		\hline
-		url params & \\
+		url params & 
+		\parbox{0.7\textwidth}{
+			\bigskip
+			individual: [alphanumeric]
+			\bigskip
+		} \\
 		\hline
 		data params &
 		\parbox{0.7\textwidth}{
 			\bigskip
-			accessToken: [alphanumeric]\\
-			data: [] (implementation detail)\\
+			individual data: \{ List$<$IndividualData$>$\}
 			\bigskip
 		} \\
 		\hline
 		success response &
 		\parbox{0.7\textwidth}{
 			\bigskip
-			code: 200\\
-			Content : \{message: "Data received correctly."\}
+			code: 200
 			\bigskip
 		} \\
 		\hline
@@ -1535,7 +1536,7 @@
 			\bigskip Allows the individual to send data.
 		\bigskip}  \\
 		\hline
-		Response Example & 
+		Request Example & 
 		\parbox{0.8\textwidth}{
 		\bigskip
 		Content-Type: application/json \\
@@ -1562,6 +1563,117 @@
 			"diastolicBloodPressure": 120, ^^J
 			"oxygenPercentage": 50 ^^J
 		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Send AutomatesSOS preference} \\
+			
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & *individual/\{username\}/updateAutomatedSOS \\
+		\hline
+		method & POST \\
+		\hline
+		url params & 
+		\parbox{0.7\textwidth}{
+			\bigskip
+			username: [alphanumeric]
+			\bigskip
+		}\\\\
+		\hline
+		data params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			preference: [boolean]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 INDIVIDUAL NOT FOUND \\
+			Content : \{error: "Individual not found."\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to send his preference about automatedSOS.
+		\bigskip}  \\
+		\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\begin{lstlisting}^^J
+			true
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get AutomatesSOS preference} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & *individual/\{username\}/updateAutomatedSOS \\
+		\hline
+		method & GET \\
+		\hline
+		url params & 
+		\parbox{0.7\textwidth}{
+			\bigskip
+			username: [alphanumeric]
+			\bigskip
+		}\\
+		\hline
+		data params &
+		 \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200 \\
+			Content : \{preference: [boolean]\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 INDIVIDUAL NOT FOUND \\
+			Content : \{error: "Individual not found."\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to get his preference about automatedSOS.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\begin{lstlisting}^^J
+			true
 	\end{lstlisting}
 	} \\
 	\hline

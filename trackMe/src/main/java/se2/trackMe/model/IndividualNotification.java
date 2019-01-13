@@ -10,7 +10,8 @@ public class IndividualNotification {
 
     @JsonView(Profile.IndividualPublicView.class)
     @Id
-    private String id;
+    @GeneratedValue
+    private Long id;
 
     @ManyToOne()
     private Individual individual;
@@ -24,7 +25,6 @@ public class IndividualNotification {
     public IndividualNotification(IndividualRequest individualRequest){
         this.individual = individualRequest.getIndividual();
         this.individualRequest = individualRequest;
-        this.id = (new Integer(individualRequest.hashCode())).toString();
     }
 
     public IndividualRequest getIndividualRequest() {
@@ -35,7 +35,7 @@ public class IndividualNotification {
         return individual;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 }

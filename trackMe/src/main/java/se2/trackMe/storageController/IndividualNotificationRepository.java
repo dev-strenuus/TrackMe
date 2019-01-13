@@ -7,7 +7,7 @@ import se2.trackMe.model.IndividualNotification;
 import javax.management.Notification;
 import java.util.List;
 
-public interface IndividualNotificationRepository extends CrudRepository<IndividualNotification, String> {
+public interface IndividualNotificationRepository extends CrudRepository<IndividualNotification, Long> {
 
     Integer countAllByIndividual(Individual individual);
     void deleteAllByIndividual(Individual individual);

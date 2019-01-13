@@ -107,7 +107,7 @@ public class IndividualController {
     @RequestMapping(method = RequestMethod.PUT, value = "/individual/{username}/changePassword")
     public void updatePassword(@PathVariable("username") String id, @RequestBody List<String> passwords, @RequestHeader("Authorization") String token) {
         checkUsername(id, token);
-        Individual individual = individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
+        individualService.getIndividual(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Individual Not Found"));
 
         String oldPassword = passwords.get(0);
         String newPassword = passwords.get(1);
@@ -142,7 +142,6 @@ public class IndividualController {
         }
     }
 
-    @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping(method = RequestMethod.PUT, value = "/individual/{username}/updateAutomatedSOS")
     public void updateAutomatesSOS(@PathVariable("username") String id, @RequestBody boolean value, @RequestHeader("Authorization") String token) {
         checkUsername(id, token);
@@ -152,7 +151,6 @@ public class IndividualController {
         individualService.updateIndividual(individual);
     }
 
-    @JsonView(Profile.IndividualPublicView.class)
     @RequestMapping("/individual/{username}/automatedSOS")
     public @ResponseBody
     boolean getAutomatesSOSStatus(@PathVariable("username") String id, @RequestHeader("Authorization") String token){
