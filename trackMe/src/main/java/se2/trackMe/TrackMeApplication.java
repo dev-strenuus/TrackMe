@@ -37,13 +37,6 @@ public class TrackMeApplication {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * If the server crashes we need to restart the threads which handle the anonymous requests
-     * @return
-     */
-
-
-
     @Bean
     CommandLineRunner initAuthorities(){
         return args -> {
