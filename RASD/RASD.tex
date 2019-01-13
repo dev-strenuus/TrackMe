@@ -146,9 +146,9 @@ The features offered by the abovementioned services comply with strict requireme
 			\item Definitions\\
 			{\normalfont
 				\begin{itemize}
-				\item Third party: a company, association or, more in general, a public or private entity that uses TrackMe to acquire data of users or to organize running events;\\
-				\item User: a person who uses TrackMe;\\
-				\item Individual: equivalent to User;\\
+				\item Third party: a company, association or, more in general, a public or private entity that uses TrackMe to acquire data of individuals or to organize running events;\\
+				\item User:  general user of TrackMe;\\
+				\item Individual: a person that uses TrackMe;\\
 				\item Danger: the status that signals that at least one health parameter of the user is out of a safety range;\\
 				\item TrackMe: the name of the whole system;\\
 				\item Data4Help: a service offered by TrackMe that permits to acquire the data of the users and to share them with third parties;\\
@@ -160,7 +160,6 @@ The features offered by the abovementioned services comply with strict requireme
 			{\normalfont	
 				\begin{itemize}
 				\item RASD: Requirement Analysis and Specification Document;\\
-				\item SSN: Social Security Number;\\
 				\item VAT: Value Added Tax.\\
 				\end{itemize}
 			}
@@ -178,7 +177,7 @@ The features offered by the abovementioned services comply with strict requireme
 			\begin{itemize}
 			\item 09/11/2018		Version 1\\
 			\item 10/12/2018		Version 2 - General minor changes\\
-			\item 13/01/2019		Version 3 - Minor changes to the requirements\\
+			\item 13/01/2019		Version 3 - Minor changes to the requirements and the mockups\\
 			\end{itemize}
 		}
 		\item \textit{Reference documents}\\
@@ -221,7 +220,7 @@ In the following section, the functions of the system are listed and more precis
 respect to the already mentioned main services:
 		\begin{itemize}
 		\item Monitor an individual\\\\
-		This function permits a third party (an association, an hospital, a company, etc) to ask for the data of a single user. More in detail, the third party can select a user by his/her SSN and send him/her a request to be allowed to access his/her data. If the user accepts it, then the third party will receive his/her data. The third party can request to keep monitoring the individual also after the request and it will receive the data as soon as they are ready. The user can decide to deny the permission at any moment. \\
+		This function permits a third party (an association, an hospital, a company, etc) to ask for the data of a single user. More in detail, the third party can select a user by his/her fiscal code and send him/her a request to be allowed to access his/her data. If the user accepts it, then the third party will receive his/her data. The third party can request to keep monitoring the individual also after the request and it will receive the data as soon as they are ready. The user can decide to deny the permission at any moment. \\
 		\item Request for anonymous aggregated data\\\\
 		Third party can access anonymized data of a group of users enrolled in TrackMe. After a third party sends this kind of request by specifying some restrictions about users’ attributes, like age and residence, the system will collect the data of the target users, anonymize and send them to the third party if the number of users is greater than 1000 in order to guarantee the anonymity. The third party can request to keep receveing new data of the group after the request and it will receive the data as soon as they are ready until the group size will not be lower than 1000.\\
 		\item SOS assistance\\\\
@@ -236,9 +235,8 @@ respect to the already mentioned main services:
 			{\normalfont
 			Actors:\\
 			\begin{itemize}
-			 \item User: a registered individual who can use the TrackMe services. He/she can login to the system and then use all the functionalities provided by the platform.\\
+			 \item Individual: a registered person who can use the TrackMe services. He/she can login to the system and then use all the functionalities provided by the platform.\\
 			\item Third party: a registered entity that can use the TrackMe services. It can login to the system and then use all the functionalities provided by the platform.\\
- 			\item System Manager:  an employee of TrackMe, in charge of the maintenance of the system. He/she does not need to be registered, since has been inserted in the system directly during the installation process.\\
 			\end{itemize}
 			}
 		\item \textit{Assumptions, dependencies and constraints}
@@ -246,9 +244,8 @@ respect to the already mentioned main services:
     			\item Text assumptions\\
     			{\normalfont
 				\begin{itemize}
-					\item User can choose to disable AutomatedSOS service in preferences;\\\
-					\item A SOS is sent through an SMS which contains the user's data and the coordinates of the position to be reached;\\\
-					\item If the user is not able to connect the device, he/she can contact the TrackMe assistance by calling a specific number;\\
+					\item An individual can choose to disable AutomatedSOS service in preferences;\\\
+					\item A SOS is sent passing the user's data and the coordinates of the position to be reached;\\\
 					\item When a user signs up to TrackMe he/she accepts also to treatment of his/her data for AutomatedSOS;\\
 					\item The user can remove the consensus previously given to a third party.\\
 				\end{itemize}}
@@ -281,12 +278,21 @@ respect to the already mentioned main services:
 
 					\begin{itemize}
 						%\normalfont{
-    					\item Login or Sign Up 
+    					\item (a)Login or Sign Up mobile - (b) Login or Sign Up web
 						\begin{figure}[H]
 						\centering
-  						\includegraphics[scale=0.275]{../images/mockups/Login-Sign-up.png}
+						\begin{subfigure}{.5\textwidth}
+  						\centering
+  						\includegraphics[width=.4\linewidth]{../images/mockups/Login-Sign-up.png}
+ 						 \caption{Individual Login or Sign Up}
+						\end{subfigure}%
+						\begin{subfigure}{.5\textwidth}
+ 						 \centering
+ 						 \includegraphics[width=1.14\linewidth]{../images/mockups/Login-Sign-up-web.png}
+ 						 \caption{Third party Login or Sign Up}
+						\end{subfigure}
 						\end{figure}
-					\item  (a)Join a run - (b)Select the track of the run
+					\item  (a)Join a run - (b)Watch graphs
 						\begin{figure}[H]
 						\centering
 						\begin{subfigure}{.5\textwidth}
@@ -296,26 +302,26 @@ respect to the already mentioned main services:
 						\end{subfigure}%
 						\begin{subfigure}{.5\textwidth}
  						 \centering
- 						 \includegraphics[width=.4\linewidth]{../images/mockups/Path-definition.png}
+ 						 \includegraphics[width=.47\linewidth]{../images/mockups/Graph.png}
  						 \caption{Select the track of the run}
 						\end{subfigure}
 						\end{figure}
 					\newpage
-					\item (a)Individual request  - (b)Group request
+					\item (a)Group request  - (b)Individual request
 						\begin{figure}[H]
 						\centering
 						\begin{subfigure}{.5\textwidth}
-  						\centering
-  						\includegraphics[width=.4\linewidth]{../images/mockups/Individual-request.png}
- 						 \caption{Individual request}
+ 						 \centering
+ 						 \includegraphics[width=0.5\linewidth]{../images/mockups/Group-request.png}
+ 						 \caption{Group request}
 						\end{subfigure}%
 						\begin{subfigure}{.5\textwidth}
- 						 \centering
- 						 \includegraphics[width=.4\linewidth]{../images/mockups/Group-request.png}
- 						 \caption{Group request}
+  						\centering
+  						\includegraphics[width=1\linewidth]{../images/mockups/Individual-request.png}
+ 						 \caption{Individual request}
 						\end{subfigure}
 						\end{figure}
-						%}
+						%
 				\end{itemize}	
 				}
 			\textbf{\item Hardware interfaces\\\\}
@@ -349,12 +355,12 @@ Luca is a professor who is fond of running and after a lecture hears his student
 
 		\item SOS launched\\
 
-Antonella is an old woman who had heart disease in the past so she would like to be daily monitored to avoid problems. Her young nephew tells her about the TrackMe app, through which she could fulfil her needs. Delighted by this kind of solution, she decides to buy a smartwatch and download the app. Then she signs up to the TrackMe app and checks to have the AutomatedSOS service correctly activated. One day, after having climbed the stairs, the app retrieves the data from her smartwatch and evaluates them as exceeding the danger thresholds, so that within 5 seconds the SOS is received by the medical facility that sends an ambulance to the position detected by the woman’s wearable device.\\
+Antonella is an old woman who had heart disease in the past so she would like to be daily monitored to avoid problems. Her young nephew tells her about the TrackMe app, through which she could fulfil her needs. Delighted by this kind of solution, she decides to buy a smartwatch and download the app. Then she signs up to the TrackMe app and checks to have the AutomatedSOS service correctly activated. One day, after having climbed the stairs, the app retrieves the data from her smartwatch and evaluates them as exceeding the danger thresholds, so that within 5 seconds the SOS is sent.\\
 
 
 		\item Individual request with a positive result\\
  
-The Green Hospital wants to monitor the health status of one of its patient, Paolo, who recently recovered from an important disease. The hospital knows the mobile application TrackMe and it already has a valid account on the app. The doctor who is taking care of Paolo asks him to download the application, to link a smart device able to measure the health parameter needed by the doctor to monitor his health status and to register to the service. The doctor, using the account of the hospital, sends a request to Paolo (known by his SSN) for the treatment of his data. Paolo accepts the request and the hospital is allowed to receive the data produced by Paolo’s device.\\
+The Green Hospital wants to monitor the health status of one of its patient, Paolo, who recently recovered from an important disease. The hospital knows the mobile application TrackMe and it already has a valid account on the app. The doctor who is taking care of Paolo asks him to download the application, to link a smart device able to measure the health parameter needed by the doctor to monitor his health status and to register to the service. The doctor, using the account of the hospital, sends a request to Paolo (known by his fiscal code) for the treatment of his data. Paolo accepts the request and the hospital is allowed to receive the data produced by Paolo’s device.\\
 
 		\item Anonymous request with a negative result\\
 
@@ -774,8 +780,7 @@ Third parties will use the data provided by us as part of their business process
 			\normalfont{
 			\item The app requests the users' permission to manage their health status data and their location to support core functionalities.
 			\item The app supports portrait orientation. 
-			\item The app preserves app state when leaving the foreground and prevents accidental data loss due to back-navigation. 
-			\item Users' private data are stored in the app's internal storage (this is very useful for connection lost).\\
+			\item The app preserves app state when leaving the foreground and prevents accidental data loss due to back-navigation. \\
 			}
 			\end{itemize}
 	
@@ -799,10 +804,10 @@ Third parties will use the data provided by us as part of their business process
 			{\normalfont The code should be written in a way that facilitates the testability and the implementation of new functionalities.}
 			\\
 			\item Scalability\\
-			{\normalfont The right choice of a PaaS allows the system to increase or decrease the level of allocated virtual resources at application or database on demand.}
+			{\normalfont The choice of a PaaS could allow the system to increase or decrease the level of allocated virtual resources at application or database on demand.}
 			\\
 			\item Portability\\
-			{\normalfont The system front-end will be a web app, runnable on the majority of browsers but also natively on Android and IOS.}
+			{\normalfont The system front-end will be a web app, runnable on the majority of browsers but also on Android and IOS.}
 			\\
 			\item Safety\\
 			{\normalfont The communication between the client and server is protected through a protocol such as HTTPS. The principal motivation is authentication of the accessed website and protection of the privacy and integrity of the exchanged data while in transit. It protects against man-in-the-middle attacks. The bidirectional encryption of communications between a client and server protects against eavesdropping and tampering of the communication. In practice, this provides a reasonable assurance that one is communicating without interference by attackers with the website that one intended to communicate with, as opposed to an impostor. 			}
