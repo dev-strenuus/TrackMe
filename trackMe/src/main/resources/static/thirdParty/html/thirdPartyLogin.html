@@ -21,7 +21,7 @@
             <table align="center" cellpadding="22" >
                 <tr>
                     <th>VAT:</th>
-                    <td> <input  class="textArea" type="text" ng-model="credentials.username" required></td>
+                    <td> <input  class="textArea" type="text" ng-model="credentials.username" pattern=".{11}" required></td>
                 </tr>
                 <tr>
                     <th>Password</th>
@@ -30,6 +30,7 @@
             </table>
             <input type="submit" class="submit" value="Login">
         </form>
+        <hr>
         <div>
             <p>If you still do not have an account, click here:</p>
             <a href="#!signUp"><button class="submit" class="btn">Sign Up</button></a>

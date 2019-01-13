@@ -1,4 +1,4 @@
-package se2.trackMe.config;
+package se2.trackMe.controller.authenticationController.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

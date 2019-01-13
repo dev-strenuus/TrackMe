@@ -22,7 +22,7 @@
             <table align="center" cellpadding="22" >
                 <tr>
                     <th>VAT:</th>
-                    <td> <input title="Insert the VAT number." class="textArea" type="text" ng-model="thirdParty.vat" required></td>
+                    <td> <input title="Insert the VAT number." class="textArea" type="text" ng-model="thirdParty.vat" pattern=".{11}" required></td>
                 </tr>
                 <tr>
                     <th>Name:</th>

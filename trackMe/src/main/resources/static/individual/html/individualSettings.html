@@ -30,6 +30,7 @@
             <p ng-bind="fiscalCode"></p>
         </div>
     </div>
+    <hr>
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             <p>Old password:</p>
@@ -48,17 +49,18 @@
     </div>
     <button class="submit" ng-click="updatePassword()">Update</button>
     <p ng-bind="passReqResult"></p>
-
+    <hr>
     <div class="row">
         <div class="col-xs-12 col-sm-6">
-            <p>Automated SOS:You can enable or disable the service at any time.</p>
+            <p>Automated SOS:</p>
+            <p>You can enable or disable the service at any time.</p>
         </div>
         <div class="col-xs-12 col-sm-6">
             <button type="button" ng-click="toggleAutomatedSOS()" >{{ sharedDataService.automatedSOS ? 'Disable' : 'Enable' }}</button>
             <p ng-bind="resultSOS"></p>
         </div>
     </div>
-
+    <hr>
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             <p>New latitude:</p>
