@@ -1,0 +1,24 @@
+body{
+  text-align:center;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+#startingQuestion{
+  margin: 50px;
+}
+
+.submit{
+  background-color: #009F00;
+  color:white;
+  height:70px;
+  width:180px;
+  font-size: 30px;
+  margin:25px;
+  border-radius: 5px;
+}
+
+#title{
+  font-size: 60px;
+  color:#009F00;
+}
+

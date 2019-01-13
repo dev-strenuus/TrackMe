@@ -1,0 +1,56 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/individual.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div ng-show="sharedDataService.loggedIn">
+
+        <h2 align="center">{{yAxis[0]}}</h2>
+        <ul class="chart" style="width:{{width}}px; height:{{height}}px;">
+            <!-- Labels -->
+            <div class="y" style="width:{{height}}px;">{{yAxis[0]}}</div>
+            <div class="x">{{xAxis}}</div>
+            <!-- Data -->
+            <li ng-repeat="bar in data" class="bar"
+                style="height:{{bar[0].value / max[0] * height}}px; width:{{width / data.length - 5}}px; left:{{$index / data.length * width}}px;">
+                <span><!--{{bar.label}}:-->{{bar[0].value}}</span></li>
+        </ul>
+
+        <h2 align="center">{{yAxis[1]}}</h2>
+        <ul class="chart" style="width:{{width}}px; height:{{height}}px;">
+            <!-- Labels -->
+            <div class="y" style="width:{{height}}px;">{{yAxis[1]}}</div>
+            <div class="x">{{xAxis}}</div>
+            <!-- Data -->
+            <li ng-repeat="bar in data" class="bar"
+                style="height:{{bar[1].value / max[1] * height}}px; width:{{width / data.length - 5}}px; left:{{$index / data.length * width}}px;">
+                <span><!--{{bar.label}}:-->{{bar[1].value}}</span></li>
+        </ul>
+
+        <h2 align="center">{{yAxis[2]}}</h2>
+        <ul class="chart" style="width:{{width}}px; height:{{height}}px;">
+            <!-- Labels -->
+            <div class="y" style="width:{{height}}px;">{{yAxis[2]}}</div>
+            <div class="x">{{xAxis}}</div>
+            <!-- Data -->
+            <li ng-repeat="bar in data" class="bar"
+                style="height:{{bar[2].value / max[2] * height}}px; width:{{width / data.length - 5}}px; left:{{$index / data.length * width}}px;">
+                <span><!--{{bar.label}}:-->{{bar[2].value}}</span></li>
+        </ul>
+
+        <h2 align="center">{{yAxis[3]}}</h2>
+        <ul class="chart" style="width:{{width}}px; height:{{height}}px;">
+            <!-- Labels -->
+            <div class="y" style="width:{{height}}px;">{{yAxis[3]}}</div>
+            <div class="x">{{xAxis}}</div>
+            <!-- Data -->
+            <li ng-repeat="bar in data" class="bar"
+                style="height:{{bar[3].value / max[3] * height}}px; width:{{width / data.length - 5}}px; left:{{$index / data.length * width}}px;">
+                <span><!--{{bar.label}}:-->{{bar[3].value}}</span></li>
+        </ul>
+
+    </div>
+
+</body>
