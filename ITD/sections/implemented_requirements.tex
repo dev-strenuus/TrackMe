@@ -69,7 +69,7 @@ The client shows a form in which the user can insert the old and the new passwor
 %%
 \subsection{Individual - Settings Management}
 \begin{itemize}	
-	\item {\color{Red}\textbf{R31)}} The system must allow the user to change his/her personal info.
+	\item {\color{Green}\textbf{R31)}} The system must allow the user to change his/her personal info.
 	\item {\color{Green}\textbf{R32)}} The system must allow the individual to change his/her password.
 	\item {\color{Red}\textbf{R34)}} The system must allow the user to connect a smartwatch or a similar device to its smartphone.
 \end{itemize}
@@ -112,7 +112,7 @@ The database updates the data of the Individual by performing an update of the e
 \end{itemize}
 
 \subsubsection*{Database}
-The database stores the data received by the Individuals in the `INDIVIDUAL\_DATA` table and stores the notifications for third parties subscribed to these data in the `THIRD\_PARTY\_NOTIFICATION` table.
+The database stores the data received by the Individuals in the `INDIVIDUAL\_DATA` table and stores the notifications, containing these data, for third parties subscribed to these data in the `THIRD\_PARTY\_NOTIFICATION` table.
 
 \subsubsection*{Back-end}
 The Send data implemented API allows the client to send data to the server and transfer them to the database if they are sent by a registered Individual.
@@ -128,30 +128,18 @@ In this first implementation data from external devices are randomly generated w
 \begin{itemize}	
 	\item {\color{Green}\textbf{R11)}} The system is optimized to send the data received from the mobile application to the third parties as soon as possible.
 	\item {\color{Green}\textbf{R9)}} The third party is not allowed to access the users data until he/she accepts the request.
-	\item {\color{Green}\textbf{R2)}} The system must be able to provide to the third party the location and the health status of individuals;
+	\item {\color{Green}\textbf{R2)}} The system must be able to provide to the third party the {\color{Red}\textbf{location)}} and the health status of individuals;
 	\item {\color{Green}\textbf{R1)}} The users must have given the consensus to the treatment of their information to the third party;
 \end{itemize}
 
 \subsubsection*{Database}
-The database keeps all the data in the table `INDIVIDUAL\_DATA`
-
+The database keeps all the data in the table `INDIVIDUAL\_DATA` and the information of the consensus as a boolean value in `INDIVIDUAL\_REQUEST`.
 
 \subsubsection*{Back-end}
-
-
-\subsubsection*{Front-end}
-
-
-%%
-\subsection{AutomatedSOS service}
-\begin{itemize}	
-	\item {\color{Green}\textbf{R25)}} The AutomatedSOS service must be enabled.
-	\item {\color{Green}\textbf{R18)}} When the health status values go below the threshold, the system must send an SOS within 5 seconds;
-	\item {\color{Green}\textbf{R26)}}	 The system must allow the user to enable/disable the AutomatedSOS service at any time.
-\end{itemize}
+The Get data implemented API allows the third party to request for the data to the server. If it requests for past data, these data are retrieved directly from the table `INDIVIDUAL\_DATA`. Instead if the third party is waiting for new data, the data are retrieved from the table `THIRD\_PARTY\_NOTIFICATION`. The third party controller always checks if the third party has got the rights to retrieve these data.
 
 \subsubsection*{Front-end}
-
+The third party front-end offers a dedicated page for each singular individual request where it shows all his data by asking them to the server as soon as the page is loaded. If the third party is subscribed to new data, every 5 seconds the server is asked for new notifications containing new data.
 
 %%
 \subsection{Individual Requests}
@@ -168,9 +156,10 @@ The database stores the requests from Third parties to Individuals in the table 
 \subsubsection*{Back-end}
 
 
-\subsubsection*{Front-end}
 
-The Third party client shows a list of the Individuals registered to TrackMe and allows the Third party to make a 
+\subsubsection*{Front-end}
+The Third party client home page shows a list of the Individuals registered to TrackMe and allows the Third party to make individual request to the servers. The notifications page instead shows all the individual requested made in the past and the response from individuals.
+The Individual client notifications page shows all the requests for him and offers him the possibility to accept/refuse/stop the subscription to them by communicating with the Individual Request API.
 
 %%
 \subsection{Anonymous Requests}	
@@ -188,3 +177,4 @@ third party;
 
 
 \subsubsection*{Front-end}
+The Third party client notifications page instead shows all the anonymous requested made in the past. For each singular anonymous request there is a page which shows past and new data concerning that requests and some statistics. Both past and new data are requested every 5 seconds to the server.
