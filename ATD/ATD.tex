@@ -1,0 +1,64 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+% hyperref
+\usepackage[bookmarks, colorlinks, breaklinks]{hyperref}  % PDF hyperlinks, with coloured links
+\hypersetup{linkcolor=black, citecolor=black, filecolor=black, urlcolor=black} % black links, for printed output
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{ltablex}
+\graphicspath{ {img/} }
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings,xcolor}
+\usepackage{makecell}
+\usepackage{hyperref}
+
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{pdfpages}
+\usepackage{listings}
+
+
+\begin{document}
+
+\lstset{
+	string=[s]{"}{"},
+	stringstyle=\color{blue},
+	comment=[l]{:},
+	commentstyle=\color{black},
+}
+
+\title{Software Engineering 2\\ \vspace{1em}  {\textbf{TrackMe}} \\ \vspace{1em} \textbf{A}cceptance and \textbf{T}est \textbf{D}ocument
+	\vspace{1.5em}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{Logo-PoliMi}
+\end{figure}
+}
+\author{Romeo Paolo \\ Scotti Andrea \\ Staccone Francesco}
+
+\date{January 16, 2019}
+
+\maketitle
+
+\newpage
+\tableofcontents
+
+\newpage
+\input{sections/introduction}
+\newpage
+\input{sections/project}
+\newpage
+\input{sections/installation_setup}
+\newpage
+\input{sections/acceptance_tests}
+\newpage
+\input{sections/conclusion}
+
+\newpage
+\appendix
+\end{document}
