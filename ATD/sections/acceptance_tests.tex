@@ -1,76 +1,89 @@
 \section{Acceptance Tests}
-\textbf{Sign Up}
+\textbf{\textit{Third Party}}\\\\
+The tests regarding the Third Party have been conducted through the use of the API development environment Postman, since the authors have not developed any interface for that.\\ The following tables include all the API requests we have tested for what concerns the Third Party side:\\\\
+\textbf{Sign Up - POST}
 \begin{center}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
 		\hline
 		Applied test & Expected outcome & Result \\
 		\hline
-		B &
-		O& 
-		H \newline
-		\\
+		&&\\
+		-Filled all the fields correctly&&\\
+		-Select the company VAT&&\\
+		-Select the company name&Registration successful&Passed \\
+		-Select the company image&&\\
+		-Select the company businessSector&&Warning: the application also accepts VAT code of less than 11 characters. May be incoherent.\\
+		&&\\
 		\hline
-		Non &
-		Lo& 
-		So \newline
-		\\
+		&&\\
+		-Missing VAT or Company Name&Registration unsuccessful&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Already registered VAT&Registration unsuccessful&Passed\\
+		&&\\
 		\hline
 	\end{tabular}
 \end{center}
-
-\textbf{Login}
+\newpage
+\textbf{Specific Request - POST}
 \begin{center}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
 		\hline
 		Applied test & Expected outcome & Result \\
 		\hline
-		B &
-		O& 
-		H \newline
-		\\
+		&&\\
+		-Filled all the fields correctly&&\\
+		-Inserted existing SSN&Request registered&Passed\\
+		&&\\
 		\hline
-		Non &
-		Lo& 
-		So \newline
-		\\
+		&&\\
+		-Missing SSN &Request unsuccessful&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-SSN already in charge of my previous request&Request unsuccessful&Passed\\
+		&&\\
 		\hline
 	\end{tabular}
 \end{center}
-
-\textbf{Individual Request}
+\textbf{Group Request - POST}
 \begin{center}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
 		\hline
 		Applied test & Expected outcome & Result \\
 		\hline
-		B &
-		O& 
-		H \newline
-		\\
+		&&\\
+		-Filters written correctly&Request registered&Passed\\
+		&&\\
+		&&Warning: Same requests can be resent again\\
+		&&\\
 		\hline
-		Non &
-		Lo& 
-		So \newline
-		\\
+		&&\\
+		-No filters &Request registered&Passed\\
+		&&\\
+		&&Warning: Doubts on its usefulness\\
+		&&\\
 		\hline
 	\end{tabular}
 \end{center}
-
-\textbf{Group Request}
+\textbf{Group Request - POST}
 \begin{center}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
 		\hline
 		Applied test & Expected outcome & Result \\
 		\hline
-		B &
-		O& 
-		H \newline
-		\\
+		&&\\
+		-Filters written correctly&Request registered&Passed\\
+		&&\\
+		&&Warning: Same requests can be resent again\\
+		&&\\
 		\hline
-		Non &
-		Lo& 
-		So \newline
-		\\
+		&&\\
+		-No filters &Request registered&Passed\\
+		&&\\
+		&&Warning: Doubts on its usefulness\\
+		&&\\
 		\hline
 	\end{tabular}
 \end{center}
