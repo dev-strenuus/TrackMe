@@ -1,5 +1,30 @@
 \section{Installation Setup}
-In this sections we explain what we did to download and install the prototypeof the project in order to build it.\\\\
+A description of the installation process of the prototype is presented in the following subsections.\\\\
 \textbf{Downloaded files}\\\\
+Here follows a list of the tools needed to run the prototype:
+\begin{itemize}
+	\item Node JS v-11.6.0
+	\item npm v-6.5.0 (Node Package Manager)
+	\item Flutter v-1.0.0	
+	\item Dart v-2.1.0	
+	\item JDK 8
+	\item adb (Android Debug Bridge)
+	\item kvm (Kernel-based Virtual Machine)
+	\item Android Studio
+	\item Android 8.0 Oreo (API 26)\\
+\end{itemize}
 \textbf{Installation}\\\\
+As advised in the instructions, the installation has been tested in a linux environment (Ubuntu 16.04).
+The installation process can be divided into three parts:
+\begin{itemize}
+	\item back-end server;
+	\item smartphone app;
+	\item wearable device;
+\end{itemize}
+The path to run the \textbf{back-end server} is simple and straightforward. It is just needed to fully execute step by step the instructions provided into sections 6.1 of the ITD document.\\
+On the contrary, the instructions provided to install the smartphone application and the wearable device lack some useful information to be easily executed by someone who has never worked with Android before.\\
+To run the \textbf{smartphone application} is required to use an Android smartphone and to enable the debug mode on it. After having enabled the debug mode on the phone and having connected the phone to the notebook trough USB, the execution of the instructions in the section 6.2 of the ITD document allows a correct installation of the application on the smartphone.\\
+To run the \textbf{wearable application} is also required to install the tool kvm (Kernel-based Virtual Machine) and to enable the virtualizazion technology from the notebook's BIOS. Further, it is required to have a specific version of Android to run the application (in this case Android 8.0 (API 26)). Though, after the previous technical measures the sequence of instructions provided in section 6.3 of the ITD document works well.\\\\
 \textbf{Conclusion}\\\\
+The installation instructions are generally correct and allow a user who has a minimum of confidence with the development of Android applications a quick configuration of the entire system.\\
+However, in order for the instructions to be performed by a beginner it is advisable to integrate them with additional information on the configuration of the smartphone and the computer for a smoother execution of the whole process.
