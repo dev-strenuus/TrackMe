@@ -5,7 +5,7 @@ The tests regarding the Third Party have been conducted through the use of the A
 \begin{center}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
 		\hline
-		Applied test & Expected outcome & Result \\
+		Body & Expected outcome & Result \\
 		\hline
 		&&\\
 		-Filled all the fields correctly&&\\
@@ -30,7 +30,7 @@ The tests regarding the Third Party have been conducted through the use of the A
 \begin{center}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
 		\hline
-		Applied test & Expected outcome & Result \\
+		Body & Expected outcome & Result \\
 		\hline
 		&&\\
 		-Filled all the fields correctly&&\\
@@ -51,7 +51,7 @@ The tests regarding the Third Party have been conducted through the use of the A
 \begin{center}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
 		\hline
-		Applied test & Expected outcome & Result \\
+		Body & Expected outcome & Result \\
 		\hline
 		&&\\
 		-Filters written correctly&Request registered&Passed\\
@@ -67,23 +67,163 @@ The tests regarding the Third Party have been conducted through the use of the A
 		\hline
 	\end{tabular}
 \end{center}
-\textbf{Group Request - POST}
+\textbf{List Specific Requests - GET}
 \begin{center}
 	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
 		\hline
-		Applied test & Expected outcome & Result \\
+		Body & Expected outcome & Result \\
 		\hline
 		&&\\
-		-Filters written correctly&Request registered&Passed\\
-		&&\\
-		&&Warning: Same requests can be resent again\\
-		&&\\
-		\hline
-		&&\\
-		-No filters &Request registered&Passed\\
-		&&\\
-		&&Warning: Doubts on its usefulness\\
+		-None  &Specific requests retrieved&Passed\\
 		&&\\
 		\hline
 	\end{tabular}
 \end{center}
+\newpage
+\textbf{Specific Request Data - GET}
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		Body & Expected outcome & Result \\
+		\hline
+		&&\\
+		-Id of a request sent by me (third party)  &Specific request retrieved&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Id of a request sent by another company  &Specific request not retrieved&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Id of a non existing request  &Specific request not retrieved&Passed\\
+		&&\\
+		\hline
+	\end{tabular}
+\end{center}
+\textbf{List Group Requests - GET}
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		Body & Expected outcome & Result \\
+		\hline
+		&&\\
+		-None  &Group requests retrieved&Passed\\
+		&&\\
+		\hline
+	\end{tabular}
+\end{center}
+\textbf{Group Request Data - GET}
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		Body & Expected outcome & Result \\
+		\hline
+		&&\\
+		-Id of a request sent by me (third party)  &Group request retrieved&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Id of a request sent by another company  &Group request not retrieved&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Id of a non existing request  &Group request not retrieved&Passed\\
+		&&\\
+		\hline
+	\end{tabular}
+\end{center}
+\newpage
+\textbf{Subscribe Specific Request - POST}
+\\PROBLEMA per questa e la subscribe per la group request, cercate di capire cosa è il forwardingLink, di cui riporto sotto la descrizione presa da swaggerUI (lasciando il loro campo pre-impostato 127.0.0.1:1337 mi dice: "can not communicate with http://127.0.0.1:1337"): 
+\\forwardingLink *
+\\string (formData)	
+\\Link/address of a reachable web service to which newly collected data will be sent. HTTP POST method will be used, and the listening web service will need to respond to every POST request with a 200 status code, otherwise the subscription will not be activated or will be disabled. 
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		Body & Expected outcome & Result \\
+		\hline
+		&&\\
+		-Request Id and forwardingLink inserted correctly&Subscription registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Id of a request not sent by me (third party)&Subscription not registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Not existing request Id &Subscription not registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-ForwardingLink not valid &Subscription not registered&Passed\\
+		&&\\
+		\hline
+	\end{tabular}
+\end{center}
+\textbf{Unsubscribe Specific Request - POST}
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		Body & Expected outcome & Result \\
+		\hline
+		&&\\
+		-Request Id inserted correctly&Subscription registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Id of a request not sent by me (third party)&Subscription not registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Not existing request Id &Subscription not registered&Passed\\
+		&&\\
+		\hline
+	\end{tabular}
+\end{center}
+\textbf{Subscribe Group Request - POST}
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		Body & Expected outcome & Result \\
+		\hline
+		&&\\
+		-Request Id inserted correctly&Subscription registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Id of a request not sent by me (third party)&Subscription not registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Not existing request Id &Subscription not registered&Passed\\
+		&&\\
+		\hline
+	\end{tabular}
+\end{center}
+\textbf{Unsubscribe Group Request - POST}
+\begin{center}
+	\begin{tabular}{|p{0.3\textwidth}|p{0.3\textwidth}|p{0.5\textwidth}|}
+		\hline
+		Body & Expected outcome & Result \\
+		\hline
+		&&\\
+		-Request Id and forwardingLink inserted correctly&Subscription registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Id of a request not sent by me (third party)&Subscription not registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-Not existing request Id &Subscription not registered&Passed\\
+		&&\\
+		\hline
+		&&\\
+		-ForwardingLink not valid &Subscription not registered&Passed\\
+		&&\\
+		\hline
+	\end{tabular}
+\end{center}
+\textbf{\textit{Individual}}\\\\
+The tests regarding the Individual have been conducted through the use of the Android App provided by the authors...TO BE REVISED\\ The following tables include all the requests we have tested for what concerns the Individual side:\\\\
