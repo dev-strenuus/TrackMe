@@ -1,0 +1,127 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/individual.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="jumbotron signUp" style="background-image: url(https://www.shape.com/sites/shape.com/files/u470/1200-woman-running-outside.jpg)">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 jumbo">
+                    TrackMe
+                </div>
+                <div class="col-sm-6 jumbo">
+                    Sign Up
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <p>Please fill the boxes below with the data required.</p>
+        <form ng-submit="submitSignUp()">
+            <!--<table align="center" cellpadding="22" >
+                <tr>
+                    <th>Fiscal code:</th>
+                    <td> <input class="textArea" type="text" ng-model="individual.fiscalCode" pattern=".{16}"
+                                title="Field must be 16 characters long" required/></td>
+                </tr>
+                <tr>
+                    <th>Name:</th>
+                    <td> <input class="textArea" type="text" ng-model="individual.name" minlength="4" maxlength="50" title="Insert your name"
+                                required></td>
+                </tr>
+                <tr>
+                    <th>Surname:</th>
+                    <td> <input class="textArea" type="text" ng-model="individual.surname" title="Insert your surname" required></td>
+                </tr>
+                <tr>
+                    <th>Password:</th>
+                    <td> <input class="textArea" type="password" ng-model="individual.password" minlength="6" title="Insert your password"
+                                required></td>
+                </tr>
+                <tr>
+                    <th>Latitude:</th>
+                    <td> <input class="textArea" type="number" ng-model="individual.latitude" required></td>
+                </tr>
+                <tr>
+                    <th>Longitude:</th>
+                    <td> <input class="textArea" type="number" ng-model="individual.longitude" required></td>
+                </tr>
+                <tr>
+                    <th>Conditions:</th>
+                    <td>I accept the agreement<small><sup>*</sup></small> <input class="checkbox" type="checkbox" title="You must agree our terms to use our services" required></td>
+                </tr>
+            </table>-->
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Fiscal code:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" ng-model="individual.fiscalCode" pattern=".{16}"
+                               title="Field must be 16 characters long" required/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Name:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" ng-model="individual.name" minlength="4" maxlength="50" title="Insert your name"
+                               required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Surname:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" ng-model="individual.surname" title="Insert your surname" required></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Password:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="password" ng-model="individual.password" minlength="6" title="Insert your password"
+                               required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Birth date:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="date" ng-model="individual.birthDate" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Longitude:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="number" ng-model="individual.longitude" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Latitude:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="number" ng-model="individual.latitude" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <p>Conditions:</p>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <p> I accept the agreement<small><sup>*</sup></small> <input class="checkbox" type="checkbox" title="You must agree our terms to use our services" required></p>
+                </div>
+            </div>
+            <input type="submit" class="submit" id="submitSignUp" value="Sign Up">
+        </form>
+        <p id="conditions"><small><sup>*</sup></small>The data retrieved by my smartwatch or similar devices will be used and treated by third parties who will request them (only with my consensus).</p>
+    </div>
+</body>

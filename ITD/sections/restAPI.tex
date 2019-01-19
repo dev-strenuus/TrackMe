@@ -1,0 +1,1680 @@
+\section{REST API} 
+
+
+
+\subsection{Authentication Controller}
+
+\textbf{Third Party SignUp} \\
+
+\begin{tabularx}{\linewidth}{| l| l }
+	\hline
+	endpoint & */auth/thirdparty/signUp \\
+	\hline
+	method & POST \\
+	\hline
+	url params & \\
+	\hline
+	data params &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		VAT: [alphanumeric]\\
+		name: [alphanumeric]\\
+		password : [alphanumeric]
+		\bigskip
+	} \\
+	\hline
+	success response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 200\\
+	} \\
+	\hline
+	error response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 400 BAD REQUEST \\
+		Content : \{error: "JSON parse error"\}\\
+		code: 500 INTERNAL SERVER ERROR \\
+		Content : \{error: "Could not commit JPA transaction"\}\\
+		code: 409 CONFLICT \\
+		Content : \{error: "This user already exists"\}
+		\bigskip
+	} \\
+	\hline
+	Notes & 
+	\parbox{0.7\textwidth}{
+		\bigskip Allows a third party to register to the system.
+	\bigskip}  \\
+	\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{"vat": "thirdParty", ^^J
+		  "password": "thirdParty", ^^J
+		  "name": "thirdParty" ^^J
+		  \}
+		\end{lstlisting}
+	} \\
+	\hline
+\end{tabularx}
+\newpage
+\textbf{Individual SignUp} \\
+
+\begin{tabularx}{\linewidth}{| l| l }
+	\hline
+	endpoint & */auth/individual/signUp \\
+	\hline
+	method & POST \\
+	\hline
+	url params & \\
+	\hline
+	data params &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		username: [alphanumeric]\\
+		password : [alphanumeric]\\
+		name: [text]\\
+		surname: [text]\\
+		latitude: [numeric]\\
+		longitude: [numeric]\\
+		birthDate: [date]
+		\bigskip
+	} \\
+	\hline
+	success response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 200\\
+	} \\
+	\hline
+	error response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 400 BAD REQUEST \\
+		Content : \{error: "JSON parse error"\}\\
+		code: 500 INTERNAL SERVER ERROR \\
+		Content : \{error: "Could not commit JPA transaction"\}\\
+		code: 409 CONFLICT \\
+		Content : \{error: "This user already exists"\}
+		\bigskip
+	} \\
+	\hline
+	Notes & 
+	\parbox{0.7\textwidth}{
+		\bigskip Allows an individual to register to the system.
+	\bigskip}  \\
+	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{"fiscalCode": "individualindivi", ^^J
+		  "password": "individual", ^^J
+		  "name": "individual" ^^J
+		  "surname": "individual", ^^J
+		  "birthDate": "2019-01-21T23:00:00.000Z", ^^J
+		  "latitude": "5.0", ^^J
+		  "longitude": "4.5"
+		  \}
+		\end{lstlisting}
+	} \\
+	\hline
+\end{tabularx}
+
+\textbf{Login}\\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */auth\\
+		\hline
+		method & POST \\
+		\hline
+		url params & \\
+		\hline
+		data params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			username: [alphanumeric]\\
+			password : [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{token: [alphanumeric]\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			Code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad Credentials!"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows an individual or a third party to obtain an authentication Token
+		\bigskip }\\
+		\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{"username": "individualindivi", ^^J
+		  "password": "individual" ^^J
+		  \}
+		\end{lstlisting}
+	} \\
+		\hline
+	\end{tabularx}
+\newpage
+
+\textbf{NOTE: }
+\begin{itemize}
+\item all successive requests need to contain the token, retrieved during the login request, in order to be allowed (as an example \{Authorization: "Bearer $eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmRyZWEiLCJleHAiOjE1NDc4MTk1NDcsImlhdCI6MTU0NzIxNDc0N30.znM-I2fY4F7mnTNZdDmT0yq9W22QUvMkZFBqT9uCIRjXir7dn_588NJBy4JmYwpUaRvOnJe4GNY58rtZqUfgJg$"\});
+\item if a logged in user try to use REST API trying to be another user a excepction is launched (code: 401 UNAUTHORIZED Content : \{error: "Trying to be another user!"\}.
+\end{itemize}
+
+\subsection{Third Party Controller}
+
+\textbf{Make an individual request} \\
+
+\begin{tabularx}{\linewidth}{| l| l }
+	\hline
+	endpoint & *thirdparty/individualRequest \\
+	\hline
+	method & POST \\
+	\hline
+	url params & \\
+	\hline
+	data params &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		vat: [alphanumeric]\\
+		fiscalcode: [alphanumeric]\\
+		subscribedToNewData: [boolean]
+		\bigskip
+	} \\
+	\hline
+	success response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 200
+		\bigskip
+	} \\
+	\hline
+	error response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 400 BAD REQUEST \\
+		Content : \{error: "JSON parse error"\}\\
+		code: 401 UNAUTHORIZED \\
+		Content : \{error: "Bad credentials!"\}\\
+		code: 404 NOT FOUND \\
+		Content : \{error: "Third Party Not Found"\}\\
+		code: 404 NOT FOUND \\
+		Content : \{error: "Individual Not Found"\}\\
+		Code: 401 CONFLICT \\
+		Content : \{error: ""This request has been already done""\}\\
+		\bigskip
+	} \\
+	\hline
+	Notes & 
+	\parbox{0.7\textwidth}{
+		\bigskip Allows the third party to do an individual request of data.
+	\bigskip}  \\
+	\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "individualindivi"
+			\}, ^^J
+			"thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+			"subscribedToNewData": true
+		\}
+	\end{lstlisting}
+	} \\
+	\hline
+\end{tabularx}
+\newpage
+\textbf{Make an anonymous request} \\
+
+\begin{tabularx}{\linewidth}{| l| l }
+	\hline
+	endpoint & *thirdparty/anonymousRequest \\
+	\hline
+	method & POST \\
+	\hline
+	url params & \\
+	\hline
+	data params &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		vat: [alphanumeric]\\
+		startAge: [numeric]\\
+		endAge: [numeric]\\
+		lat1: [float]\\
+		lon1: [float]\\
+		lat2: [float]\\
+		lon2: [float]\\
+		subscribedToNewData: [boolean]
+		\bigskip
+	} \\
+	\hline
+	success response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 200
+		\bigskip
+	} \\
+	\hline
+	error response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 400 BAD REQUEST \\
+		Content : \{error: "JSON parse error"\}\\
+		code: 500 INTERNAL SERVER ERROR \\
+		Content : \{error: "Could not commit JPA transaction"\}\\
+		code: 401 UNAUTHORIZED \\
+		Content : \{error: "Bad credentials!"\}\\
+		code: 404 NOT FOUND \\
+		Content : \{error: "Third Party Not Found"\}\\
+		\bigskip
+	} \\
+	\hline
+	Notes & 
+	\parbox{0.7\textwidth}{
+		\bigskip Allows the third party to do a group request of data.
+	\bigskip}  \\
+	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{
+		  "thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+		  "startAge": "12", ^^J
+		  "endAge": "15", ^^J
+		  "lat1": "-10.0", ^^J
+		  "lat2": "10.0", ^^J
+		  "lon1": "-5.0", ^^J
+		  "lon2": "5.0", ^^J
+		  "subscribedToNewData": false
+		  \}
+		\end{lstlisting}
+	} \\
+		\hline
+\end{tabularx}
+
+\textbf{Modify Third Party Password}\\
+
+\begin{tabularx}{\linewidth}{| l| l }
+	\hline
+	endpoint & */thirdParty/{username}/changePassword \\
+	\hline
+	method & PUT \\
+	\hline
+	url params & 
+	\parbox{0.7\textwidth}{
+		\bigskip
+		username: [alphanumeric]
+		\bigskip
+	}\\
+	\hline
+	data params & 
+	\parbox{0.7\textwidth}{
+		\bigskip
+		newPassword: [alphanumeric]\\
+		oldPassword:[alphanumeric]
+		\bigskip
+	} \\
+	\hline
+	success response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		Code: 200
+		\bigskip
+	} \\
+	\hline
+	error response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 400 BAD REQUEST \\
+		Content : \{error: "JSON parse error"\}\\
+		code: 401 UNAUTHORIZED \\
+		Content : \{error: "Bad credentials!"\}\\
+		code: 404 NOT FOUND \\
+		Content : \{error: "Third Party Not Found"\}\\
+		code: 422 UNPROCESSABLE ENTITY\\
+		Content : \{error: "Bad Credentials"\}\\
+		code: 422 UNPROCESSABLE ENTITY\\
+		Content : \{error: "Data are not well formed"\}
+		\bigskip
+	} \\
+	\hline
+	Notes & \parbox{0.7\textwidth}{
+		\bigskip
+		Allows a third party to change its password.
+		\bigskip
+	} \\
+	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{"newPassword": "thirdParty1", ^^J
+		  "oldPassword": "ciaone" ^^J
+		  \}
+		\end{lstlisting}
+	} \\
+		\hline
+\end{tabularx}
+\newpage
+\textbf{Get individual requests} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */thirdParty/\{thirdParty\}/individualRequests \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{individualRequests: List$<$IndividualRequest$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the third parties to request for all individual requests it has done.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "individualindivi"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": true
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": false
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get individual request notifications} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */thirdParty/\{thirdParty\}/notifications/individualRequests \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{notifications: List$<$IndividualRequest$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the third parties to request for notifications of individual requests.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "individualindivi"
+			\}, ^^J
+			"thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": true
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": false
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get individual request notifications counter} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */thirdParty/\{thirdParty\}/notifications/countIndividualRequests \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{counter: [integer]\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the third parties to request for the number of new notifications of individual requests.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\begin{lstlisting}^^J
+			2 ^^J
+		\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get past individual data} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */thirdParty/\{thirdParty\}/\{individual\}/data \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]\\
+			fiscalCode: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{individual data: List$<$IndividualData$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Individual Not Found"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "The thirdParty has not the right to receive data from the individual because you never asked for it"\}\\
+			code: 400 BAD REQUEST \\
+			Content : \{error: "You can't acces this data"\}\\
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the third parties to request for past data of a specific individual.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get new individual data} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */thirdParty/\{thirdParty\}/notifications/\{individual\} \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]\\
+			fiscalCode: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{notifications: List$<$IndividualData$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Individual Not Found"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "The thirdParty has not the right to receive data from the individual because you never asked for it"\}\\
+			code: 400 BAD REQUEST \\
+			Content : \{error: "You can't acces this data"\}\\
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the third parties to request for new data of a specific individual.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get anonymous requests} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */thirdParty/\{thirdParty\}/anonymousRequests \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{anonymousRequests: List$<$AnonymousRequest$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the third parties to request for all anonymous requests it has done.
+		\bigskip}  \\
+		\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{"id": "13", ^^J
+		  "startAge": "12", ^^J
+		  "endAge": "15", ^^J
+		  "lat1": "-10.0", ^^J
+		  "lat2": "10.0", ^^J
+		  "lon1": "-5.0", ^^J
+		  "lon2": "5.0", ^^J
+		  "subscribedToNewData": false\}, ^^J
+		  \{"id": "14", ^^J
+		  "startAge": "6", ^^J
+		  "endAge": "15", ^^J
+		  "lat1": "-1.0", ^^J
+		  "lat2": "10.0", ^^J
+		  "lon1": "-3.0", ^^J
+		  "lon2": "5.0", ^^J
+		  "subscribedToNewData": true
+		  \}]
+		\end{lstlisting}
+	} \\
+		\hline
+	\end{tabularx}
+	
+	\textbf{Get past anonymous request data} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */thirdParty/\{thirdParty\}/anonymousAnswer/\{anonymousRequest\} \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]\\
+			anonymousRequestId: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{anonymous answers: List$<$AnonymousAnswer$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Anonymous Request Not Found"\}\\
+			code: 400 BAD REQUEST \\
+			Content : \{error: "Not your request"\}\\
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the third parties to request for past data of an anonymous request.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[ ^^J
+		\{ ^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}] ^^J
+		\}, ^^J
+		\{ ^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:40.61", ^^J
+			"heartRate": 62,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 119, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:42.64", ^^J
+			"heartRate": 59,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 122, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}] ^^J
+		\} ^^J
+		]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get new anonymous request data} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */thirdParty/\{thirdParty\}/anonymousAnswer/notifications/\{anonymousRequest\} \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]\\
+			anonymousRequestId: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{anonymous answers: List$<$AnonymousAnswer$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Anonymous Request Not Found"\}\\
+			code: 400 BAD REQUEST \\
+			Content : \{error: "Not your request"\}\\
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the third parties to request for new data of an anonymous request.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[ ^^J
+		\{ ^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}] ^^J
+		\}, ^^J
+		\{ ^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:40.61", ^^J
+			"heartRate": 62,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 119, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:42.64", ^^J
+			"heartRate": 59,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 122, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}] ^^J
+		\} ^^J
+		]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+\newpage
+\subsection{Individual Controller}
+
+	\textbf{Answer to Request} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & *individual/individualRequest/answer \\
+		\hline
+		method & POST \\
+		\hline
+		url params & \\
+		\hline
+		data params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			vat: [alphanumeric]\\
+			fiscalCode: [alphanumeric]\\
+			accepted: [boolean]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Individual Request Not Found"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Individual Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to accept or refuse an individual request.
+		\bigskip}  \\
+		\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "individualindivi"
+			\}, ^^J
+			"thirdParty": \{ ^^J
+				"vat": "andrea"
+			\}, ^^J
+			"subscribedToNewData": true, ^^J
+			"accepted": true
+		\}
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Modify Individual Password}\\
+
+\begin{tabularx}{\linewidth}{| l| l }
+	\hline
+	endpoint & */individual/{username}/changePassword \\
+	\hline
+	method & PUT \\
+	\hline
+	url params & 
+	\parbox{0.7\textwidth}{
+		\bigskip
+		username: [alphanumeric]
+		\bigskip
+	}\\
+	\hline
+	data params & 
+	\parbox{0.7\textwidth}{
+		\bigskip
+		newPassword: [alphanumeric]\\
+		oldPassword:[alphanumeric]
+		\bigskip
+	} \\
+	\hline
+	success response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		Code: 200
+		\bigskip
+	} \\
+	\hline
+	error response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 400 BAD REQUEST \\
+		Content : \{error: "JSON parse error"\}\\
+		code: 401 UNAUTHORIZED \\
+		Content : \{error: "Bad credentials!"\}\\
+		code: 404 NOT FOUND \\
+		Content : \{error: "Individual Not Found"\}\\
+		code: 422 UNPROCESSABLE ENTITY\\
+		Content : \{error: "Bad Credentials"\}\\
+		code: 422 UNPROCESSABLE ENTITY\\
+		Content : \{error: "Data are not well formed"\}
+		\bigskip
+	} \\
+	\hline
+	Notes & \parbox{0.7\textwidth}{
+		\bigskip
+		Allows an individual to change its password.
+		\bigskip
+	} \\
+	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		\{"newPassword": "individual", ^^J
+		  "oldPassword": "ciaone" ^^J
+		  \}
+		\end{lstlisting}
+	} \\
+		\hline
+\end{tabularx}
+
+\textbf{Modify Individual Residence}\\
+
+\begin{tabularx}{\linewidth}{| l| l }
+	\hline
+	endpoint & */individual/{username}/changeLocation \\
+	\hline
+	method & PUT \\
+	\hline
+	url params & 
+	\parbox{0.7\textwidth}{
+		\bigskip
+		username: [alphanumeric]
+		\bigskip
+	}\\
+	\hline
+	data params & 
+	\parbox{0.7\textwidth}{
+		\bigskip
+		newLatitude: [float]\\
+		newLongitude:[float]
+		\bigskip
+	} \\
+	\hline
+	success response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		Code: 200
+		\bigskip
+	} \\
+	\hline
+	error response &
+	\parbox{0.7\textwidth}{
+		\bigskip
+		code: 400 BAD REQUEST \\
+		Content : \{error: "JSON parse error"\}\\
+		code: 401 UNAUTHORIZED \\
+		Content : \{error: "Bad credentials!"\}\\
+		code: 422 UNPROCESSABLE ENTITY\\
+		Content : \{error: "Provided values are not valid"\}
+		\bigskip
+	} \\
+	\hline
+	Notes & \parbox{0.7\textwidth}{
+		\bigskip
+		Allows an individual to change its password.
+		\bigskip
+	} \\
+	\hline
+	Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[ 3.0 , 4.1 ]
+		\end{lstlisting}
+	} \\
+		\hline
+\end{tabularx}
+
+\textbf{Get individual pending requests} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */individual/\{individual\}/individualRequests \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			fiscalCode: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{individualRequests: List<IndividualRequest>\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Individual Not Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to request for all individual requests pending for him.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty1"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}, ^^J
+		\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty2"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get individual accepted requests} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */individual/\{individual\}/acceptedRequests \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			fiscalCode: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{individualRequests: List$<$IndividualRequest$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Individual Not Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to request for all individual requests that he has already accepted.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty1"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}, ^^J
+		\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty2"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get individual request notifications} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */individual/\{individual\}/notifications \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			fiscalCode: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{notifications: List$<$IndividualRequest$>$\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Individual Not Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to request for all new individual requests for him (that he hasn't seen yet).
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty1"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}, ^^J
+		\{
+			"thirdParty": \{ ^^J
+				"vat": "thirdParty2"
+			\}, ^^J
+			"subscribedToNewData": true ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get individual request notifications counter} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & */individual/\{individual\}/countNotifications \\
+		\hline
+		method & GET \\
+		\hline
+		data params & \\
+		\hline
+		url params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			fiscalCode: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200\\
+			Content : \{counter: [integer]\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 NOT FOUND \\
+			Content : \{error: "Third Party Not Found"\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows an individual to request for the number of new notifications of individual requests.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\begin{lstlisting}^^J
+			2 ^^J
+		\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Send Data} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & *individual/\{individual\}/data \\
+		\hline
+		method & POST \\
+		\hline
+		url params & 
+		\parbox{0.7\textwidth}{
+			\bigskip
+			individual: [alphanumeric]
+			\bigskip
+		} \\
+		\hline
+		data params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			individual data: \{ List$<$IndividualData$>$\}
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 422 UNPROCESSABLE ENTITY \\
+			Content : \{error: "There is no data."\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to send data.
+		\bigskip}  \\
+		\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		\bigskip
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\bigskip
+		\begin{lstlisting}^^J
+		[\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:37.61", ^^J
+			"heartRate": 60,
+			"systolicBloodPressure": 89, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}, ^^J
+		\{
+			"individual": \{ ^^J
+				"fiscalCode": "ciaociaociaociao"
+			\}, ^^J
+			"timestamp": "2018-12-24 12:53:39.64", ^^J
+			"heartRate": 61,
+			"systolicBloodPressure": 88, ^^J
+			"diastolicBloodPressure": 120, ^^J
+			"oxygenPercentage": 50 ^^J
+		\}]
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Send AutomatesSOS preference} \\
+			
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & *individual/\{username\}/updateAutomatedSOS \\
+		\hline
+		method & POST \\
+		\hline
+		url params & 
+		\parbox{0.7\textwidth}{
+			\bigskip
+			username: [alphanumeric]
+			\bigskip
+		}\\\\
+		\hline
+		data params &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			preference: [boolean]
+			\bigskip
+		} \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 INDIVIDUAL NOT FOUND \\
+			Content : \{error: "Individual not found."\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to send his preference about automatedSOS.
+		\bigskip}  \\
+		\hline
+		Request Example & 
+		\parbox{0.8\textwidth}{
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\begin{lstlisting}^^J
+			true
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}
+	
+	\textbf{Get AutomatesSOS preference} \\
+
+	\begin{tabularx}{\linewidth}{| l| l }
+		\hline
+		endpoint & *individual/\{username\}/updateAutomatedSOS \\
+		\hline
+		method & GET \\
+		\hline
+		url params & 
+		\parbox{0.7\textwidth}{
+			\bigskip
+			username: [alphanumeric]
+			\bigskip
+		}\\
+		\hline
+		data params &
+		 \\
+		\hline
+		success response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 200 \\
+			Content : \{preference: [boolean]\}
+			\bigskip
+		} \\
+		\hline
+		error response &
+		\parbox{0.7\textwidth}{
+			\bigskip
+			code: 400 BAD REQUEST \\
+			Content : \{error: "JSON parse error"\}\\
+			code: 401 UNAUTHORIZED \\
+			Content : \{error: "Bad credentials!"\}\\
+			code: 404 INDIVIDUAL NOT FOUND \\
+			Content : \{error: "Individual not found."\}
+			\bigskip
+		} \\
+		\hline
+		Notes & 
+		\parbox{0.7\textwidth}{
+			\bigskip Allows the individual to get his preference about automatedSOS.
+		\bigskip}  \\
+		\hline
+		Response Example & 
+		\parbox{0.8\textwidth}{
+		Content-Type: application/json \\
+		Accept: application/json \\
+		\begin{lstlisting}^^J
+			true
+	\end{lstlisting}
+	} \\
+	\hline
+	\end{tabularx}

@@ -1,0 +1,44 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/thirdParty.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+    <div class="jumbotron signUp" style="background-image: url(https://www.shape.com/sites/shape.com/files/u470/1200-woman-running-outside.jpg)">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 jumbo">
+                    TrackMe
+                </div>
+                <div class="col-sm-6 jumbo">
+                    Sign Up
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <p>Please fill the boxes below with the data required.</p>
+        <form ng-submit="submitSignUp()">
+            <table align="center" cellpadding="22" >
+                <tr>
+                    <th>VAT:</th>
+                    <td> <input title="Insert the VAT number." class="textArea" type="text" ng-model="thirdParty.vat" pattern=".{11}" required></td>
+                </tr>
+                <tr>
+                    <th>Name:</th>
+                    <td> <input title="Insert the name of the company." class="textArea" type="text" ng-model="thirdParty.name" required></td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td> <input title="Insert a password of at least 6 characters." class="textArea" type="password" ng-model="thirdParty.password" required></td>
+                </tr>
+                <tr>
+                    <th> Conditions:</th>
+                    <td> I accept the agreement<small><sup>*</sup></small> <input title="You must agree our terms to use our services." class="checkbox" type="checkbox" required ></td>
+                </tr>
+            </table>
+            <input type="submit" class="submit" value="Register">
+        </form>
+        <p id="conditions"><small><sup>*</sup></small>I accept the treatment of my data and I will act in accordance with the rules.</p>
+    </div>
+</body>

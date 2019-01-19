@@ -1,0 +1,82 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/thirdParty.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+    <div ng-show="sharedDataService.loggedIn">
+        <button class="action" ng-click="showNewData()" ng-hide="isThereNewData">Show New Data</button>
+        <button class="action" ng-click="hideNewData()" ng-show="isThereNewData">Hide New Data</button>
+        <div ng-show="isThereNewData">
+            <h1>Individual New Data </h1>
+
+            <!--<div class="table-responsive-sm">-->
+            <table class="table table-striped" >
+
+                <thead>
+                <tr>
+                    <th scope="col">FiscalCode</th>
+                    <th scope="col">Timestamp</th>
+                    <th scope="col">Heart Rate</th>
+                    <th scope="col">Pression 1</th>
+                    <th scope="col">Pression 2</th>
+                    <th scope="col">Oxygen %</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="datum in newData">
+                    <th>{{datum.individual.fiscalCode}}</th>
+                    <td>{{datum.timestamp}}</td>
+                    <td>{{datum.heartRate}}</td>
+                    <td>{{datum.systolicBloodPressure}}</td>
+                    <td>{{datum.diastolicBloodPressure}}</td>
+                    <td>{{datum.oxygenPercentage}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>If you want to filter data with respect to the period, please fill the boxes below indicating the chosen interval of dates:</h3>
+        <table align="center">
+            <tr>
+                <th>Starting date</th>
+                <th>Ending date</th>
+            </tr>
+            <tr>
+                <td><input type="date" ng-model="startingDate"></td>
+                <td><input type="date" ng-model="endingDate"></td>
+            </tr>
+        </table>
+
+        <div>
+            <h1>Individual Past Data </h1>
+
+            <!--<div class="table-responsive-sm">-->
+            <table class="table table-striped" >
+
+                <thead>
+                <tr>
+                    <th scope="col">FiscalCode</th>
+                    <th scope="col">Timestamp</th>
+                    <th scope="col">Heart Rate</th>
+                    <th scope="col">Pression 1</th>
+                    <th scope="col">Pression 2</th>
+                    <th scope="col">Oxygen %</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="datum in data | filter: myFilter">
+                    <th>{{datum.individual.fiscalCode}}</th>
+                    <td>{{datum.timestamp}}</td>
+                    <td>{{datum.heartRate}}</td>
+                    <td>{{datum.systolicBloodPressure}}</td>
+                    <td>{{datum.diastolicBloodPressure}}</td>
+                    <td>{{datum.oxygenPercentage}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--</div>-->
+    </div>
+</body>

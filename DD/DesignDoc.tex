@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{pdfpages}
+\usepackage{float}
+\usepackage{tabularx}
+ \geometry{
+ a4paper,
+ left=20mm,
+ right=20mm,
+ top=25mm,
+ bottom=20mm
+ }
+ 
+\newlist{legal}{enumerate}{10}
+\setlist[legal]{label*=\arabic*.}
+
+\begin{document}
+	
+	\begin{figure}
+  	\includegraphics[width=\linewidth]{../images/Logo-PoliMi.jpg}
+	\end{figure}
+	\title{\textbf{Software Engineering 2\\Design Document}}
+	\author{Work team:\\Paolo Romeo, Andrea Scotti, Francesco Staccone}
+	\date{AY 2018-2019}
+	\maketitle{}
+
+	\newpage
+	
+	\textbf{Table of contents}
+
+	\begin{legal}
+ 	\item Introduction
+  		\begin{legal}
+    		\item Purpose
+		\item Scope
+		\item Definitions, acronyms, abbreviations
+		\item Revision history
+		\item Reference documents
+		\item Document structure	
+  		\end{legal}
+	\item Architectural design
+  		\begin{legal}
+    	\item Overview: High-level components and their interaction
+		\item Component view
+		\item Deployment view
+		\item Runtime view
+			\begin{legal}
+			\item Sign up Runtime View
+			\item Login Runtime View
+			\item Join a run Runtime View
+			\item Organise a run Runtime View
+			\item Individual request Runtime View
+			\item Group request Runtime View
+			\item AutomatedSOS Runtime View
+	  		\end{legal}
+		\item Component interfaces
+			\begin{legal}
+			\item REST API
+			\item Business Logic Interfaces
+	  		\end{legal}
+		\item Selected architectural styles and patterns
+			\begin{legal}
+			\item Multitier architecture
+			\item Hybrid client
+			\item MVC
+	  		\end{legal}
+  		\end{legal}
+	\item User interface design
+  		\begin{legal}
+    		\item UX Diagram
+  		\end{legal}
+	\item Requirements traceability
+	\item Implementation, integration and test plan
+  	\item Effort spent
+	\end{legal}
+	
+	\newpage
+	\begin{legal}
+	\item {\input{DD1}}
+	%\newpage
+	\item{\input{DD2}}
+	\newpage
+	\item{\input{DD3}}
+	\newpage
+	\item{\input{DD4}}
+	\newpage
+	\item{\input{DD5}}
+	\newpage
+	\item{\input{DD6}}
+	\end{legal}
+\end{document}

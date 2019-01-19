@@ -1,0 +1,41 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/thirdParty.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+</head>
+<body>
+    <div class="jumbotron login" style="background-image: url(https://www.shape.com/sites/shape.com/files/u470/1200-woman-running-outside.jpg)">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 jumbo">
+                    TrackMe
+                </div>
+                <div class="col-sm-6 jumbo">
+                    Login
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <form ng-submit="submitLogin()">
+            <table align="center" cellpadding="22" >
+                <tr>
+                    <th>VAT:</th>
+                    <td> <input  class="textArea" type="text" ng-model="credentials.username" pattern=".{11}" required></td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td> <input  class="textArea" type="password" ng-model="credentials.password" required></td>
+                </tr>
+            </table>
+            <input type="submit" class="submit" value="Login">
+        </form>
+        <hr>
+        <div>
+            <p>If you still do not have an account, click here:</p>
+            <a href="#!signUp"><button class="submit" class="btn">Sign Up</button></a>
+        </div>
+        <p ng-bind="loginResult"></p>
+    </div>
+</body>
+
