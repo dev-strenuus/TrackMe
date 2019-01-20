@@ -6,5 +6,5 @@
 \contentsline {subsection}{\numberline {2.1}Project info}{4}{subsection.2.1}
 \contentsline {section}{\numberline {3}Installation Setup}{5}{section.3}
 \contentsline {section}{\numberline {4}Acceptance Tests}{7}{section.4}
-\contentsline {section}{\numberline {5}Drawbacks}{16}{section.5}
-\contentsline {section}{\numberline {6}Conclusion}{17}{section.6}
+\contentsline {section}{\numberline {5}Drawbacks}{15}{section.5}
+\contentsline {section}{\numberline {6}Conclusion}{16}{section.6}

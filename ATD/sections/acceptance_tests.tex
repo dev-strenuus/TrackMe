@@ -188,10 +188,6 @@ The tests regarding the Third Party have been conducted through the use of the A
 		Body & Expected outcome & Result \\
 		\hline
 		&&\\
-		-Request Id inserted correctly&Subscription registered&Passed\\
-		&&\\
-		\hline
-		&&\\
 		-Request Id and forwardingLink inserted correctly&Subscription registered&Passed\\
 		&&\\
 		\hline
@@ -216,6 +212,10 @@ The tests regarding the Third Party have been conducted through the use of the A
 		Body & Expected outcome & Result \\
 		\hline
 		&&\\
+		-Request Id inserted correctly&Subscription registered&Passed\\
+		&&\\
+		\hline
+		&&\\
 		-Id of a request not sent by me (third party)&Subscription not registered&Passed\\
 		&&\\
 		\hline
@@ -226,6 +226,7 @@ The tests regarding the Third Party have been conducted through the use of the A
 	\end{tabular}
 \end{center}
 
+\newpage
 %% INDIVIDUAL
 \textbf{\textit{Individual}}\\\\
 Tests regarding the Individual have been conducted through the use of the smartphone application properly installed on an Android smartphone and the wearable application simulated on a fictitious smartwatch on Android Studio.\\ 
@@ -300,16 +301,15 @@ The following tables include all the requests we have tested for what concerns t
 		- Swipe right on the registered device & Device disconnected & Passed\\
 		\hline
 	\end{tabular}
+	\\
 \end{center}
 
-\\
-\textbf{Limitation:}
-After having disconnected a device from a user, it's possible to register the same device to another user but the second user cannot see the device as connected and the device doesn't work more.
+\textbf{\\Limitation:}
+After having disconnected a device from a user, it's possible to register the same device to another user but the second user cannot see the device as connected and the device doesn't work anymore.
 
-\newpage
 
 %% Manage a request
-\textbf{Respond to a request - POST}
+\textbf{\\Respond to a request - POST}
 \begin{center}
 	\begin{tabular}{|p{0.4\textwidth}|p{0.4\textwidth}|p{0.2\textwidth}|}
 		\hline
@@ -320,6 +320,7 @@ After having disconnected a device from a user, it's possible to register the sa
 		\hline
 		&&\\
 		- Swipe right on the request in the requests section & Request refused & Passed\\
+		\hline
 	\end{tabular}
 \end{center}
 
